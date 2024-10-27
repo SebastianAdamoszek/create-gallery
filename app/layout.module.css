@@ -33,14 +33,6 @@
   filter: blur(45px);
   transform: translateZ(0);
 }
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-  }
-}
-.logo {
-  filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-}
 
 .footer {
   width: 100%;
@@ -50,6 +42,7 @@
   align-items: center;
   position: fixed;
   bottom: 0;
-  background-color: #6200ff;
+  background-color: rgba(12, 38, 124, 0.2);
+  padding: 15px;
   z-index: 100;
 }

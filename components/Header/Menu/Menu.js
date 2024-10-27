@@ -34,17 +34,12 @@ export const MenuComponent = () => {
         </li>
         <li>
           <Link href="/contact" onClick={closeMenu}>
-              <p>Contact</p>                       
+            <p>Contact</p>
           </Link>
         </li>
         <li>
           <Link href="/gallery" onClick={closeMenu}>
             <p>Gallery</p>
-          </Link>
-        </li>
-        <li>
-          <Link href="/finance" onClick={closeMenu}>
-            <p>Finance</p>
           </Link>
         </li>
       </Nav>

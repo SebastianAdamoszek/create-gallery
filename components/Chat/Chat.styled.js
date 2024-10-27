@@ -9,7 +9,7 @@ export const Messages = styled.div`
   height: 300px;
   border: 1px solid black;
   background-color: darkgray;
-  cursor: text ;
+  cursor: text;
 `;
 
 export const UserMessage = styled.div`
@@ -22,9 +22,11 @@ export const UserMessage = styled.div`
     font-weight: 700;
     padding: 0 10px 0 0px;
   }
-    p:hover {
-    color: rgba(255, 255, 255, 1);
-    }
+  p:hover {
+    color: rgb(71, 71, 71);
+    text-shadow: 4px 4px 3px rgba(240, 240, 240, 0.5);
+    transform: scale(1.01);
+  }
 `;
 
 export const Form = styled.form`
@@ -35,6 +37,8 @@ export const Form = styled.form`
 export const Input = styled.input`
   padding: 3px 7px;
   border-radius: 7px;
+  background-color: rgb(46, 46, 46);
+  color: rgb(240, 240, 240);
 `;
 
 export const Button = styled.button`
@@ -42,4 +46,7 @@ export const Button = styled.button`
   border-radius: 7px;
   padding: 3px 15px;
   transition: 0.2s ease-in-out;
+  &:hover {
+    background-color: rgb(65, 65, 65);
+  }
 `;

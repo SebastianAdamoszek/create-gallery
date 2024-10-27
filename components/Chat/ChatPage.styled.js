@@ -8,7 +8,8 @@ export const ChatPageContainer = styled.div`
   border: 3px solid darkgray;
   border-radius: 8px;
   z-index: 1000;
-  cursor: url("/cursor-grab.png"), grab;
+  /* cursor: url("/cursor-grab.png"), grab; */
+  cursor: grab;
 
   animation: incrase 0.5s ease-in-out;
   @keyframes incrase {
@@ -28,6 +29,9 @@ export const Title = styled.div`
     border-radius: 7px;
     transition: 0.2s ease-in-out;
   }
+  button:hover {
+  background-color: rgb(65, 65, 65);
+}
 `;
 
 export const HideChatButton = styled.button`

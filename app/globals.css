@@ -10,10 +10,10 @@
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: transparent;
+  --background-end-rgb: transparent;
 
-  /* --primary-glow: conic-gradient(
+  --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
     #16abff33 0deg,
     #0885ff33 55deg,
@@ -24,7 +24,7 @@
   --secondary-glow: radial-gradient(
     rgba(255, 255, 255, 1),
     rgba(255, 255, 255, 0)
-  ); */
+  );
 
   --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
   --secondary-glow: linear-gradient(
@@ -52,65 +52,12 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
-  }
-}
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
-
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  color-scheme: dark;
+  /* color-scheme: dark; */
 }
-body {
-  height: 100%;
-
-  cursor: url("../public/icons8-cursor.svg"), auto;
-}
-a {
-  cursor: url("../public/cursor-pointer.svg"), pointer;
-}
-button {
-  cursor: url("../public/cursor-pointer.svg"), pointer;
-}
-button {
-  color: var(--foreground-rgb);
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -119,6 +66,26 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+body {
+  background-image: url("../public/electric-background.png");
+  background-size: cover; 
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+
+  cursor: url("../public/icons8-cursor.svg"), auto;
+}
+a {
+  /* cursor: url("../public/cursor-pointer.svg"), pointer; */
+  cursor: pointer;
+}
+button {
+  /* cursor: url("../public/cursor-pointer.svg"), pointer; */
+  cursor: pointer;
+  color: var(--foreground-rgb);
+  background-color: rgb(46, 46, 46);
 }
 
 *,

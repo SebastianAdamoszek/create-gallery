@@ -29,17 +29,8 @@ export default function RootLayout({ children }) {
           {loading ? (
             <Loader />
           ) : (
-            <div class="start-layout">
-              <div className={styles.center}>
-                <Image
-                  className={styles.logo}
-                  src="/next.svg"
-                  alt="Next.js Logo"
-                  width={180}
-                  height={37}
-                  priority
-                />
-              </div>
+            <div className="start-layout">
+          
               <HeaderComponent />
               <main>{children}</main>
 
