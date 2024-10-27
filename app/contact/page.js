@@ -1,11 +1,9 @@
-import styles from "../page.module.css";
+import styles from "../XXXpage.module.css";
 
 export default function ContactPage() {
   return (
-    <div className={styles.main__next}>
-      <div className={styles.description}>
-        <p>Page Contact</p>
-      </div>
-    </div>
+  <div className={styles.main__next}>
+    
+  </div>
   );
 }

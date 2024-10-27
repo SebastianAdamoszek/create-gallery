@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { HeaderComponent } from "@/components/Header/Header.js";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
-import styles from "./layout.module.css";
 import { ChatPage } from "@/components/Chat/ChatPage.js";
 import { Loader } from "@/components/Loader/Loader";
 
@@ -35,7 +33,7 @@ export default function RootLayout({ children }) {
               <main>{children}</main>
 
               <footer>
-                <ul className={styles.footer}>
+                <ul className="footer">
                   <li>
                     <p>Footer Content</p>
                   </li>
