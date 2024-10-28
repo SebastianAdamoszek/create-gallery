@@ -5,13 +5,25 @@ import { Photo } from "./Photo/Photo";
 import { ButtonAddPhoto } from "./ButtonAddPhoto/ButtonAddPhoto";
 import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { getAuth } from "firebase/auth"; // Importuj getAuth
 
 export const Gallery = () => {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
+    // Uzyskanie userId zalogowanego użytkownika
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.error("Użytkownik nie jest zalogowany");
+      return;
+    }
+
+    const userId = user.uid;
+
     // Funkcja pobierająca zdjęcia w czasie rzeczywistym
-    const q = query(collection(db, "photos"), orderBy("timestamp", "desc"));
+    const q = query(collection(db, `galleries/${userId}/photos`), orderBy("timestamp", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setPhotos(snapshot.docs.map((doc) => doc.data()));
     });
