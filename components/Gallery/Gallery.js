@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "@/firebase/firebase";
 import { Photo } from "./Photo/Photo";
 import { ButtonAddPhoto } from "./ButtonAddPhoto/ButtonAddPhoto";
-import { GalleryContainer } from "./Gallery.styled";
+import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 
 export const Gallery = () => {
@@ -21,12 +21,13 @@ export const Gallery = () => {
   }, []);
 
   return (
-    <GalleryContainer>
+    <GalleryPageContainer>
       <ButtonAddPhoto />
-      
-      {photos.map((photo, index) => (
-        <Photo key={index} url={photo.url} />
-      ))}
-    </GalleryContainer>
+      <GalleryContainer>
+        {photos.map((photo, index) => (
+          <Photo key={index} url={photo.url} />
+        ))}
+      </GalleryContainer>
+    </GalleryPageContainer>
   );
 };
