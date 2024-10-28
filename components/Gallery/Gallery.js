@@ -7,7 +7,7 @@ import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth"; // Importuj getAuth
 
-export const Gallery = () => {
+export const Gallery = ({userId}) => {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export const Gallery = () => {
 
     // Unsubskrybuj, aby uniknąć wycieków pamięci
     return () => unsubscribe();
-  }, []);
+  }, [userId]);
 
   return (
     <GalleryPageContainer>

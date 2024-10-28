@@ -3,8 +3,9 @@ import styled from "styled-components";
 export const Modal = styled.div`
     position: fixed;
     top: 12%;
-    left: 1%;
-    width: calc(100% - 15px);
+    left: 0;
+    width: calc(100% - 30px);
+    margin: 0 15px;
     padding: 10% 0;
     background: rgba(0,0,0,0.8);
     display: flex;

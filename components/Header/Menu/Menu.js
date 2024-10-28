@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Burger, BurgerLine } from "./ButtonMenuMobile.styled.js";
 import { Menu, Nav } from "./MenuNav.styled.js";
 import Link from "next/link";
+import { getAuth } from "firebase/auth";
 
 export const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,10 @@ export const MenuComponent = () => {
   const closeMenu = () => {
     setIsOpen(false);
   };
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   return (
     <Menu>
       <Burger onClick={toggleMenu} isOpen={isOpen}>
@@ -41,6 +46,13 @@ export const MenuComponent = () => {
           <Link href="/gallery" onClick={closeMenu}>
             <p>Gallery</p>
           </Link>
+        </li>
+        <li>
+          {user && (
+            <Link href={`/my-gallery/${user.uid}`} onClick={closeMenu}>
+              <p>My Gallery</p>
+            </Link>
+          )}
         </li>
       </Nav>
     </Menu>
