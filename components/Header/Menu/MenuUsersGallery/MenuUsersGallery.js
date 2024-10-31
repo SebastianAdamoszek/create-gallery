@@ -9,8 +9,16 @@ const DropdownContainer = styled.div`
 `;
 
 // Stylizacja przycisku wywołującego menu rozwijane
-const DropdownButton = styled.a`
+const DropdownButton = styled.div`
   background-color: transparent;
+  display: flex;
+
+  p {
+    span {
+      display: inline-block;
+      transform: rotate(180deg) translateY(7px);
+    }
+  }
 `;
 
 // Stylizacja menu rozwijanego
@@ -24,6 +32,33 @@ const DropdownMenu = styled.ul`
   border-radius: 5px;
   width: 100%;
   z-index: 1;
+`;
+export const Arrows = styled.ul`
+  .first {
+    transform: ${({ isOpen }) =>
+      isOpen
+        ? "rotate(45deg) scaleX(1.1)"
+        : "rotate(45deg) translateX(-3px) translateY(7px) scaleX(0.8)"};
+    box-shadow: ${({ isOpen }) =>
+      isOpen ? "0px 0px  2px 1px" : "3px 3px  2px 1px"};
+  }
+
+  .second {
+    transform: ${({ isOpen }) =>
+      isOpen
+        ? "rotate(-45deg) translateY(-7px) translateX(7px) scaleX(1.1)"
+        : "rotate(-45deg) translateY(-1px) translateX(10px) scaleX(0.8)"};
+    box-shadow: ${({ isOpen }) =>
+      isOpen ? "0px 0px   2px 1px" : "-3px 3px  2px 1px"};
+  }
+`;
+export const Arrow = styled.li`
+  width: 5px;
+  /* padding: 3px;
+  margin: 2px; */
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 10px;
+  transition: all 250ms cubic-bezier(0.25, 0.1, 0.25, 0);
 `;
 
 export const UserGalleryDropdown = () => {
@@ -42,7 +77,11 @@ export const UserGalleryDropdown = () => {
 
   return (
     <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>Users Gallery</DropdownButton>
+      <DropdownButton onClick={toggleDropdown}>
+        <p>
+          Users Gallery <span>^</span>
+        </p>
+      </DropdownButton>
       <DropdownMenu isOpen={isOpen}>
         <li>
           <Link
@@ -50,7 +89,7 @@ export const UserGalleryDropdown = () => {
             as={`/my-gallery/3XtfWqV7VaWoH354YEqemP7Df3h1`}
             onClick={closeMenu}
           >
-            <p>Users 1</p>
+            <p>User_1</p>
           </Link>
         </li>
         <li>
@@ -59,7 +98,7 @@ export const UserGalleryDropdown = () => {
             as={`/my-gallery/AwY53Zk5sYfSL3XJm663peM5sAC2`}
             onClick={closeMenu}
           >
-            <p>Users 2</p>
+            <p>User_2</p>
           </Link>
         </li>
         <li>
@@ -68,7 +107,7 @@ export const UserGalleryDropdown = () => {
             as={`/my-gallery/nRFugQ54pyczgojVdK1PaOXshal2`}
             onClick={closeMenu}
           >
-            <p>User 3</p>
+            <p>User_3</p>
           </Link>
         </li>
       </DropdownMenu>
