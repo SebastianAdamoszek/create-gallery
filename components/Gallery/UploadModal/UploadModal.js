@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import { storage, db } from "@/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Modal } from "./UploadModal.styled";
+import { Modal, Info } from "./UploadModal.styled";
 import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/firebase";
+
+
 
 export const UploadModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
+  const [user] = useAuthState(auth);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -16,16 +21,16 @@ export const UploadModal = ({ onClose }) => {
     if (!file) return;
 
     try {
-       // Uzyskanie userId zalogowanego użytkownika
-       const auth = getAuth();
-       const user = auth.currentUser;
- 
-       if (!user) {
-         console.error("Użytkownik nie jest zalogowany");
-         return;
-       }
- 
-       const userId = user.uid;
+      // Uzyskanie userId zalogowanego użytkownika
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        console.error("Użytkownik nie jest zalogowany");
+        return;
+      }
+
+      const userId = user.uid;
 
       // Tworzenie referencji do pliku w Storage
       const storageRef = ref(storage, `photos/${userId}/${file.name}`);
@@ -36,7 +41,7 @@ export const UploadModal = ({ onClose }) => {
       // Pobieranie URL-a pliku
       const url = await getDownloadURL(storageRef);
 
-        // Dodanie wpisu do kolekcji użytkownika w Firestore
+      // Dodanie wpisu do kolekcji użytkownika w Firestore
       await addDoc(collection(db, `galleries/${userId}/photos`), {
         url,
         timestamp: serverTimestamp(),
@@ -50,6 +55,9 @@ export const UploadModal = ({ onClose }) => {
 
   return (
     <Modal>
+      <Info isLoggedIn={!!user}>
+        <h2>Aby dodać zdjęcie musisz być zalogowany</h2>
+      </Info>
       <h2>Dodaj nowe zdjęcie</h2>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Prześlij</button>

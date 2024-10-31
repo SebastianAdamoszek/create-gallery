@@ -7,14 +7,17 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-    z-index: 100;
+  z-index: 100;
   background-color: rgba(12, 38, 124, 0.2);
   padding: 10px 0;
 
   @media (min-width: 768px) {
     position: fixed;
     justify-content: end;
-    gap: 11%;
+    gap: 1%;
+  }
+  @media (min-width: 960px) {
+    gap: 6%;
   }
 `;
 export const HeaderIcons = styled.div`

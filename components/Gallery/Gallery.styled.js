@@ -7,6 +7,10 @@ export const GalleryPageContainer = styled.div`
   @media (min-width: 768px) {
     margin: 80px auto;
   }
+  h2 {
+    text-align: center;
+    padding: 20px 0;
+  }
 `;
 
 export const GalleryContainer = styled.div`

@@ -34,3 +34,19 @@ export const Modal = styled.div`
   }
     }
 `
+export const Info = styled.div`
+  position: relative;
+  display: ${({ isLoggedIn }) => (isLoggedIn ? "none" : "block")};
+  width: 300px;
+  background-color: gray;
+  border: 3px solid darkgray;
+  border-radius: 8px;
+  z-index: 1000;
+
+  animation: incrase 0.5s ease-in-out;
+  @keyframes incrase {
+    0% {
+      transform: scale(0.2);
+    }
+  }
+`;

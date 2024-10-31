@@ -3,16 +3,18 @@
 import { useEffect, useState } from "react";
 import { db } from "@/firebase/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { getAuth } from "firebase/auth"; // Importowanie getAuth
 import { Photo } from "@/components/Gallery/Photo/Photo";
-import { GalleryPageContainer, GalleryContainer } from "@/components/Gallery/Gallery.styled";
+import {
+  GalleryPageContainer,
+  GalleryContainer,
+} from "@/components/Gallery/Gallery.styled";
 
 const UserGalleryPage = ({ params }) => {
-  const { userId } = params; // Pobieranie userId z parametrów URL
+  const { userId } = params; // Get userId from URL params
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-    // Funkcja pobierająca zdjęcia w czasie rzeczywistym
+    // Query to fetch photos for the specific userId
     const q = query(
       collection(db, `galleries/${userId}/photos`),
       orderBy("timestamp", "desc")
@@ -21,15 +23,18 @@ const UserGalleryPage = ({ params }) => {
       setPhotos(snapshot.docs.map((doc) => doc.data()));
     });
 
-    return () => unsubscribe(); // Unsubscribe on component unmount
+    return () => unsubscribe(); // Clean up subscription on unmount
   }, [userId]);
 
   return (
     <GalleryPageContainer>
+      <h2>Galeria użytkownika: {userId}</h2>
       <GalleryContainer>
-        {photos.map((photo, index) => (
-          <Photo key={index} url={photo.url} />
-        ))}
+        {photos.length > 0 ? (
+          photos.map((photo, index) => <Photo key={index} url={photo.url} />)
+        ) : (
+          <p>Brak zdjęć do wyświetlenia.</p>
+        )}
       </GalleryContainer>
     </GalleryPageContainer>
   );
