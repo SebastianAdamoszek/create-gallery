@@ -1,5 +1,4 @@
 // /pages/api/getUsers.js
-
 import admin from 'firebase-admin';
 
 if (!admin.apps.length) {
@@ -19,3 +18,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Błąd przy pobieraniu użytkowników" });
   }
 }
+
