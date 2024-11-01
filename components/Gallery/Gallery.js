@@ -42,7 +42,7 @@ export const Gallery = ({ userId }) => {
     // Symulacja ładowania danych
     const timer = setTimeout(() => {
       setLoading(false); // Po upływie 2 sekund ustaw loading na false
-    }, 2000); // Możesz zmienić czas ładowania
+    }, 500); // Możesz zmienić czas ładowania
 
     return () => clearTimeout(timer); // Czyszczenie timera
   }, []);
