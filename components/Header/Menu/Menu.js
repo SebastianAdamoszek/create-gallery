@@ -51,45 +51,12 @@ export const MenuComponent = () => {
           </Link>
         </li>
         <li>
-          <Link href="/gallery" onClick={closeMenu}>
-            <p>Gallery</p>
+          <Link href="/my-gallery" onClick={closeMenu}>
+            <p>My Gallery</p>
           </Link>
         </li>
-
-        {/* <li>
-          <ul>
-            <p>Users Galleries</p>
-            <li>
-              <Link
-                href={`/my-gallery/[userId]`}
-                as={`/my-gallery/3XtfWqV7VaWoH354YEqemP7Df3h1`}
-                onClick={closeMenu}
-              >
-                <p>Users 1</p>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/my-gallery/[userId]`}
-                as={`/my-gallery/AwY53Zk5sYfSL3XJm663peM5sAC2`}
-                onClick={closeMenu}
-              >
-                <p>Users 2</p>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/my-gallery/[userId]`}
-                as={`/my-gallery/nRFugQ54pyczgojVdK1PaOXshal2`}
-                onClick={closeMenu}
-              >
-                <p>User 3</p>
-              </Link>
-            </li>
-          </ul>
-        </li> */}
         <li>
-          {/* users gallery */} <UserGalleryDropdown users={users} />
+          {/* users galleries */} <UserGalleryDropdown users={users} />
         </li>
       </Nav>
     </Menu>

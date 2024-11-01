@@ -100,7 +100,7 @@ export const UserGalleryDropdown = () => {
         ) : (
           users.map((user) => ( // Pętla po użytkownikach
             <li key={user.id}>
-              <Link href={`/my-gallery/[userId]`} as={`/my-gallery/${user.id}`} onClick={closeMenu}>
+              <Link href={`/user-gallery/[userId]`} as={`/user-gallery/${user.id}`} onClick={closeMenu}>
                 <User>{user.email}</User> {/* Wyświetl e-mail użytkownika */}
               </Link>
             </li>

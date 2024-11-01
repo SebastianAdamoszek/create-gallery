@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
 export const GalleryPageContainer = styled.div`
-  margin: 10px auto;
   width: 100%;
-  padding: 20px;
+  margin-top: -280px;
   @media (min-width: 768px) {
-    margin: 80px auto;
+    margin-top: -200px;
   }
   h2 {
     text-align: center;

@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import styles from "../page.module.css";
 
 export default function UserIdPage() {
   const [userId, setUserId] = useState(null);
@@ -39,7 +40,9 @@ export default function UserIdPage() {
   }, []);
 
   return (
-    <div>
+
+    <div className={styles.main__next}>
+      <div>
       <h1>ID zalogowanego użytkownika:</h1>
       {userId ? <p>{userId}</p> : <p>Użytkownik nie jest zalogowany</p>}
 
@@ -56,5 +59,7 @@ export default function UserIdPage() {
         </ul>
       )}
     </div>
+    </div>
+  
   );
 }
