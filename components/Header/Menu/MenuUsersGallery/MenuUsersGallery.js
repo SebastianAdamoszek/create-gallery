@@ -1,27 +1,39 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Link from "next/link";
+"use client"; // Upewnij się, że to jest dodane, aby działało w trybie klienta
+import { useEffect, useState } from "react";
+import { db } from "@/firebase/firebase"; // Import Firestore
+import { collection, getDocs } from "firebase/firestore"; // Import getDocs do pobierania dokumentów
+import styled from "styled-components"; // Upewnij się, że używasz styled-components
+import Link from "next/link"; // Upewnij się, że masz zainstalowany Next.js i odpowiednio skonfigurowany Link
 
-// Komponent do opakowania całego menu
+// Stylizacja kontenera dropdown
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
 `;
 
-// Stylizacja przycisku wywołującego menu rozwijane
-const DropdownButton = styled.div`
+// Stylizacja przycisku dropdown
+const DropdownButton = styled.button`
   background-color: transparent;
+  border: none;
   display: flex;
+  cursor: pointer;
+  font-size: 16px;
+  width: 200%;
 
   p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+
     span {
       display: inline-block;
-      transform: rotate(180deg) translateY(7px);
+      transition: transform 0.3s ease;
+      transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "none")};
     }
   }
 `;
 
-// Stylizacja menu rozwijanego
+// Stylizacja menu dropdown
 const DropdownMenu = styled.ul`
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   flex-direction: column;
@@ -30,39 +42,19 @@ const DropdownMenu = styled.ul`
   position: absolute;
   background-color: rgba(12, 38, 124, 0.8);
   border-radius: 5px;
-  width: 100%;
+  font-size: 12px;
   z-index: 1;
 `;
-export const Arrows = styled.ul`
-  .first {
-    transform: ${({ isOpen }) =>
-      isOpen
-        ? "rotate(45deg) scaleX(1.1)"
-        : "rotate(45deg) translateX(-3px) translateY(7px) scaleX(0.8)"};
-    box-shadow: ${({ isOpen }) =>
-      isOpen ? "0px 0px  2px 1px" : "3px 3px  2px 1px"};
-  }
 
-  .second {
-    transform: ${({ isOpen }) =>
-      isOpen
-        ? "rotate(-45deg) translateY(-7px) translateX(7px) scaleX(1.1)"
-        : "rotate(-45deg) translateY(-1px) translateX(10px) scaleX(0.8)"};
-    box-shadow: ${({ isOpen }) =>
-      isOpen ? "0px 0px   2px 1px" : "-3px 3px  2px 1px"};
-  }
-`;
-export const Arrow = styled.li`
-  width: 5px;
-  /* padding: 3px;
-  margin: 2px; */
-  background-color: rgba(128, 128, 128, 0.5);
-  border-radius: 10px;
-  transition: all 250ms cubic-bezier(0.25, 0.1, 0.25, 0);
-`;
+export const User = styled.p`
+  overflow: hidden;
+  width: 500%;
+`
 
 export const UserGalleryDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [users, setUsers] = useState([]); // Stan do przechowywania użytkowników
+  const [loading, setLoading] = useState(true); // Stan do zarządzania ładowaniem danych
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -72,44 +64,48 @@ export const UserGalleryDropdown = () => {
     setIsOpen(false);
   };
 
-  // Funkcja obsługująca otwieranie i zamykanie menu
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  useEffect(() => {
+    // Funkcja do pobierania użytkowników z Firestore
+    const fetchUsers = async () => {
+      try {
+        const usersRef = collection(db, "users"); // Odwołanie do kolekcji użytkowników
+        const snapshot = await getDocs(usersRef); // Pobierz dokumenty
+
+        const usersData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          email: doc.data().email, // Zakładamy, że dokumenty mają pole 'email'
+        }));
+
+        setUsers(usersData); // Ustawiamy użytkowników z Firestore
+      } catch (error) {
+        console.error("Błąd:", error);
+      } finally {
+        setLoading(false); // Ustaw ładowanie na false po pobraniu danych
+      }
+    };
+
+    fetchUsers(); // Wywołaj funkcję
+  }, []);
 
   return (
     <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>
+      <DropdownButton onClick={toggleMenu} isOpen={isOpen} aria-expanded={isOpen} aria-haspopup="true">
         <p>
-          Users Gallery <span>^</span>
+          Users Galleries <span>^</span>
         </p>
       </DropdownButton>
       <DropdownMenu isOpen={isOpen}>
-        <li>
-          <Link
-            href={`/my-gallery/[userId]`}
-            as={`/my-gallery/3XtfWqV7VaWoH354YEqemP7Df3h1`}
-            onClick={closeMenu}
-          >
-            <p>User_1</p>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href={`/my-gallery/[userId]`}
-            as={`/my-gallery/AwY53Zk5sYfSL3XJm663peM5sAC2`}
-            onClick={closeMenu}
-          >
-            <p>User_2</p>
-          </Link>
-        </li>
-        <li>
-          <Link
-            href={`/my-gallery/[userId]`}
-            as={`/my-gallery/nRFugQ54pyczgojVdK1PaOXshal2`}
-            onClick={closeMenu}
-          >
-            <p>User_3</p>
-          </Link>
-        </li>
+        {loading ? ( // Sprawdzanie, czy dane są ładowane
+          <li><p>Ładowanie...</p></li>
+        ) : (
+          users.map((user) => ( // Pętla po użytkownikach
+            <li key={user.id}>
+              <Link href={`/my-gallery/[userId]`} as={`/my-gallery/${user.id}`} onClick={closeMenu}>
+                <User>{user.email}</User> {/* Wyświetl e-mail użytkownika */}
+              </Link>
+            </li>
+          ))
+        )}
       </DropdownMenu>
     </DropdownContainer>
   );
