@@ -13,7 +13,7 @@ export const DropdownButton = styled.button`
   display: flex;
   cursor: pointer;
   font-size: 16px;
-  width: 200%;
+  width: 110%;
 
   p {
     margin: 0;
@@ -39,9 +39,13 @@ export const DropdownMenu = styled.ul`
   border-radius: 5px;
   font-size: 12px;
   z-index: 1;
+  display: inline-block;
+  transition: transform 0.2s ease;
+  transform: ${({ isOpen }) => (isOpen ? "scaleY(1)" : "scaleY(0)")};
+  transform-origin: 0% 0%;
 `;
 
 export const User = styled.p`
   overflow: hidden;
   width: 500%;
-`
+`;
