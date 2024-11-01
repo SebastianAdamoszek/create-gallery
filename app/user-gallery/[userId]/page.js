@@ -1,14 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import { db } from "@/firebase/firebase"; // Dostęp do Firestore
-import { collection, doc, getDoc, query, orderBy, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  query,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
 import { Photo } from "@/components/Gallery/Photo/Photo";
 import {
   GalleryPageContainer,
   GalleryContainer,
 } from "@/components/Gallery/Gallery.styled";
 import styles from "../../page.module.css";
-
 
 const UserGalleryPage = ({ params }) => {
   const { userId } = params; // Get userId from URL params
@@ -46,19 +52,17 @@ const UserGalleryPage = ({ params }) => {
 
   return (
     <div className={styles.main__next}>
-        <GalleryPageContainer>
-      <h2>Galeria użytkownika: {userEmail || "Ładowanie..."}</h2> {/* Wyświetl e-mail użytkownika */}
-      <GalleryContainer>
-        {photos.length > 0 ? (
-          photos.map((photo, index) => <Photo key={index} url={photo.url} />)
-        ) : (
-          <p>Brak zdjęć do wyświetlenia.</p>
-        )}
-      </GalleryContainer>
-    </GalleryPageContainer>
+      <GalleryPageContainer>
+        <h2>Galeria użytkownika: {userEmail || "Ładowanie..."}</h2>
+        <GalleryContainer>
+          {photos.length > 0 ? (
+            photos.map((photo, index) => <Photo key={index} url={photo.url} />)
+          ) : (
+            <p>Brak zdjęć do wyświetlenia.</p>
+          )}
+        </GalleryContainer>
+      </GalleryPageContainer>
     </div>
-
-
   );
 };
 

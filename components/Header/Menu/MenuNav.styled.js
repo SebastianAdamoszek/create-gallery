@@ -16,7 +16,7 @@ export const Nav = styled.ul`
   top: 70px;
   left: 0;
   padding: 15px;
-  z-index: 1;
+  z-index: -1;
   color: auto;
   transform: translateY(-100%) scaleY(0);
   opacity: 1;

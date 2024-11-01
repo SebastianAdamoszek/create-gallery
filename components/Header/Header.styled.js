@@ -8,7 +8,12 @@ export const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   z-index: 100;
-  background-color: rgba(12, 38, 124, 0.2);
+  background: linear-gradient(
+    to right,
+    rgb(5, 5, 49),
+    rgb(6, 11, 85),
+    rgb(3, 12, 104)
+  );
   padding: 10px 0;
 
   @media (min-width: 768px) {

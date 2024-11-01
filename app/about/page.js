@@ -1,12 +1,14 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import "@/app/globals.css";
 import styles from "../page.module.css";
 
 export default function UserIdPage() {
   const [userId, setUserId] = useState(null);
   const [userIds, setUserIds] = useState([]); // Stan do przechowywania ID wszystkich użytkowników
   const [loading, setLoading] = useState(true); // Stan do zarządzania ładowaniem danych
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -39,27 +41,36 @@ export default function UserIdPage() {
     fetchUserIds(); // Wywołaj funkcję
   }, []);
 
+  useEffect(() => {
+    const auth = getAuth();
+    
+    // Funkcja Firebase do obserwowania stanu zalogowania
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user); // Ustawia `true` jeśli użytkownik jest zalogowany, `false` jeśli nie jest
+    });
+
+    return () => unsubscribe(); // Czyszczenie nasłuchu
+  }, []);
+
   return (
-
     <div className={styles.main__next}>
-      <div>
-      <h1>ID zalogowanego użytkownika:</h1>
-      {userId ? <p>{userId}</p> : <p>Użytkownik nie jest zalogowany</p>}
-
-      <h2>ID wszystkich użytkowników:</h2>
-      {loading ? ( // Sprawdzanie, czy dane są ładowane
-        <p>Ładowanie...</p>
-      ) : (
-        <ul>
-          {userIds.length > 0 ? (
-            userIds.map((id) => <li key={id}>{id}</li>) // Wyświetlanie ID użytkowników w liście
-          ) : (
-            <p>Brak użytkowników.</p>
-          )}
-        </ul>
-      )}
+      <div style={{ display: isLoggedIn ? "block" : "none" }}>
+        {" "}
+        <h1>ID zalogowanego użytkownika:</h1>
+        {userId ? <p>{userId}</p> : <p>Użytkownik nie jest zalogowany</p>}
+        <h2>ID wszystkich użytkowników:</h2>
+        {loading ? ( // Sprawdzanie, czy dane są ładowane
+          <p className="loading-text">Loading...</p>
+        ) : (
+          <ul>
+            {userIds.length > 0 ? (
+              userIds.map((id) => <li key={id}>{id}</li>) // Wyświetlanie ID użytkowników w liście
+            ) : (
+              <p>Brak użytkowników.</p>
+            )}
+          </ul>
+        )}
+      </div>
     </div>
-    </div>
-  
   );
 }

@@ -1,11 +1,11 @@
 // components/Authorization/Authorization.js
-import { auth, googleProvider } from "./firebase";
-import { signOut } from "firebase/auth";
-
+import { auth, googleProvider, db  } from "./firebase";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut
 } from "firebase/auth";
 
 /**
@@ -25,28 +25,63 @@ export const loginUser = async (email, password) => {
 /**
  * Rejestracja użytkownika
  */
+
 export const registerUser = async (email, password) => {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user; // Użytkownik, który został zarejestrowany
+
+    // Dodaj e-mail użytkownika do Firestore
+    const db = getFirestore();
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email, // Dodaj e-mail
+      // Możesz dodać inne dane użytkownika, jeśli chcesz
+    });
+
     return { success: true };
   } catch (error) {
-    console.log("Błąd podczas rejestracji, email juz istnieje");
+    console.error("Błąd podczas rejestracji:", error);
     return {
       success: false,
-      message: "Błąd podczas rejestracji email juz istnieje",
+      message: error.message || "Błąd podczas rejestracji",
     };
   }
 };
 
+
+// export const registerUser = async (email, password) => {
+//   try {
+//     await createUserWithEmailAndPassword(auth, email, password);
+//     return { success: true };
+//   } catch (error) {
+//     console.log("Błąd podczas rejestracji, email juz istnieje");
+//     return {
+//       success: false,
+//       message: "Błąd podczas rejestracji email juz istnieje",
+//     };
+//   }
+// };
+
 /**
  * Logowanie przez Google
  */
+
 export const loginWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    return { success: true, user: result.user };
+    const user = result.user;
+
+    // Dodaj e-mail użytkownika do Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email, // Dodaj e-mail
+      displayName: user.displayName || "", // Opcjonalnie, dodaj nazwę wyświetlaną
+      photoURL: user.photoURL || "", // Opcjonalnie, dodaj URL zdjęcia
+      // Możesz dodać inne dane użytkownika, jeśli chcesz
+    });
+
+    return { success: true, user }; // Zwraca zalogowanego użytkownika
   } catch (error) {
-    console.log("Błąd podczas logowania");
+    console.error("Błąd podczas logowania:", error.message);
     return { success: false, message: error.message };
   }
 };
@@ -54,8 +89,27 @@ export const loginWithGoogle = async () => {
 export const handleLogout = async () => {
   try {
     await signOut(auth);
-    console.log(`Użytkownik ${email} wylogowany`);
+    console.log("Użytkownik wylogowany");
   } catch (error) {
-    console.error("Błąd podczas wylogowania", error);
+    console.error("Błąd podczas wylogowania:", error);
   }
 };
+
+// export const loginWithGoogle = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, googleProvider);
+//     return { success: true, user: result.user };
+//   } catch (error) {
+//     console.log("Błąd podczas logowania");
+//     return { success: false, message: error.message };
+//   }
+// };
+
+// export const handleLogout = async () => {
+//   try {
+//     await signOut(auth);
+//     console.log(`Użytkownik ${email} wylogowany`);
+//   } catch (error) {
+//     console.error("Błąd podczas wylogowania", error);
+//   }
+// };
