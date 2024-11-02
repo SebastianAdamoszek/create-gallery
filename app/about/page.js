@@ -54,7 +54,7 @@ export default function UserIdPage() {
 
   return (
     <div className={styles.main__next}>
-      <div style={{ display: isLoggedIn ? "none" : "block" }}>
+      <div style={{ display: isLoggedIn ? "none" : "block" , marginTop:"200px" }}>
         <h2>Dostępne tylko dla zalogowanych użytkowników</h2>
       </div>
       <div style={{ display: isLoggedIn ? "block" : "none" }}>
