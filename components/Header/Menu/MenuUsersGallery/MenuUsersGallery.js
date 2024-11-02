@@ -93,6 +93,7 @@ import {
   User,
 } from "./MenuUsersGallery.styled";
 import Link from "next/link";
+import "@/app/globals.css";
 
 export const UserGalleryDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -161,7 +162,7 @@ export const UserGalleryDropdown = () => {
       <DropdownMenu isOpen={isOpen}>
         {loading ? (
           <li>
-            <p>Pobieram...</p>
+            <p className="loading-text">Pobieram...</p>
           </li>
         ) : (
           users.map((user) => (

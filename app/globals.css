@@ -158,14 +158,15 @@ html,
     transform-origin: 100% 100%;
   }
 }
-
+.loader {
+  margin: 20px;
+}
 .loading-text {
   font-size: 24px;
   background: linear-gradient(90deg, #3498db, #9b59b6);
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
-  margin-top: 20px;
   animation: shine 1.5s infinite;
 }
 

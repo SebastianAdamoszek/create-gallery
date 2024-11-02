@@ -55,9 +55,8 @@ const UserGalleryPage = ({ params }) => {
     <div className={styles.main__next}>
       <GalleryPageContainer>
         <h2>Galeria użytkownika:</h2>
-        {/* <h3>{userEmail || "Ładowanie..."}</h3> */}
         <h3 className={`${!userEmail ? "loading-text" : ""}`}>
-          {userEmail || "Ładowanie..."}
+          {userEmail || "Pobieram..."}
         </h3>
         <GalleryContainer>
           {photos.length > 0 ? (
