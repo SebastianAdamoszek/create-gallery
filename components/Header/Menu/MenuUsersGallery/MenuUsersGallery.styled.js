@@ -1,12 +1,10 @@
 import styled from "styled-components";
 
-// Stylizacja kontenera dropdown
 export const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
 `;
 
-// Stylizacja przycisku dropdown
 export const DropdownButton = styled.button`
   background-color: transparent;
   border: none;
@@ -28,11 +26,8 @@ export const DropdownButton = styled.button`
   }
 `;
 
-// Stylizacja menu dropdown
 export const DropdownMenu = styled.ul`
-  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
-  flex-direction: column;
-  gap: 5px;
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   padding: 5px;
   position: absolute;
   background-color: rgba(12, 38, 124, 0.8);
@@ -43,6 +38,9 @@ export const DropdownMenu = styled.ul`
   transition: transform 0.2s ease;
   transform: ${({ isOpen }) => (isOpen ? "scaleY(1)" : "scaleY(0)")};
   transform-origin: 0% 0%;
+  li {
+    line-height: 1.3;
+  }
 `;
 
 export const User = styled.p`

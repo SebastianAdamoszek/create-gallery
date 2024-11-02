@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const GalleryPageContainer = styled.div`
   width: 100%;
-  margin-top: -280px;
+  margin-top: -80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,7 @@ export const GalleryPageContainer = styled.div`
     width: 300px;
   }
   @media (min-width: 768px) {
-    margin-top: -200px;
+    margin-top: 0;
     h2 {
       font-size: 22px;
     }

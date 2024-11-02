@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Burger, BurgerLine } from "./ButtonMenuMobile.styled.js";
 import { Menu, Nav } from "./MenuNav.styled.js";
 import Link from "next/link";
@@ -8,6 +8,8 @@ import { UserGalleryDropdown } from "./MenuUsersGallery/MenuUsersGallery.js";
 
 export const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -18,14 +20,22 @@ export const MenuComponent = () => {
   };
 
   const auth = getAuth();
-  const user = auth.currentUser;
 
-  const users = [
-    { id: 1, name: "User 1" },
-    { id: 2, name: "User 2" },
-    { id: 3, name: "User 3" },
-    // Możesz dodać więcej użytkowników do listy
-  ];
+    // Funkcja zamykająca menu przy kliknięciu poza nim
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+  
+    useEffect(() => {
+      if (isOpen) {
+        document.addEventListener("mousedown", handleClickOutside);
+      } else {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [isOpen]);
 
   return (
     <Menu>
@@ -34,7 +44,7 @@ export const MenuComponent = () => {
         <BurgerLine className="second" />
         <BurgerLine className="third" />
       </Burger>
-      <Nav isOpen={isOpen}>
+      <Nav isOpen={isOpen} ref={dropdownRef}>
         <li>
           <Link href="/home" onClick={closeMenu}>
             <p>Home</p>
@@ -56,7 +66,7 @@ export const MenuComponent = () => {
           </Link>
         </li>
         <li>
-          {/* users galleries */} <UserGalleryDropdown users={users} />
+          {/* users galleries */} <UserGalleryDropdown />
         </li>
       </Nav>
     </Menu>
