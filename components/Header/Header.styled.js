@@ -17,10 +17,13 @@ export const Header = styled.div`
     gap: 1%;
     background: linear-gradient(
     to right,
-    rgb(5, 5, 49),
-    rgb(6, 11, 85),
-    rgb(3, 12, 104)
-  );
+    #020321,
+    #000326,
+    #010429,
+    #01042b,
+    #030639,
+    #020940
+  )
   }
   @media (min-width: 960px) {
     gap: 6%;

@@ -13,7 +13,7 @@ export const Nav = styled.ul`
   background-color: rgba(12, 38, 124, 0.5);
   position: absolute;
   width: 100%;
-  top: 71px;
+  top: 70px;
   left: 0;
   padding: 15px;
   z-index: -1;
