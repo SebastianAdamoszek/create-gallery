@@ -70,7 +70,7 @@ body {
 body {
   background-image: url("../public/desktop-electric-background.png");
   background-size: cover; 
-  background-position: top left;
+  background-position: bottom left;
   background-repeat: no-repeat;
   background-attachment: fixed;
   height: 100%;

@@ -10,61 +10,62 @@ import { Photo } from "./Photo/Photo";
 import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Loader } from "../Loader/Loader";
-import { getAuth } from "firebase/auth"; // Importuj getAuth
+import { getAuth } from "firebase/auth";
 
-export const Gallery = ({ userId }) => {
+export const Gallery = () => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Uzyskanie userId zalogowanego użytkownika
     const auth = getAuth();
-    const user = auth.currentUser;
+    
+    // Subskrypcja stanu zalogowania
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user);
 
-    if (!user) {
-      console.error("Użytkownik nie jest zalogowany");
-      return;
-    }
+      // Jeśli użytkownik jest zalogowany, pobieramy jego zdjęcia
+      if (user) {
+        const userId = user.uid;
+        const q = query(
+          collection(db, `galleries/${userId}/photos`),
+          orderBy("timestamp", "desc")
+        );
 
-    const userId = user.uid;
+        // Subskrypcja zdjęć
+        const unsubscribePhotos = onSnapshot(q, (snapshot) => {
+          setPhotos(snapshot.docs.map((doc) => doc.data()));
+          setLoading(false);
+        });
 
-    // Funkcja pobierająca zdjęcia w czasie rzeczywistym
-    const q = query(
-      collection(db, `galleries/${userId}/photos`),
-      orderBy("timestamp", "desc")
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setPhotos(snapshot.docs.map((doc) => doc.data()));
+        return () => unsubscribePhotos();
+      }
     });
 
-    // Unsubskrybuj, aby uniknąć wycieków pamięci
-    return () => unsubscribe();
-  }, [userId]);
-
-  useEffect(() => {
-    // Symulacja ładowania danych
-    const timer = setTimeout(() => {
-      setLoading(false); // Po upływie 2 sekund ustaw loading na false
-    }, 500); // Możesz zmienić czas ładowania
-
-    return () => clearTimeout(timer); // Czyszczenie timera
+    return () => unsubscribeAuth();
   }, []);
 
   return (
     <GalleryPageContainer>
+      {/* ButtonsContainer będzie zawsze widoczny */}
       <ButtonsContainer>
         <ButtonDelPhoto />
         <ButtonAddPhoto />
       </ButtonsContainer>
 
-      {loading ? (
-        <Loader />
-      ) : (
-        <GalleryContainer>
-          {photos.map((photo, index) => (
-            <Photo key={index} url={photo.url} />
-          ))}
-        </GalleryContainer>
+      {/* Renderuj Loader lub galerię tylko, gdy użytkownik jest zalogowany */}
+      {isLoggedIn && (
+        <>
+          {loading ? (
+            <Loader />
+          ) : (
+            <GalleryContainer>
+              {photos.map((photo, index) => (
+                <Photo key={index} url={photo.url} />
+              ))}
+            </GalleryContainer>
+          )}
+        </>
       )}
     </GalleryPageContainer>
   );

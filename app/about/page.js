@@ -43,7 +43,7 @@ export default function UserIdPage() {
 
   useEffect(() => {
     const auth = getAuth();
-    
+
     // Funkcja Firebase do obserwowania stanu zalogowania
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setIsLoggedIn(!!user); // Ustawia `true` jeśli użytkownik jest zalogowany, `false` jeśli nie jest
@@ -54,6 +54,9 @@ export default function UserIdPage() {
 
   return (
     <div className={styles.main__next}>
+      <div style={{ display: isLoggedIn ? "none" : "block" }}>
+        <h2>Dostępne tylko dla zalogowanych użytkowników</h2>
+      </div>
       <div style={{ display: isLoggedIn ? "block" : "none" }}>
         {" "}
         <h1>ID zalogowanego użytkownika:</h1>
