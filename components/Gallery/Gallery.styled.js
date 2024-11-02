@@ -3,12 +3,28 @@ import styled from "styled-components";
 export const GalleryPageContainer = styled.div`
   width: 100%;
   margin-top: -280px;
-  @media (min-width: 768px) {
-    margin-top: -200px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   h2 {
     text-align: center;
-    padding: 20px 0;
+    padding: 20px 0 5px 0;
+  }
+  h3 {
+    text-align: center;
+    font-size: 16px;
+    overflow-wrap: break-word;
+    width: 300px;
+  }
+  @media (min-width: 768px) {
+    margin-top: -200px;
+    h2 {
+      font-size: 22px;
+    }
+    h3 {
+      font-size: 18px;
+      width: 430px;
+    }
   }
 `;
 

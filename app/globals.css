@@ -68,14 +68,18 @@ body {
     rgb(var(--background-start-rgb));
 }
 body {
-  background-image: url("../public/electric-background.png");
+  background-image: url("../public/mobile-electric-background.png");
   background-size: cover; 
-  background-position: bottom left;
+  background-position: top left;
   background-repeat: no-repeat;
   background-attachment: fixed;
   height: 100%;
-
   cursor: url("../public/icons8-cursor.svg"), auto;
+  @media( min-width: 768px) {
+    background-image: url("../public/electric-background.png");
+    background-position: bottom left;
+
+  }
 }
 a {
   /* cursor: url("../public/cursor-pointer.svg"), pointer; */
@@ -115,6 +119,32 @@ p {
   color: rgb(var(--foreground-rgb));
   text-shadow: 4px 4px 3px rgba(0, 0, 0, 1);
   transition: 150ms ease-in-out;
+}
+h2 {
+  text-align: center;
+  font-size: 20px;
+  padding: 20px 0 5px 0;
+  margin: 0;
+}
+h3 {
+  font-size: 16px;
+  overflow-wrap: break-word;
+}
+@media (max-width: 767px) {
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+}
+@media (min-width: 768px) {
+  h2 {
+    font-size: 22px;
+  }
+  h3 {
+    font-size: 18px;
+  }
 }
 
 html,

@@ -1,8 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { db } from "@/firebase/firebase";
+import { ButtonsContainer } from "./ButtonsAddDelPhoto/ButtonsAddDelPhoto.styled";
+import {
+  ButtonAddPhoto,
+  ButtonDelPhoto,
+} from "./ButtonsAddDelPhoto/ButtonsAddDelPhoto";
 import { Photo } from "./Photo/Photo";
-import { ButtonAddPhoto } from "./ButtonAddPhoto/ButtonAddPhoto";
 import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Loader } from "../Loader/Loader";
@@ -11,7 +15,6 @@ import { getAuth } from "firebase/auth"; // Importuj getAuth
 export const Gallery = ({ userId }) => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     // Uzyskanie userId zalogowanego użytkownika
@@ -49,7 +52,11 @@ export const Gallery = ({ userId }) => {
 
   return (
     <GalleryPageContainer>
-      <ButtonAddPhoto />
+      <ButtonsContainer>
+        <ButtonDelPhoto />
+        <ButtonAddPhoto />
+      </ButtonsContainer>
+
       {loading ? (
         <Loader />
       ) : (

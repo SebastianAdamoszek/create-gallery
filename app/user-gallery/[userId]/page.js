@@ -15,6 +15,7 @@ import {
   GalleryContainer,
 } from "@/components/Gallery/Gallery.styled";
 import styles from "../../page.module.css";
+import "@/app/globals.css";
 
 const UserGalleryPage = ({ params }) => {
   const { userId } = params; // Get userId from URL params
@@ -53,7 +54,11 @@ const UserGalleryPage = ({ params }) => {
   return (
     <div className={styles.main__next}>
       <GalleryPageContainer>
-        <h2>Galeria użytkownika: {userEmail || "Ładowanie..."}</h2>
+        <h2>Galeria użytkownika:</h2>
+        {/* <h3>{userEmail || "Ładowanie..."}</h3> */}
+        <h3 className={`${!userEmail ? "loading-text" : ""}`}>
+          {userEmail || "Ładowanie..."}
+        </h3>
         <GalleryContainer>
           {photos.length > 0 ? (
             photos.map((photo, index) => <Photo key={index} url={photo.url} />)
