@@ -13,6 +13,11 @@ export const ButtonAddPhoto = () => {
   );
 };
 
-export const ButtonDelPhoto = ({ toggleDeleteMode }) => {
-  return <ButtonDel onClick={toggleDeleteMode}>Usuń zdjęcie</ButtonDel>;
+export const ButtonDelPhoto = ({ toggleDeleteMode, isDeleteMode }) => {
+  return (
+    <ButtonDel onClick={toggleDeleteMode}>
+      {" "}
+      {isDeleteMode ? "Anuluj usuwanie" : "Usuń zdjęcie"}
+    </ButtonDel>
+  );
 };

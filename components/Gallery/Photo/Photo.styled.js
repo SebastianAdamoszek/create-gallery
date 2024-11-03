@@ -59,28 +59,11 @@ export const RemoveIcon = styled.div`
   color: red;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: block;
-  /* transform: ${({ isMarked }) => (isMarked ? "scale(1)" : "scale(0)")}; */
-  opacity: ${({ isMarked }) => (isMarked ? "1" : "0")};
+  
+  display: ${({ isMarked }) => (isMarked ? "block" : "none")};
+  /* opacity: ${({ isMarked }) => (isMarked ? "1" : "0")}; */
   font-size: 24px;
   z-index: 1;
-`;
-
-export const ButtonDel = styled.label`
-  position: relative;
-  bottom: 100px;
-  left: 0;
-  background-color: #ff6347;
-  color: white;
-  border: none;
-  padding: 4px 6px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 10px;
-
-  &:hover {
-    background-color: #ff4500;
-  }
 `;
 
 export const CheckBox = styled.input`

@@ -17,7 +17,7 @@ export const Gallery = () => {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
-  
+
   useEffect(() => {
     const auth = getAuth();
 
@@ -53,7 +53,10 @@ export const Gallery = () => {
   return (
     <GalleryPageContainer>
       <ButtonsContainer>
-      <ButtonDelPhoto toggleDeleteMode={toggleDeleteMode} />
+        <ButtonDelPhoto
+          toggleDeleteMode={toggleDeleteMode}
+          isDeleteMode={isDeleteMode}
+        />
         <ButtonAddPhoto />
       </ButtonsContainer>
 
@@ -64,30 +67,16 @@ export const Gallery = () => {
           ) : (
             <GalleryContainer>
               {photos.map((photo, index) =>
-          isDeleteMode ? (
-            <PhotoForDel key={index} url={photo.url} />
-          ) : (
-            <Photo key={index} url={photo.url} />
-          )
-        )}
+                isDeleteMode ? (
+                  <PhotoForDel key={index} url={photo.url} />
+                ) : (
+                  <Photo key={index} url={photo.url} />
+                )
+              )}
             </GalleryContainer>
           )}
         </>
       )}
-
-      {/* {isLoggedIn && (
-        <>
-          {loading ? (
-            <Loader />
-          ) : (
-            <GalleryContainer>
-              {photos.map((photo, index) => (
-                <Photo key={index} url={photo.url} />
-              ))}
-            </GalleryContainer>
-          )}
-        </>
-      )} */}
     </GalleryPageContainer>
   );
 };
