@@ -9,7 +9,6 @@ import {
   CheckIcon,
 } from "./Photo.styled";
 import { FaTrash, FaCheck } from "react-icons/fa";
-
 import { ref, deleteObject } from "firebase/storage";
 import {
   collection,
@@ -27,20 +26,12 @@ export const Photo = ({ url }) => {
       <Image
         src={url}
         alt="Przesłane zdjęcie"
-        // width={100} eEk2XGpxa7S4YRQ0T9QsZruU2Zt2
-        // height={100}
-        // sizes="(max-width: 480px) 320px,
-        // (max-width: 768px) 768px,
-        // (max-width: 1024px) 1024px,
-        // 1920px"
-        // layout="responsive"
         layout="fill"
         objectFit="contain"
       />
     </PhotoContainer>
   );
 };
-
 
 export const PhotoForDel = ({ url, refreshGallery }) => {
   const [isMarkedForDeletion, setIsMarkedForDeletion] = useState(false);
@@ -64,27 +55,24 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
 
       const userId = user.uid;
 
+      // Uzyskanie nazwy pliku
+      const fileName = url.split('/').pop().split('?')[0];
+
       // Usunięcie dokumentu z Firestore na podstawie URL-a
       const photosRef = collection(db, `galleries/${userId}/photos`);
       const q = query(photosRef, where("url", "==", url));
       const querySnapshot = await getDocs(q);
 
       // Usuwanie każdego dokumentu znalezionego w zapytaniu
-      querySnapshot.forEach(async (doc) => {
+      for (const doc of querySnapshot.docs) {
         await deleteDoc(doc.ref); // Usunięcie dokumentu z Firestore
-
         console.log("Dokument zdjęcia usunięty z Firestore");
 
-        // Pobranie ścieżki dla Storage na podstawie pełnego URL-a
-        // const filePath = url
-        //   .replace("https://firebasestorage.googleapis.com/v0/b/create-gallery.appspot.com/o/");
-
-        // // Utworzenie referencji do pliku na podstawie ścieżki
-        // const storageRef = ref(storage, filePath);
-
-        // await deleteObject(storageRef);
-        // console.log("Zdjęcie usunięte ze Storage");
-      });
+        // Następnie usuwamy plik ze Storage
+        const storageRef = ref(storage, `photos/${userId}/${fileName}`);
+        await deleteObject(storageRef);
+        console.log("Zdjęcie usunięte ze Storage");
+      }
 
       // Odświeżenie galerii po usunięciu
       refreshGallery();
@@ -113,7 +101,7 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
         type="checkbox"
         checked={isMarkedForDeletion}
         onChange={handleDeleteClick}
-      ></CheckBox>
+      />
       <CheckIcon isChecked={isMarkedForDeletion}>
         <FaCheck />
       </CheckIcon>
