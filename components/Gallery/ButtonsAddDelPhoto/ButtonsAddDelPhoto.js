@@ -14,11 +14,15 @@ export const ButtonAddPhoto = () => {
 };
 
 export const ButtonDelPhoto = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [isMarkedForDeletion, setIsMarkedForDeletion] = useState(false);
+
+  const handleDeleteClick = () => {
+    setIsMarkedForDeletion(!isMarkedForDeletion);
+  };
 
   return (
     <>
-      <ButtonDel>Usuń zdjęcie</ButtonDel>
+      <ButtonDel onClick={handleDeleteClick}>Usuń zdjęcie</ButtonDel>{" "}
     </>
   );
 };

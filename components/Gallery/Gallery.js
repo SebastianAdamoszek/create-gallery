@@ -6,7 +6,7 @@ import {
   ButtonAddPhoto,
   ButtonDelPhoto,
 } from "./ButtonsAddDelPhoto/ButtonsAddDelPhoto";
-import { Photo } from "./Photo/Photo";
+import { Photo, PhotoForDel } from "./Photo/Photo";
 import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Loader } from "../Loader/Loader";
@@ -49,7 +49,6 @@ export const Gallery = () => {
 
   return (
     <GalleryPageContainer>
-      {/* ButtonsContainer będzie zawsze widoczny */}
       <ButtonsContainer>
         <ButtonDelPhoto />
         <ButtonAddPhoto />
@@ -63,12 +62,29 @@ export const Gallery = () => {
           ) : (
             <GalleryContainer>
               {photos.map((photo, index) => (
-                <Photo key={index} url={photo.url} />
+                <PhotoForDel key={index} url={photo.url} />
               ))}
             </GalleryContainer>
+          
           )}
         </>
       )}
+
+{isLoggedIn && (
+        <>
+          {loading ? (
+            <Loader />
+          ) : (
+            <GalleryContainer>
+              {photos.map((photo, index) => (
+                <Photo key={index} url={photo.url} />
+              ))}
+            </GalleryContainer>
+          
+          )}
+        </>
+      )}
+
     </GalleryPageContainer>
   );
 };
