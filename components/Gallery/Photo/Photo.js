@@ -57,6 +57,9 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
 
       // Uzyskanie nazwy pliku
       const fileName = url.split('/').pop().split('?')[0];
+      const decodedFileName = decodeURIComponent(fileName); // Dekodujemy nazwę pliku
+      console.log("Nazwa pliku do usunięcia:", fileName);
+      console.log("Dekodowana nazwa pliku do usunięcia:", decodedFileName);
 
       // Usunięcie dokumentu z Firestore na podstawie URL-a
       const photosRef = collection(db, `galleries/${userId}/photos`);
@@ -66,10 +69,11 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
       // Usuwanie każdego dokumentu znalezionego w zapytaniu
       for (const doc of querySnapshot.docs) {
         await deleteDoc(doc.ref); // Usunięcie dokumentu z Firestore
-        console.log("Dokument zdjęcia usunięty z Firestore");
+        console.log("Zdjęcie usunięte z Firestore");
 
         // Następnie usuwamy plik ze Storage
-        const storageRef = ref(storage, `photos/${userId}/${fileName}`);
+        const storageRef = ref(storage, `${decodedFileName}`);
+        console.log("Usuwana ścieżka:", storageRef.fullPath); // Logowanie ścieżki
         await deleteObject(storageRef);
         console.log("Zdjęcie usunięte ze Storage");
       }
