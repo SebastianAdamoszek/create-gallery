@@ -59,9 +59,9 @@ export default function UserIdPage() {
       </div>
       <div style={{ display: isLoggedIn ? "block" : "none" }}>
         {" "}
-        <h1>ID zalogowanego użytkownika:</h1>
+        <h2>ID zalogowanego użytkownika:</h2>
         {userId ? <p>{userId}</p> : <p>Użytkownik nie jest zalogowany</p>}
-        <h2>ID wszystkich użytkowników:</h2>
+        <h3>ID wszystkich użytkowników:</h3>
         {loading ? ( // Sprawdzanie, czy dane są ładowane
           <p className="loading-text">Loading...</p>
         ) : (

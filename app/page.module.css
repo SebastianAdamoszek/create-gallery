@@ -6,6 +6,22 @@
   padding: 6rem;
   min-height: 100vh;
 }
+.main__next h2 {
+  padding: 15px 0;
+}
+.main__next h3 {
+  padding: 20px 0;
+  margin-left: 20px;
+}
+.main__next ul {
+  padding: 5px 0;
+  margin-left: 25px;
+}
+.main__next p {
+  padding: 5px 0;
+  margin-left: 10px;
+}
+
 /* .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(25%, auto));
