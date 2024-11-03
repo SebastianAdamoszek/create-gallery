@@ -8,7 +8,7 @@ import {
 } from "./ButtonsAddDelPhoto/ButtonsAddDelPhoto";
 import { Photo, PhotoForDel } from "./Photo/Photo";
 import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
-import { collection, query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Loader } from "../Loader/Loader";
 import { getAuth } from "firebase/auth";
 
@@ -18,34 +18,28 @@ export const Gallery = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
 
-  const loadPhotos = async () => {
-    setLoading(true);
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (user) {
-      const userId = user.uid;
-      const q = query(
-        collection(db, `galleries/${userId}/photos`),
-        orderBy("timestamp", "desc")
-      );
-
-      const querySnapshot = await getDocs(q);
-      setPhotos(querySnapshot.docs.map((doc) => doc.data()));
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
     const auth = getAuth();
-
-    // Subskrypcja stanu zalogowania
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       setIsLoggedIn(!!user);
 
-      // Jeśli użytkownik jest zalogowany, ładujemy jego zdjęcia
+      // Subskrypcja zdjęć użytkownika, jeśli jest zalogowany
       if (user) {
-        loadPhotos(); // Wywołanie loadPhotos przy zalogowaniu
+        const userId = user.uid;
+        const q = query(
+          collection(db, `galleries/${userId}/photos`),
+          orderBy("timestamp", "desc")
+        );
+
+        // Subskrypcja `onSnapshot` — automatyczne ładowanie i odświeżanie
+        const unsubscribePhotos = onSnapshot(q, (snapshot) => {
+          setPhotos(snapshot.docs.map((doc) => doc.data()));
+          setLoading(false); // Ustawienie loading na false po pierwszym pobraniu danych
+        });
+
+        return () => unsubscribePhotos(); // Wyłącz subskrypcję po odmontowaniu
+      } else {
+        setPhotos([]); // Czyszczenie galerii, gdy użytkownik się wyloguje
       }
     });
 
@@ -74,7 +68,11 @@ export const Gallery = () => {
             <GalleryContainer>
               {photos.map((photo, index) =>
                 isDeleteMode ? (
-                  <PhotoForDel key={index} url={photo.url} refreshGallery={loadPhotos}/>
+                  <PhotoForDel
+                    key={index}
+                    url={photo.url}
+                    refreshGallery={() => {}} // Nie jest potrzebne w `onSnapshot`
+                  />
                 ) : (
                   <Photo key={index} url={photo.url} />
                 )
