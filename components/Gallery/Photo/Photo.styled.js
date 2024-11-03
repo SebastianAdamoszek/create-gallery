@@ -33,6 +33,17 @@ export const PhotoDelWrapper = styled.div`
   transition: all 0.3s ease;
   transform: ${({ isMarked }) => (isMarked ? "scale(0.9)" : "")};
 
+  animation: load-del-photo 0.5s ease-in-out;
+  @keyframes load-del-photo {
+    0% {
+      transform: scale(0.1);
+      transform-origin: 50% 50%;
+    }
+    90% {
+      opacity: 0;
+    }
+  }
+
   img {
     border: ${({ isMarked }) =>
       isMarked ? "2px solid red" : "2px solid transparent"};
@@ -97,5 +108,4 @@ export const CheckIcon = styled.div`
   display: ${({ isChecked }) => (isChecked ? "block" : "none")};
   color: green;
   font-size: 14px;
- 
 `;

@@ -13,16 +13,6 @@ export const ButtonAddPhoto = () => {
   );
 };
 
-export const ButtonDelPhoto = () => {
-  const [isMarkedForDeletion, setIsMarkedForDeletion] = useState(false);
-
-  const handleDeleteClick = () => {
-    setIsMarkedForDeletion(!isMarkedForDeletion);
-  };
-
-  return (
-    <>
-      <ButtonDel onClick={handleDeleteClick}>Usuń zdjęcie</ButtonDel>{" "}
-    </>
-  );
+export const ButtonDelPhoto = ({ toggleDeleteMode }) => {
+  return <ButtonDel onClick={toggleDeleteMode}>Usuń zdjęcie</ButtonDel>;
 };

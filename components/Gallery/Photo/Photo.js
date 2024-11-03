@@ -5,7 +5,6 @@ import {
   PhotoContainer,
   PhotoDelWrapper,
   RemoveIcon,
-  ButtonDel,
   CheckBox,
   CheckIcon,
 } from "./Photo.styled";
@@ -67,10 +66,6 @@ export const PhotoForDel = ({ url }) => {
       <CheckIcon  isChecked={isMarkedForDeletion}>
         <FaCheck />
       </CheckIcon>
-
-      {/* <ButtonDel onClick={handleDeleteClick}>
-        
-      </ButtonDel> */}
     </PhotoDelWrapper>
   );
 };
