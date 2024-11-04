@@ -32,7 +32,6 @@ export const DropdownMenu = styled.ul`
   position: absolute;
   background-color: rgba(12, 38, 124, 0.8);
   border-radius: 5px;
-  font-size: 12px;
   z-index: 1;
   display: inline-block;
   transition: transform 0.2s ease;
@@ -43,7 +42,26 @@ export const DropdownMenu = styled.ul`
   }
 `;
 
+export const LoaderText = styled.p`
+  font-size: 16px;
+  background: linear-gradient(90deg, #3498db, #9b59b6);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  animation: shine 1.5s infinite;
+  @keyframes shine {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+`
+
 export const User = styled.p`
   overflow: hidden;
   width: 500%;
+  font-size: 12px;
+  padding: 2px ;
 `;
