@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "aos": "^2.3.4",
     "auth": "^1.1.1",
     "firebase": "^11.0.1",
     "firebase-admin": "^12.7.0",

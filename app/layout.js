@@ -28,7 +28,6 @@ export default function RootLayout({ children }) {
             <Loader />
           ) : (
             <div className="start-layout">
-          
               <HeaderComponent />
               <main>{children}</main>
 

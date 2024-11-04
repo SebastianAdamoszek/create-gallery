@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   PhotoContainer,
@@ -19,10 +19,23 @@ import {
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { storage, db, auth } from "@/firebase/firebase";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+
 
 export const Photo = ({ url }) => {
+
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      delay: 200,
+    });
+  }, []);
+
   return (
-    <PhotoContainer>
+    <PhotoContainer data-aos="fade-up">
       <Image
         src={url}
         alt="Przesłane zdjęcie"
