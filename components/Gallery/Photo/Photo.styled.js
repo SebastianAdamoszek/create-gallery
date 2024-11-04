@@ -53,6 +53,8 @@ export const PhotoDelWrapper = styled.div`
 `;
 
 export const RemoveIcon = styled.div`
+  /* display: ${({isMarked}) => (isMarked ? "block" : "none")}; */
+  display: block;
   position: absolute;
   top: 40px;
   right: 40px;
@@ -60,6 +62,7 @@ export const RemoveIcon = styled.div`
   cursor: pointer;
   transition: all 0.3s ease;
   transform: ${({isMarked}) => (isMarked ? "scale(1)" : "scale(0)")};
+  opacity: ${({onClick}) => (onClick ? "1" : "0")};
   font-size: 24px;
   z-index: 1;
 `;

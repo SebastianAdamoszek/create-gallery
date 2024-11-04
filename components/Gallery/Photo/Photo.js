@@ -66,7 +66,6 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
       }
 
       const userId = user.uid;
-
       // Uzyskanie nazwy pliku
       const fileName = url.split('/').pop().split('?')[0];
       const decodedFileName = decodeURIComponent(fileName); // Dekodujemy nazwę pliku
@@ -89,6 +88,9 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
         await deleteObject(storageRef);
         console.log("Zdjęcie usunięte ze Storage");
       }
+
+      // Zresetowanie stanu zaznaczenia do usunięcia
+      setIsMarkedForDeletion(false);
 
       // Odświeżenie galerii po usunięciu
       refreshGallery();
