@@ -26,7 +26,6 @@ import "aos/dist/aos.css";
 
 export const Photo = ({ url }) => {
 
-
   useEffect(() => {
     AOS.init({
       duration: 1000,

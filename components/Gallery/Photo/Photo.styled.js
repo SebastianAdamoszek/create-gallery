@@ -59,9 +59,7 @@ export const RemoveIcon = styled.div`
   color: red;
   cursor: pointer;
   transition: all 0.3s ease;
-  
-  display: ${({ isMarked }) => (isMarked ? "block" : "none")};
-  /* opacity: ${({ isMarked }) => (isMarked ? "1" : "0")}; */
+  transform: ${({isMarked}) => (isMarked ? "scale(1)" : "scale(0)")};
   font-size: 24px;
   z-index: 1;
 `;
