@@ -21,10 +21,17 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { storage, db, auth } from "@/firebase/firebase";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Loader } from "@/components/Loader/Loader";
 
 
+export const Photo = ({ url, ...props }) => {
 
-export const Photo = ({ url }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setLoaded(true);
+  };
+
 
   useEffect(() => {
     AOS.init({
@@ -35,11 +42,14 @@ export const Photo = ({ url }) => {
 
   return (
     <PhotoContainer data-aos="fade-up">
+        {!loaded && <Loader>loader</Loader> }
       <Image
         src={url}
         alt="Przesłane zdjęcie"
+        onLoad={handleImageLoad}
         layout="fill"
         objectFit="contain"
+        {...props}
       />
     </PhotoContainer>
   );

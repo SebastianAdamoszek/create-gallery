@@ -4,8 +4,8 @@ import { Icon } from "./LogOut.styled";
 import { AuthForm } from "@/components/AuthForm/AuthForm";
 
 export const LogOut = () => {
-  const [isAuthFormVisible, setIsAuthFormVisible] = useState(false);
-  const [zoomOut, setZoomOut] = useState(false); // Dodajemy stan zoomOut
+  const [isAuthFormVisible, setIsAuthFormVisible] = useState(true);
+  const [zoomOut, setZoomOut] = useState(false);
 
   // Funkcja pokazująca formularz i ustawiająca zoomOut na false
   const showAuthForm = () => {

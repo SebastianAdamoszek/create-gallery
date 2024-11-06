@@ -71,7 +71,7 @@ export const Gallery = () => {
                   <PhotoForDel
                     key={index}
                     url={photo.url}
-                    refreshGallery={() => {}} // Nie jest potrzebne w `onSnapshot`
+                    refreshGallery={() => {}}
                   />
                 ) : (
                   <Photo key={index} url={photo.url} />
