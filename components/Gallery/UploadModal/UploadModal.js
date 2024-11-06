@@ -7,61 +7,92 @@ import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
 
-
+import Resizer from "react-image-file-resizer";
 
 export const UploadModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false); // Stan dla procesu ładowania
   const [user] = useAuthState(auth);
 
+  // Funkcja zmiany pliku
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  // Funkcja do optymalizacji obrazu przed wysłaniem
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        800, // szerokość docelowa w pikselach
+        800, // wysokość docelowa w pikselach
+        "JPEG", // format pliku
+        70, // jakość obrazu w procentach (0-100)
+        0, // rotacja w stopniach
+        (uri) => {
+          resolve(uri);
+        },
+        "blob" // typ wyjścia - blob jest wymagany przez Firebase Storage
+      );
+    });
+
+  // Funkcja do wysyłania obrazu
   const handleUpload = async () => {
     if (!file) return;
 
-    try {
-      // Uzyskanie userId zalogowanego użytkownika
-      const auth = getAuth();
-      const user = auth.currentUser;
+    setLoading(true); // Ustawiamy loading na true, aby pokazać status
 
+    try {
+      // Jeśli użytkownik nie jest zalogowany, nie pozwalamy na wysyłanie
       if (!user) {
         console.error("Użytkownik nie jest zalogowany");
+        setLoading(false);
         return;
       }
 
       const userId = user.uid;
 
+      // Przeskalowanie obrazu przed wysłaniem
+      const resizedImage = await resizeFile(file);
+
       // Tworzenie referencji do pliku w Storage
       const storageRef = ref(storage, `photos/${userId}/${file.name}`);
 
-      // Przesyłanie pliku do Storage
-      await uploadBytes(storageRef, file);
+      // Przesyłanie obrazu do Firebase Storage
+      await uploadBytes(storageRef, resizedImage);
 
       // Pobieranie URL-a pliku
       const url = await getDownloadURL(storageRef);
 
-      // Dodanie wpisu do kolekcji użytkownika w Firestore
+      // Dodanie URL-a do Firestore
       await addDoc(collection(db, `galleries/${userId}/photos`), {
         url,
         timestamp: serverTimestamp(),
       });
 
-      onClose(); // zamknij modal po przesłaniu
+      // Zamknięcie modala po wysłaniu
+      onClose();
     } catch (error) {
       console.error("Błąd podczas przesyłania pliku:", error);
+    } finally {
+      setLoading(false); // Po zakończeniu procesu ustawiamy loading na false
     }
   };
 
   return (
     <Modal>
-      <Info isLoggedIn={!!user}>
-        <h2>Aby dodać zdjęcie musisz być zalogowany</h2>
-      </Info>
+      {!user && (
+        <Info isLoggedIn={false}>
+          <h2>Aby dodać zdjęcie musisz być zalogowany</h2>
+        </Info>
+      )}
       <h2>Dodaj nowe zdjęcie</h2>
       <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Prześlij</button>
+      <button onClick={handleUpload} disabled={!user || loading}>
+        {loading ? "Wysyłanie..." : "Prześlij"}
+      </button>
       <button onClick={onClose}>Anuluj</button>
+      {loading && <p>Trwa przesyłanie obrazu...</p>}
     </Modal>
   );
 };

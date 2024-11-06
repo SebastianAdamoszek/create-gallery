@@ -42,7 +42,7 @@ export const Photo = ({ url, ...props }) => {
 
   return (
     <PhotoContainer data-aos="fade-up">
-        {!loaded && <Loader>loader</Loader> }
+        {!loaded && <Loader>Pobieranie</Loader> }
       <Image
         src={url}
         alt="Przesłane zdjęcie"
