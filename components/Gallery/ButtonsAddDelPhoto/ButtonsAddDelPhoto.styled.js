@@ -20,7 +20,7 @@ export const ButtonsContainer = styled.div`
 
 export const ButtonAdd = styled.button`
   padding: 10px 25px;
-  width: 100px;
+  width: 110px;
   border-radius: 10px;
   border: none;
   font-weight: bold;
@@ -40,7 +40,7 @@ export const ButtonAdd = styled.button`
 
 export const ButtonDel = styled.button`
   padding: 10px 25px;
-  width: 100px;
+  width: 110px;
   border-radius: 10px;
   border: none;
   font-weight: bold;

@@ -13,9 +13,10 @@
   padding: 20px 0;
   margin-left: 20px;
 }
-.main__next ul {
+.main__next ul li {
   padding: 5px 0;
   margin-left: 25px;
+  list-style:disc ;
 }
 .main__next p {
   padding: 5px 0;
