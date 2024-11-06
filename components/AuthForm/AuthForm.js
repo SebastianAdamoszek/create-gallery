@@ -13,7 +13,7 @@ import {
   RegButton,
 } from "./AuthForm.styled";
 
-export const AuthForm = () => {
+export const AuthForm = ({ zoomOut, toggleZoomOut }) => {
   const {
     user,
     email,
@@ -21,23 +21,19 @@ export const AuthForm = () => {
     error,
     emailError,
     isLogin,
-    zoomOut,
     handleEmailChange,
-    handlePasswordChange, // Obsługa zmiany hasła
+    handlePasswordChange,
     handleSubmit,
     handleGoogleLogin,
-    // toggleAuthMode,
-    toggleMinimize,
     showLoginMode,
     showRegisterMode,
-  } = useAuthForm(); // Używamy hooka
+  } = useAuthForm();
 
   return (
     <>
       {!zoomOut && (
         <AuthFormContainer style={{ display: user ? "none" : "flex" }}>
-          <HideFormButton onClick={toggleMinimize}>⬇️</HideFormButton>
-
+          <HideFormButton onClick={toggleZoomOut}>⬇️</HideFormButton>
           <LogRegContainer>
             <LogButton onClick={showLoginMode} disabled={isLogin}>
               Login
@@ -46,7 +42,6 @@ export const AuthForm = () => {
               Registration
             </RegButton>
           </LogRegContainer>
-
           <h2>{isLogin ? "Log in" : "Register"}</h2>
           <LogInGoogle>
             <Image
@@ -70,7 +65,8 @@ export const AuthForm = () => {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={handlePasswordChange} // Obsługa zmiany hasła required
+              onChange={handlePasswordChange}
+              required
             />
             {error && <ValidateError>{error}</ValidateError>}
             <button type="submit">{isLogin ? "Log In" : "Register"}</button>
@@ -79,7 +75,7 @@ export const AuthForm = () => {
       )}
       {zoomOut && (
         <MinimizedFormButton
-          onClick={toggleMinimize}
+          onClick={toggleZoomOut}
           title="Formularz rejestracji i logowania"
         >
           📝
@@ -88,3 +84,4 @@ export const AuthForm = () => {
     </>
   );
 };
+

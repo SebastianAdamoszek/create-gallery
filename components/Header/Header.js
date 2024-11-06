@@ -12,7 +12,7 @@ export const HeaderComponent = () => {
     <Header>
       <MenuComponent />
       <AuthStatus />
-      <AuthForm />
+      {/* <AuthForm /> */}
       <div>
         <HeaderIcons>
           <Link href="https://www.facebook.com/" target="_blank">
