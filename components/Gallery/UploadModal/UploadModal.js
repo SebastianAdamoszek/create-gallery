@@ -6,8 +6,9 @@ import { Modal, Info } from "./UploadModal.styled";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
-
+import { Loader } from "@/components/Loader/Loader";
 import Resizer from "react-image-file-resizer";
+import "@/app/globals.css";
 
 export const UploadModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
@@ -92,7 +93,7 @@ export const UploadModal = ({ onClose }) => {
         {loading ? "Wysyłanie..." : "Prześlij"}
       </button>
       <button onClick={onClose}>Anuluj</button>
-      {loading && <p>Trwa przesyłanie obrazu...</p>}
+      {loading && <p className="loading-text">Trwa wysyłanie obrazu...</p>}
     </Modal>
   );
 };
