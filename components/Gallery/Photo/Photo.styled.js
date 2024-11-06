@@ -10,7 +10,7 @@ export const PhotoContainer = styled.div`
   overflow: hidden;
 
   img {
-    animation: load-photo 0.5s ease-in-out;
+    animation: load-photo 0.75s ease-in-out;
     @keyframes load-photo {
       0% {
         transform: scale(0.1);

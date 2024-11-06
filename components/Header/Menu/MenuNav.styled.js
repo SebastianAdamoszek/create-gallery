@@ -21,29 +21,17 @@ export const Nav = styled.ul`
   transform: translateY(-100%) scaleY(0);
   opacity: 1;
   transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
-  li {
+  li  
+   {
     width: 20%;
+    color: auto;
   }
 
   ${({ isOpen }) =>
     isOpen &&
     `
-    font-size: 16px;
     transform: translateY(0);
-    opacity: 1;
-    animation: show-font 0.5s ease-in-out;
-     @keyframes show-font {
-        0% {
-          color: rgba(0, 0, 0, 0);
-        }
-        90% {
-          color: rgba(0, 0, 0, 0);
-        }
-        100% {
-          color: auto;
-        }
-    }   
-`}
+    `}
 
   @media (min-width: 768px) {
     position: static;

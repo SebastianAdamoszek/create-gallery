@@ -9,7 +9,6 @@ export const AuthFormContainer = styled.div`
   width: 200px;
   padding: 0px 0px 10px 0px;
   border-radius: 10px;
-  display: ${({ signOut }) => (signOut ? "none" : "flex")};
   flex-direction: column;
   align-items: center;
   justify-content: center;

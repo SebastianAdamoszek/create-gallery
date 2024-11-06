@@ -107,8 +107,12 @@ export const ChatPage = () => {
     <>
       {!isMinimized && (
         <ChatPageContainer
-          isLoggedIn={!!user}
-          style={{ top: position.top, left: position.left }}
+          style={{
+            width: !user ? "270px" : "320px",
+            height: !user ? "60px" : "415px",
+            top: position.top,
+            left: position.left,
+          }}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}

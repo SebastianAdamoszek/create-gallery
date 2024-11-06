@@ -2,8 +2,6 @@ import styled from "styled-components";
 
 export const ChatPageContainer = styled.div`
   position: fixed;
-  width: ${({ isLoggedIn }) => (isLoggedIn ? "320px" : "270px")};
-  height: ${({ isLoggedIn }) => (isLoggedIn ? "415px" : "60px")};
   background-color: gray;
   border: 3px solid darkgray;
   border-radius: 8px;
@@ -30,8 +28,8 @@ export const Title = styled.div`
     transition: 0.2s ease-in-out;
   }
   button:hover {
-  background-color: rgb(65, 65, 65);
-}
+    background-color: rgb(65, 65, 65);
+  }
 `;
 
 export const HideChatButton = styled.button`

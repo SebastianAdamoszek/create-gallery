@@ -10,7 +10,7 @@ import {
   ValidateError,
   LogRegContainer,
   LogButton,
-  RegButton
+  RegButton,
 } from "./AuthForm.styled";
 
 export const AuthForm = () => {
@@ -35,7 +35,7 @@ export const AuthForm = () => {
   return (
     <>
       {!zoomOut && (
-        <AuthFormContainer signOut={!!user}>
+        <AuthFormContainer style={{ display: user ? "none" : "flex" }}>
           <HideFormButton onClick={toggleMinimize}>⬇️</HideFormButton>
 
           <LogRegContainer>
@@ -70,7 +70,7 @@ export const AuthForm = () => {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={handlePasswordChange} // Obsługa zmiany hasła              required
+              onChange={handlePasswordChange} // Obsługa zmiany hasła required
             />
             {error && <ValidateError>{error}</ValidateError>}
             <button type="submit">{isLogin ? "Log In" : "Register"}</button>
