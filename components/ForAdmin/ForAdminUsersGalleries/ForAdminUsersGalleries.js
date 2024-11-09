@@ -8,10 +8,10 @@ import {
   DropdownMenu,
   User,
   LoaderText
-} from "./MenuUsersGallery.styled";
+} from "./ForAdminUsersGalleries.styled";
 import Link from "next/link";
 
-export const UserGalleryDropdown = () => {
+export const ForAdminUsersGalleries = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -63,6 +63,10 @@ export const UserGalleryDropdown = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
+  const toggleDeleteMode = () => {
+    setIsDeleteMode(!isDeleteMode);
+  };
+
   return (
     <DropdownContainer ref={dropdownRef}>
       <DropdownButton
@@ -72,7 +76,7 @@ export const UserGalleryDropdown = () => {
         aria-haspopup="true"
       >
         <p>
-          Users Galleries <span>^</span>
+          For Admin <span>^</span>
         </p>
       </DropdownButton>
       <DropdownMenu isOpen={isOpen}>
@@ -84,8 +88,8 @@ export const UserGalleryDropdown = () => {
           users.map((user) => (
             <li key={user.id}>
               <Link
-                href={`/user-gallery/[userId]`}
-                as={`/user-gallery/${user.id}`}
+                href={`/ForAdmin/UsersGalleries/[userId]`}
+                as={`/ForAdmin/UsersGalleries/${user.id}`}
                 onClick={() => setIsOpen(false)}
               >
                 <User>{user.email}</User>

@@ -3,10 +3,8 @@ import { storage, db } from "@/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { Modal, Info } from "./UploadModal.styled";
-import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
-import { Loader } from "@/components/Loader/Loader";
 import Resizer from "react-image-file-resizer";
 import "@/app/globals.css";
 

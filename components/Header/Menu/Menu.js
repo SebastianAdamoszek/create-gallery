@@ -5,6 +5,7 @@ import { Menu, Nav } from "./MenuNav.styled.js";
 import Link from "next/link";
 import { getAuth } from "firebase/auth";
 import { UserGalleryDropdown } from "./MenuUsersGallery/MenuUsersGallery.js";
+import {ForAdminUsersGalleries} from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.js"
 
 export const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,6 +66,9 @@ export const MenuComponent = () => {
         </li>
         <li>
           {/* users galleries */} <UserGalleryDropdown />
+        </li>
+        <li>
+          <ForAdminUsersGalleries/>
         </li>
       </Nav>
     </Menu>

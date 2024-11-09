@@ -35,6 +35,8 @@ export const registerUser = async (email, password) => {
     const db = getFirestore();
     await setDoc(doc(db, "users", user.uid), {
       email: user.email, // Dodaj e-mail
+      role: "user", // Domyślna rola to 'user'
+      createdAt: new Date(),
       // Możesz dodać inne dane użytkownika, jeśli chcesz
     });
 
@@ -57,13 +59,29 @@ export const loginWithGoogle = async () => {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
 
-    // Dodaj e-mail użytkownika do Firestore
-    await setDoc(doc(db, "users", user.uid), {
-      email: user.email, // Dodaj e-mail
-      displayName: user.displayName || "", // Opcjonalnie, dodaj nazwę wyświetlaną
-      photoURL: user.photoURL || "", // Opcjonalnie, dodaj URL zdjęcia
-      // Możesz dodać inne dane użytkownika, jeśli chcesz
-    });
+    // Sprawdzanie, czy użytkownik już istnieje w Firestore
+    const userDocRef = doc(db, "users", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (!userDocSnap.exists()) {
+      // Jeśli użytkownik nie istnieje, utwórz dokument i ustaw rolę na "user"
+      await setDoc(userDocRef, {
+        email: user.email,
+        displayName: user.displayName || "",
+        photoURL: user.photoURL || "",
+        role: "user", // Domyślna rola to "user"
+        createdAt: new Date(),
+      });
+    } else {
+      // Jeśli dokument istnieje, sprawdź czy rola jest już ustawiona na "admin"
+      const userData = userDocSnap.data();
+      if (!userData.role) {
+        // Jeśli rola nie została ustawiona, ustaw ją na "user"
+        await setDoc(userDocRef, {
+          role: "user",
+        }, { merge: true });
+      }
+    }
 
     return { success: true, user }; // Zwraca zalogowanego użytkownika
   } catch (error) {

@@ -74,11 +74,6 @@ export const useAuthForm = () => {
       setError(response.message);
     }
   };
-
-  // Przełączanie między logowaniem a rejestracją
-  // const toggleAuthMode = () => {
-  //   setIsLogin(!isLogin);
-  // };
   
   const showLoginMode = () => {
     setIsLogin(true); // Ustaw tryb logowania
