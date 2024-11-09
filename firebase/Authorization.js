@@ -1,6 +1,6 @@
 // components/Authorization/Authorization.js
 import { auth, googleProvider, db  } from "./firebase";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { collection, getDoc, getDocs, doc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,

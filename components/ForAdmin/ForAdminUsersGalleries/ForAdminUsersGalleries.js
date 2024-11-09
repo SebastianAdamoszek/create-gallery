@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { db } from "@/firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDoc, getDocs, doc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   DropdownContainer,
   DropdownButton,
   DropdownMenu,
   User,
-  LoaderText
+  LoaderText,
 } from "./ForAdminUsersGalleries.styled";
 import Link from "next/link";
 
@@ -15,7 +16,29 @@ export const ForAdminUsersGalleries = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists() && userDoc.data().role === "admin") {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      } else {
+        // Użytkownik wylogowany
+        setIsAdmin(false);
+      }
+      setIsCheckingAuth(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const toggleMenu = async () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -47,7 +70,6 @@ export const ForAdminUsersGalleries = () => {
     setUsers(usersWithGalleries);
   };
 
-  // Funkcja zamykająca menu przy kliknięciu poza nim
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -63,12 +85,16 @@ export const ForAdminUsersGalleries = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const toggleDeleteMode = () => {
-    setIsDeleteMode(!isDeleteMode);
-  };
+  if (isCheckingAuth) {
+    return <p>Sprawdzanie uprawnień...</p>;
+  }
+
+  // if (!isAdmin) {
+  //   return <p>Nie masz uprawnień do wyświetlenia tego komponentu.</p>;
+  // }
 
   return (
-    <DropdownContainer ref={dropdownRef}>
+    <DropdownContainer ref={dropdownRef} isAdmin={isAdmin}>
       <DropdownButton
         onClick={toggleMenu}
         isOpen={isOpen}

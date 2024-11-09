@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const DropdownContainer = styled.div`
   position: relative;
-  display: inline-block;
+  display: ${({ isAdmin }) => (isAdmin ? "inline" : "none")};
 `;
 
 export const DropdownButton = styled.button`
