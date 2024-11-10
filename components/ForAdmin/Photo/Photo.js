@@ -4,6 +4,7 @@ import Image from "next/image";
 import {
   PhotoContainer,
   Description,
+  DescriptionText,
   ButtonSaveDesc,
   PhotoDelWrapper,
   ImageWrapper,
@@ -18,8 +19,11 @@ import {
   query,
   where,
   doc,
+  getDoc,
   getDocs,
   deleteDoc,
+  updateDoc,
+  arrayUnion
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { storage, db, auth } from "@/firebase/firebase";
@@ -27,14 +31,11 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Loader } from "@/components/Loader/Loader";
 
-export const Photo = ({ url, userId, ...props }) => {
+export const Photo = ({ url, userId, docId, ...props }) => {
   const [loaded, setLoaded] = useState(false);
-  const [description, setDescription] = useState("");
+  const [descriptions, setDescriptions] = useState([]);
+  const [newDescription, setNewDescription] = useState("");
   const [saving, setSaving] = useState(false);
-
-  const handleImageLoad = () => {
-    setLoaded(true);
-  };
 
   useEffect(() => {
     AOS.init({
@@ -43,22 +44,53 @@ export const Photo = ({ url, userId, ...props }) => {
     });
   }, []);
 
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
+  const handleNewDescriptionChange = (e) => {
+    setNewDescription(e.target.value);
   };
 
   const saveDescription = async () => {
+    if (!newDescription.trim()) return; // Zapobiegaj dodawaniu pustych opisów
     setSaving(true);
     try {
-      const photosRef = doc(db, `galleries/${userId}/photos`, url);
-      await updateDoc(photosRef, {
-        description: description,
+      if (!docId) {
+        throw new Error("Nie znaleziono ID dokumentu");
+      }
+
+      const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
+      await updateDoc(photoDocRef, {
+        descriptions: arrayUnion(newDescription), // Dodaj nowy opis do istniejącej listy
       });
-      console.log("Opis zapisany!");
+      console.log("Nowy opis zapisany!");
+
+      // Aktualizuj stan lokalny po zapisie
+      setDescriptions((prev) => [...prev, newDescription]);
+      setNewDescription(""); // Wyczyść pole `textarea` po zapisaniu
     } catch (error) {
       console.error("Błąd podczas zapisywania opisu:", error);
     }
     setSaving(false);
+  };
+
+  useEffect(() => {
+    // Pobierz listę opisów z Firestore po załadowaniu komponentu
+    const fetchDescriptions = async () => {
+      try {
+        const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
+        const docSnap = await getDoc(photoDocRef);
+        if (docSnap.exists()) {
+          const fetchedDescriptions = docSnap.data().descriptions || [];
+          setDescriptions(fetchedDescriptions);
+        }
+      } catch (error) {
+        console.error("Błąd podczas pobierania opisów:", error);
+      }
+    };
+
+    fetchDescriptions();
+  }, [userId, docId]);
+
+  const handleImageLoad = () => {
+    setLoaded(true);
   };
 
   return (
@@ -74,11 +106,15 @@ export const Photo = ({ url, userId, ...props }) => {
           {...props}
         />
       </ImageWrapper>
-
+      {descriptions.map((desc, index) => (
+        <DescriptionText as="h4" key={index}>
+          {desc}
+        </DescriptionText>
+      ))}
       <Description
-        value={description}
-        onChange={handleDescriptionChange}
-        placeholder="Wpisz opis zdjęcia"
+        value={newDescription}
+        onChange={handleNewDescriptionChange}
+        placeholder="Dodaj komentarz"
       />
       <ButtonSaveDesc onClick={saveDescription} disabled={saving}>
         {saving ? "Zapisuję..." : "Zapisz opis"}
@@ -101,33 +137,31 @@ export const PhotoForDel = ({ url, refreshGallery = () => {}, userId }) => {
     }
 
     try {
-      // Użycie przekazanego userId do ścieżki galerii
+      // Wyodrębnienie nazwy pliku (identyfikator)
       const fileName = url.split("/").pop().split("?")[0];
       const decodedFileName = decodeURIComponent(fileName); // Dekodowanie nazwy pliku
-      console.log("Nazwa pliku do usunięcia:", fileName);
-      console.log("Dekodowana nazwa pliku do usunięcia:", decodedFileName);
 
-      // Usunięcie dokumentu z Firestore na podstawie URL-a
+      // Usunięcie dokumentu z Firestore
       const photosRef = collection(db, `galleries/${userId}/photos`);
       const q = query(photosRef, where("url", "==", url));
       const querySnapshot = await getDocs(q);
 
-      // Usuwanie każdego dokumentu znalezionego w zapytaniu
+      // Usuwanie dokumentów
       for (const doc of querySnapshot.docs) {
         await deleteDoc(doc.ref); // Usunięcie dokumentu z Firestore
         console.log("Zdjęcie usunięte z Firestore");
 
-        // Następnie usuwamy plik ze Storage
+        // Usuwanie zdjęcia ze Storage
         const storageRef = ref(storage, decodedFileName);
-        console.log("Usuwana ścieżka:", storageRef.fullPath); // Logowanie ścieżki
+        console.log("Usuwana ścieżka:", storageRef.fullPath);
         await deleteObject(storageRef);
         console.log("Zdjęcie usunięte ze Storage");
       }
 
-      // Zresetowanie stanu zaznaczenia do usunięcia
+      // Resetowanie stanu zaznaczenia
       setIsMarkedForDeletion(false);
 
-      // Wywołanie funkcji odświeżania galerii po usunięciu
+      // Odświeżenie galerii po usunięciu
       if (typeof refreshGallery === "function") {
         refreshGallery();
       } else {
@@ -165,31 +199,3 @@ export const PhotoForDel = ({ url, refreshGallery = () => {}, userId }) => {
     </PhotoDelWrapper>
   );
 };
-
-//import Imgix from "react-imgix";
-
-// export const Photo = ({ url }) => {
-//   return (
-//     <Image
-//       width={100}
-//       height={100}
-//       src={url}
-//       imgixParams={{
-//         fit: "crop",
-//         ar: "1:1",
-//         auto: "format,compress",
-//         q: 75,
-//         sepia: 15,
-//         blur: 5,
-//         sat: 20,
-//       }}
-//       sizes="(max-width: 800px) 100vw, 800px"
-//       alt="Opis zdjęcia"
-//       style={{
-//         borderRadius: "12px",
-//         boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-//         margin: "10px",
-//       }}
-//     />
-//   );
-// };

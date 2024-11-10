@@ -7,7 +7,7 @@ import {
   collection,
   doc,
   getDoc,
-  addDoc,
+  getDocs,
   query,
   orderBy,
   onSnapshot,
@@ -34,16 +34,27 @@ const UserGalleryAdminPage = ({ params }) => {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [showModal, setShowModal] = useState(false); // Stan do kontrolowania pokazywania modalu
 
-  useEffect(() => {
-    const q = query(
-      collection(db, `galleries/${userId}/photos`),
-      orderBy("timestamp", "desc")
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setPhotos(snapshot.docs.map((doc) => doc.data()));
+  // Funkcja do pobierania zdjęć z Firestore
+  const fetchPhotos = async (userId) => {
+    const querySnapshot = await getDocs(collection(db, `galleries/${userId}/photos`));
+    const photos = [];
+    querySnapshot.forEach((doc) => {
+      photos.push({ id: doc.id, ...doc.data() }); // Przechowuj doc.id jako ID dokumentu
     });
+    return photos;
+  };
 
-    return () => unsubscribe();
+  useEffect(() => {
+    const loadPhotos = async () => {
+      try {
+        const fetchedPhotos = await fetchPhotos(userId);
+        setPhotos(fetchedPhotos);
+      } catch (error) {
+        console.error("Błąd podczas pobierania zdjęć:", error);
+      }
+    };
+
+    loadPhotos();
   }, [userId]);
 
   const toggleDeleteMode = () => {
@@ -74,6 +85,8 @@ const UserGalleryAdminPage = ({ params }) => {
     try {
       await deleteDoc(doc(db, `galleries/${userId}/photos`, photoId));
       console.log("Zdjęcie zostało usunięte.");
+      // Aktualizuj stan po usunięciu zdjęcia
+      setPhotos(photos.filter((photo) => photo.id !== photoId));
     } catch (error) {
       console.error("Błąd podczas usuwania zdjęcia:", error);
     }
@@ -92,26 +105,25 @@ const UserGalleryAdminPage = ({ params }) => {
           <ButtonAddPhoto onAddPhoto={handleAddPhoto} userId={userId} />
         </ButtonsContainer>
 
-        <>
-          <GalleryContainer>
-            {photos.map((photo, index) =>
-              isDeleteMode ? (
-                <PhotoForDel
-                  key={index}
-                  url={photo.url}
-                  photoId={photo.id}
-                  onDeletePhoto={handleDeletePhoto}
-                  userId={userId}
-                />
-              ) : (
-                <Photo key={index} url={photo.url} />
-              )
-            )}
-          </GalleryContainer>
-        </>
+        <GalleryContainer>
+          {photos.map((photo) =>
+            isDeleteMode ? (
+              <PhotoForDel
+                key={photo.id}
+                url={photo.url}
+                photoId={photo.id}
+                onDeletePhoto={handleDeletePhoto}
+                userId={userId}
+              />
+            ) : (
+              <Photo key={photo.id} url={photo.url} userId={userId} docId={photo.id} />
+            )
+          )}
+        </GalleryContainer>
       </GalleryPageContainer>
     </div>
   );
 };
 
 export default UserGalleryAdminPage;
+

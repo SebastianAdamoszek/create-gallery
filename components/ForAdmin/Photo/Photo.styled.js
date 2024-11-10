@@ -45,6 +45,16 @@ export const ButtonSaveDesc = styled.button`
   border-radius: 5px;
 `;
 
+export const DescriptionText = styled.h4`
+margin-top: 10px;
+font-size: 18px;
+color: green;
+text-align: left;
+text-shadow: none;
+position: relative;
+`;
+
+
 export const PhotoDelWrapper = styled.div`
   position: relative;
   display: inline-block;
