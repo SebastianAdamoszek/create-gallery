@@ -3,13 +3,23 @@ import styled from "styled-components";
 export const PhotoContainer = styled.div`
   position: relative;
   width: 300px; /* Stała szerokość */
-  height: 200px; /* Stała wysokość */
   border-radius: 8px;
   border: 3px solid rgba(0, 0, 0, 0);
   background-color: rgba(0, 0, 0, 0.6);
   overflow: hidden;
 
+
+
+  @media (min-width: 768px) {
+    width: 450px;
+    height: 300px;
+    border: 6px solid rgba(0, 0, 0, 0);
+  }
+`;
+
+export const ImageWrapper = styled.div`
   img {
+    z-index: 0;
     animation: load-photo 0.75s ease-in-out;
     @keyframes load-photo {
       0% {
@@ -18,13 +28,23 @@ export const PhotoContainer = styled.div`
       }
     }
   }
-
-  @media (min-width: 768px) {
-    width: 450px;
-    height: 300px;
-    border: 6px solid rgba(0, 0, 0, 0);
-  }
 `;
+
+export const Description = styled.textarea`
+  z-index: 1;
+  font-size: 16px;
+  position: relative;
+  top: 200px;
+`;
+export const ButtonSaveDesc = styled.button`
+  z-index: 1;
+  position: relative;
+  width: 200px;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+`;
+
 export const PhotoDelWrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -53,7 +73,7 @@ export const PhotoDelWrapper = styled.div`
 `;
 
 export const RemoveIcon = styled.div`
-  /* display: ${({isMarked}) => (isMarked ? "block" : "none")}; */
+  /* display: ${({ isMarked }) => (isMarked ? "block" : "none")}; */
   display: block;
   position: absolute;
   top: 40px;
@@ -61,8 +81,8 @@ export const RemoveIcon = styled.div`
   color: red;
   cursor: pointer;
   transition: all 0.3s ease;
-  transform: ${({isMarked}) => (isMarked ? "scale(1)" : "scale(0)")};
-  opacity: ${({onClick}) => (onClick ? "1" : "0")};
+  transform: ${({ isMarked }) => (isMarked ? "scale(1)" : "scale(0)")};
+  opacity: ${({ onClick }) => (onClick ? "1" : "0")};
   font-size: 24px;
   z-index: 1;
 `;

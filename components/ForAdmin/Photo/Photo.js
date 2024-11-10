@@ -3,7 +3,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   PhotoContainer,
+  Description,
+  ButtonSaveDesc,
   PhotoDelWrapper,
+  ImageWrapper,
   RemoveIcon,
   CheckBox,
   CheckIcon,
@@ -14,6 +17,7 @@ import {
   collection,
   query,
   where,
+  doc,
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
@@ -23,15 +27,14 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Loader } from "@/components/Loader/Loader";
 
-
-export const Photo = ({ url, ...props }) => {
-
+export const Photo = ({ url, userId, ...props }) => {
   const [loaded, setLoaded] = useState(false);
+  const [description, setDescription] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const handleImageLoad = () => {
     setLoaded(true);
   };
-
 
   useEffect(() => {
     AOS.init({
@@ -40,24 +43,52 @@ export const Photo = ({ url, ...props }) => {
     });
   }, []);
 
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const saveDescription = async () => {
+    setSaving(true);
+    try {
+      const photosRef = doc(db, `galleries/${userId}/photos`, url);
+      await updateDoc(photosRef, {
+        description: description,
+      });
+      console.log("Opis zapisany!");
+    } catch (error) {
+      console.error("Błąd podczas zapisywania opisu:", error);
+    }
+    setSaving(false);
+  };
+
   return (
     <PhotoContainer data-aos="fade-up">
-        {!loaded && <Loader>Pobieranie</Loader> }
-      <Image
-        src={url}
-        alt="Przesłane zdjęcie"
-        onLoad={handleImageLoad}
-        layout="fill"
-        objectFit="contain"
-        {...props}
+      {!loaded && <Loader>Pobieranie</Loader>}
+      <ImageWrapper>
+        <Image
+          src={url}
+          alt="Przesłane zdjęcie"
+          onLoad={handleImageLoad}
+          layout="fill"
+          objectFit="contain"
+          {...props}
+        />
+      </ImageWrapper>
+
+      <Description
+        value={description}
+        onChange={handleDescriptionChange}
+        placeholder="Wpisz opis zdjęcia"
       />
+      <ButtonSaveDesc onClick={saveDescription} disabled={saving}>
+        {saving ? "Zapisuję..." : "Zapisz opis"}
+      </ButtonSaveDesc>
     </PhotoContainer>
   );
 };
 
-export const PhotoForDel = ({ url, refreshGallery, userId }) => {
+export const PhotoForDel = ({ url, refreshGallery = () => {}, userId }) => {
   const [isMarkedForDeletion, setIsMarkedForDeletion] = useState(false);
-  const [user] = useAuthState(auth);
 
   const handleDeleteClick = () => {
     setIsMarkedForDeletion(!isMarkedForDeletion);
@@ -70,11 +101,9 @@ export const PhotoForDel = ({ url, refreshGallery, userId }) => {
     }
 
     try {
-     
-      const userIdToDelete = userId;
-      // Uzyskanie nazwy pliku
-      const fileName = url.split('/').pop().split('?')[0];
-      const decodedFileName = decodeURIComponent(fileName); // Dekodujemy nazwę pliku
+      // Użycie przekazanego userId do ścieżki galerii
+      const fileName = url.split("/").pop().split("?")[0];
+      const decodedFileName = decodeURIComponent(fileName); // Dekodowanie nazwy pliku
       console.log("Nazwa pliku do usunięcia:", fileName);
       console.log("Dekodowana nazwa pliku do usunięcia:", decodedFileName);
 
@@ -89,7 +118,7 @@ export const PhotoForDel = ({ url, refreshGallery, userId }) => {
         console.log("Zdjęcie usunięte z Firestore");
 
         // Następnie usuwamy plik ze Storage
-        const storageRef = ref(storage, `${decodedFileName}`);
+        const storageRef = ref(storage, decodedFileName);
         console.log("Usuwana ścieżka:", storageRef.fullPath); // Logowanie ścieżki
         await deleteObject(storageRef);
         console.log("Zdjęcie usunięte ze Storage");
@@ -98,8 +127,12 @@ export const PhotoForDel = ({ url, refreshGallery, userId }) => {
       // Zresetowanie stanu zaznaczenia do usunięcia
       setIsMarkedForDeletion(false);
 
-      // Odświeżenie galerii po usunięciu
-      refreshGallery();
+      // Wywołanie funkcji odświeżania galerii po usunięciu
+      if (typeof refreshGallery === "function") {
+        refreshGallery();
+      } else {
+        console.warn("refreshGallery nie jest funkcją");
+      }
     } catch (error) {
       console.error("Błąd podczas usuwania zdjęcia:", error);
     }
@@ -132,7 +165,6 @@ export const PhotoForDel = ({ url, refreshGallery, userId }) => {
     </PhotoDelWrapper>
   );
 };
-
 
 //import Imgix from "react-imgix";
 
