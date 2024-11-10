@@ -15,7 +15,7 @@ export const ChatPage = () => {
   const [user, loading] = useAuthState(auth);
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [position, setPosition] = useState({ top: " ", left: "0" });
+const [position, setPosition] = useState({ top: "0px", left: "0px" });
   const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {

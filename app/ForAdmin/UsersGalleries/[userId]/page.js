@@ -1,36 +1,40 @@
+//ForAdmin/UsersGalleries/[userId]/page.js
 "use client";
+import styles from "@/app/page.module.css";
 import { useEffect, useState } from "react";
 import { db } from "@/firebase/firebase"; // Dostęp do Firestore
 import {
   collection,
   doc,
   getDoc,
+  addDoc,
   query,
   orderBy,
   onSnapshot,
+  serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
-import { Photo } from "@/components/Gallery/Photo/Photo";
+import { Photo, PhotoForDel } from "@/components/ForAdmin/Photo/Photo";
 import {
   GalleryPageContainer,
   GalleryContainer,
-} from "@/components/Gallery/Gallery.styled";
-import styles from "@/app/page.module.css";
+} from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.styled";
 import "@/app/globals.css";
-import { Gallery } from "@/components/Gallery/Gallery";
-import { ButtonsContainer } from "@/components/Gallery/ButtonsAddDelPhoto/ButtonsAddDelPhoto.styled";
+import { ButtonsContainer } from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto.styled";
 import {
   ButtonAddPhoto,
   ButtonDelPhoto,
-} from "@/components/Gallery/ButtonsAddDelPhoto/ButtonsAddDelPhoto";
+} from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto";
+import { Loader } from "@/components/Loader/Loader";
 
-const UserGalleryPage = ({ params }) => {
+const UserGalleryAdminPage = ({ params }) => {
   const { userId } = params; // Get userId from URL params
   const [photos, setPhotos] = useState([]);
   const [userEmail, setUserEmail] = useState(""); // Stan do przechowywania e-maila użytkownika
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [showModal, setShowModal] = useState(false); // Stan do kontrolowania pokazywania modalu
 
   useEffect(() => {
-    // Query to fetch photos for the specific userId
     const q = query(
       collection(db, `galleries/${userId}/photos`),
       orderBy("timestamp", "desc")
@@ -39,8 +43,16 @@ const UserGalleryPage = ({ params }) => {
       setPhotos(snapshot.docs.map((doc) => doc.data()));
     });
 
-    return () => unsubscribe(); // Clean up subscription on unmount
+    return () => unsubscribe();
   }, [userId]);
+
+  const toggleDeleteMode = () => {
+    setIsDeleteMode(!isDeleteMode);
+  };
+
+  const handleAddPhoto = () => {
+    setShowModal(true); // Pokazujemy modal
+  };
 
   useEffect(() => {
     // Funkcja do pobrania e-maila użytkownika na podstawie userId
@@ -58,28 +70,48 @@ const UserGalleryPage = ({ params }) => {
     fetchUserEmail(); // Wywołanie funkcji
   }, [userId]);
 
-  const toggleDeleteMode = () => {
-    setIsDeleteMode(!isDeleteMode);
+  const handleDeletePhoto = async (photoId) => {
+    try {
+      await deleteDoc(doc(db, `galleries/${userId}/photos`, photoId));
+      console.log("Zdjęcie zostało usunięte.");
+    } catch (error) {
+      console.error("Błąd podczas usuwania zdjęcia:", error);
+    }
   };
-
 
   return (
     <div className={styles.main__next}>
       <GalleryPageContainer>
-         <h2>Galeria użytkownika:</h2>
-        <h3 className={`${!userEmail ? "loading-text" : ""}`}>
-          {userEmail || "Pobieram..."}
-        </h3>
-        <GalleryContainer>
-          {photos.length > 0 ? (
-            photos.map((photo, index) => <Photo key={index} url={photo.url} />)
-          ) : (
-            <p>Brak zdjęć do wyświetlenia.</p>
-          )}
-        </GalleryContainer>
+        <h2>Galeria użytkownika: {userEmail}</h2>
+        <ButtonsContainer>
+          <ButtonDelPhoto
+            toggleDeleteMode={toggleDeleteMode}
+            isDeleteMode={isDeleteMode}
+            userId={userId}
+          />
+          <ButtonAddPhoto onAddPhoto={handleAddPhoto} userId={userId} />
+        </ButtonsContainer>
+
+        <>
+          <GalleryContainer>
+            {photos.map((photo, index) =>
+              isDeleteMode ? (
+                <PhotoForDel
+                  key={index}
+                  url={photo.url}
+                  photoId={photo.id}
+                  onDeletePhoto={handleDeletePhoto}
+                  userId={userId}
+                />
+              ) : (
+                <Photo key={index} url={photo.url} />
+              )
+            )}
+          </GalleryContainer>
+        </>
       </GalleryPageContainer>
     </div>
   );
 };
 
-export default UserGalleryPage;
+export default UserGalleryAdminPage;
