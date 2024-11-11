@@ -24,7 +24,7 @@ export const ButtonAdd = styled.button`
   border-radius: 10px;
   border: none;
   font-weight: bold;
-  /* background: linear-gradient(135deg, #6a11cb, #2575fc); */
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease;
 
@@ -44,7 +44,7 @@ export const ButtonDel = styled.button`
   border-radius: 10px;
   border: none;
   font-weight: bold;
-  /* background: linear-gradient(-135deg, #6a11cb, #2575fc); */
+  background: linear-gradient(-135deg, #6a11cb, #2575fc);
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease;
 

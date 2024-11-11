@@ -102,8 +102,8 @@ export const PhotoDelWrapper = styled.div`
 export const RemoveIcon = styled.div`
   display: ${({ isMarked }) => (isMarked ? "block" : "none")};
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 35px;
+  right: 25px;
   color: red;
   cursor: pointer;
   font-size: 24px;
@@ -131,8 +131,8 @@ export const CheckBox = styled.input`
 
 export const CheckIcon = styled.div`
   position: absolute;
-  top: -5px;
-  left: 20px;
+  top: 5px;
+  left: 7px;
   display: ${({ isChecked }) => (isChecked ? "block" : "none")};
   color: green;
   font-size: 18px;

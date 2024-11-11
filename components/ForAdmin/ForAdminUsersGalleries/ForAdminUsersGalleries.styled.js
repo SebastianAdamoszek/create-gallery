@@ -72,7 +72,8 @@ export const GalleryPageContainer = styled.div`
   margin-top: -80px;
   display: flex;
   flex-direction: column;
-  border: 2px solid;
+  border: 5px double;
+  border-radius: 15px;
   align-items: center;
   h2 {
     text-align: center;

@@ -93,7 +93,7 @@ export const UploadModal = ({ onClose }) => {
       )}
       <h2>Dodaj nowe zdjęcie</h2>
       <input type="file" onChange={handleFileChange} />
-      <textarea
+      <textarea style={{display:"none"}}
         placeholder="Dodaj opis zdjęcia"
         value={description}
         onChange={handleDescriptionChange}

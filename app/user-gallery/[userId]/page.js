@@ -9,7 +9,7 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
-import { Photo } from "@/components/Gallery/Photo/Photo";
+import { PhotoPublic } from "@/components/Gallery/PhotoPublic/PhotoPublic";
 import {
   GalleryPageContainer,
   GalleryContainer,
@@ -60,7 +60,7 @@ const UserGalleryPage = ({ params }) => {
         </h3>
         <GalleryContainer>
           {photos.length > 0 ? (
-            photos.map((photo, index) => <Photo key={index} url={photo.url} />)
+            photos.map((photo, index) => <PhotoPublic key={index} url={photo.url} />)
           ) : (
             <p>Brak zdjęć do wyświetlenia.</p>
           )}

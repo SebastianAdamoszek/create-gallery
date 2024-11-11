@@ -1,46 +1,70 @@
+// Photo.styled.js
+
 import styled from "styled-components";
 
+// Zmieniona struktura kontenera zdjęcia i opisu
 export const PhotoContainer = styled.div`
   position: relative;
-  width: 300px; /* Stała szerokość */
+  width: 100%; 
+  max-width: 350px;
+  /* height: 350px; */
   border-radius: 8px;
-  border: 3px solid rgba(0, 0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  margin: 10px;
+  box-sizing: border-box;
 
   @media (min-width: 768px) {
-    width: 450px;
-    height: 300px;
-    border: 6px solid rgba(0, 0, 0, 0);
+    max-width: 450px;
+    height: 400px;
   }
 `;
 
 export const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+
   img {
-    z-index: 0;
-    animation: load-photo 0.75s ease-in-out;
-    @keyframes load-photo {
-      0% {
-        transform: scale(0.1);
-        transform-origin: 100% 0%;
-      }
-    }
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.5s ease;
   }
 `;
 
 export const Description = styled.textarea`
-  z-index: 1;
-  font-size: 16px;
-  position: relative;
-  top: 200px;
-`;
-export const ButtonSaveDesc = styled.button`
-  z-index: 1;
-  position: relative;
-  width: 200px;
+  width: 100%;
   padding: 5px;
+  font-size: 14px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  resize: none;
+  height: 60px;
+`;
+
+export const ButtonSaveDesc = styled.button`
+  width: 100%;
+  padding: 10px;
+  background-color: green;
+  color: white;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: darkgreen;
+  }
 `;
 
 export const DescriptionText = styled.h4`
@@ -50,48 +74,41 @@ export const DescriptionText = styled.h4`
   text-align: left;
   text-shadow: none;
   position: relative;
+  z-index: 1;
 `;
 
+// Zmienione style dla przycisków usuwania i zaznaczania
 export const PhotoDelWrapper = styled.div`
   position: relative;
   display: inline-block;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   transition: all 0.3s ease;
   transform: ${({ isMarked }) => (isMarked ? "scale(0.9)" : "")};
-
-  animation: load-del-photo 0.5s ease-in-out;
-  @keyframes load-del-photo {
-    0% {
-      transform: scale(0.1);
-      transform-origin: 50% 50%;
-    }
-    90% {
-      opacity: 0;
-    }
-  }
+  margin: 10px;
 
   img {
     border: ${({ isMarked }) =>
       isMarked ? "2px solid red" : "2px solid transparent"};
-    border-radius: ${({ isMarked }) => (isMarked ? "8px" : "12px")};
+    border-radius: 12px;
     transition: all 0.3s ease;
+  }
+
+  &:hover {
+    transform: scale(1.05);
   }
 `;
 
 export const RemoveIcon = styled.div`
-  /* display: ${({ isMarked }) => (isMarked ? "block" : "none")}; */
-  display: block;
+  display: ${({ isMarked }) => (isMarked ? "block" : "none")};
   position: absolute;
-  top: 40px;
-  right: 40px;
+  top: 35px;
+  right: 25px;
   color: red;
   cursor: pointer;
-  transition: all 0.3s ease;
-  transform: ${({ isMarked }) => (isMarked ? "scale(1)" : "scale(0)")};
-  opacity: ${({ onClick }) => (onClick ? "1" : "0")};
   font-size: 24px;
   z-index: 1;
+  transition: transform 0.3s ease;
 `;
 
 export const CheckBox = styled.input`
@@ -104,7 +121,6 @@ export const CheckBox = styled.input`
   height: 20px;
   border: 2px solid red;
   border-radius: 4px;
-  /* background-color: ${({ checked }) => (checked ? "" : "transparent")}; */
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 1;
 
@@ -112,11 +128,13 @@ export const CheckBox = styled.input`
     background-color: rgba(0, 0, 0, 0.1);
   }
 `;
+
 export const CheckIcon = styled.div`
-  position: relative;
-  bottom: 96px;
-  left: 8px;
+  position: absolute;
+  top: 5px;
+  left: 7px;
   display: ${({ isChecked }) => (isChecked ? "block" : "none")};
   color: green;
-  font-size: 14px;
+  font-size: 18px;
 `;
+
