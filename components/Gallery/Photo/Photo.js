@@ -175,9 +175,9 @@ export const Photo = ({ url, docId, userId }) => {
         {descriptions.map((desc, index) => (
           <DescriptionText as="h4" key={index}>
             {desc}
+            <div ref={descriptionsEndRef} />
           </DescriptionText>
         ))}
-        <div ref={descriptionsEndRef} />
       </DescriptionTextWrapper>
       <Description
         value={newDescription}

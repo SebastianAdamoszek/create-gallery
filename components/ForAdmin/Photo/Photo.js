@@ -84,7 +84,7 @@ export const Photo = ({ url, userId, docId, ...props }) => {
 
   const scrollToBottom = () => {
     setTimeout(() => {
-      descriptionsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      descriptionsEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 600);
   };
 
@@ -109,9 +109,9 @@ export const Photo = ({ url, userId, docId, ...props }) => {
         {descriptions.map((desc, index) => (
           <DescriptionText as="h4" key={index}>
             {desc}
+            <div ref={descriptionsEndRef} />
           </DescriptionText>
         ))}
-        <div ref={descriptionsEndRef} />
       </DescriptionTextWrapper>
 
       <Description
