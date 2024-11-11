@@ -3,6 +3,7 @@
 import styles from "@/app/page.module.css";
 import { useEffect, useState } from "react";
 import { db } from "@/firebase/firebase"; // Dostęp do Firestore
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import {
   collection,
   doc,
@@ -25,6 +26,7 @@ import {
   ButtonAddPhoto,
   ButtonDelPhoto,
 } from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto";
+import { useRouter } from "next/navigation"; // Używamy useRouter do przekierowania
 import { Loader } from "@/components/Loader/Loader";
 
 const UserGalleryAdminPage = ({ params }) => {
@@ -33,16 +35,36 @@ const UserGalleryAdminPage = ({ params }) => {
   const [userEmail, setUserEmail] = useState(""); // Stan do przechowywania e-maila użytkownika
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [showModal, setShowModal] = useState(false); // Stan do kontrolowania pokazywania modalu
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Stan do kontrolowania, czy admin jest zalogowany
+  const router = useRouter(); // Do używania przekierowań
 
   // Funkcja do pobierania zdjęć z Firestore
   const fetchPhotos = async (userId) => {
-    const querySnapshot = await getDocs(collection(db, `galleries/${userId}/photos`));
+    const querySnapshot = await getDocs(
+      collection(db, `galleries/${userId}/photos`)
+    );
     const photos = [];
     querySnapshot.forEach((doc) => {
       photos.push({ id: doc.id, ...doc.data() }); // Przechowuj doc.id jako ID dokumentu
     });
     return photos;
   };
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    // Subskrypcja zmiany stanu logowania
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true); // Użytkownik jest zalogowany
+      } else {
+        setIsLoggedIn(false); // Użytkownik nie jest zalogowany
+        router.push("/home"); // Przekierowanie na stronę logowania po wylogowaniu
+      }
+    });
+
+    return () => unsubscribeAuth(); // Anulowanie subskrypcji po odmontowaniu komponentu
+  });
 
   useEffect(() => {
     const loadPhotos = async () => {
@@ -96,7 +118,7 @@ const UserGalleryAdminPage = ({ params }) => {
     const loadPhotos = () => {
       const photosRef = collection(db, `galleries/${userId}/photos`);
       const q = query(photosRef, orderBy("timestamp", "desc"));
-  
+
       // Subskrypcja zdjęć użytkownika w czasie rzeczywistym
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const photos = snapshot.docs.map((doc) => ({
@@ -105,15 +127,13 @@ const UserGalleryAdminPage = ({ params }) => {
         }));
         setPhotos(photos); // Aktualizacja stanu po pobraniu danych
       });
-  
+
       // Zwolnienie subskrypcji przy odmontowywaniu komponentu
       return () => unsubscribe();
     };
-  
+
     loadPhotos(); // Ładowanie zdjęć po załadowaniu komponentu
-  
   }, [userId]); // Zależność od userId (gdy zmienia się userId, subskrypcja zostanie odświeżona)
-  
 
   return (
     <div className={styles.main__next}>
@@ -139,7 +159,12 @@ const UserGalleryAdminPage = ({ params }) => {
                 userId={userId}
               />
             ) : (
-              <Photo key={photo.id} url={photo.url} userId={userId} docId={photo.id} />
+              <Photo
+                key={photo.id}
+                url={photo.url}
+                userId={userId}
+                docId={photo.id}
+              />
             )
           )}
         </GalleryContainer>
@@ -149,4 +174,3 @@ const UserGalleryAdminPage = ({ params }) => {
 };
 
 export default UserGalleryAdminPage;
-
