@@ -7,6 +7,7 @@ import {
   ButtonDelPhoto,
 } from "./ButtonsAddDelPhoto/ButtonsAddDelPhoto";
 import { Photo, PhotoForDel } from "./Photo/Photo";
+// import { Photo } from "../ForAdmin/Photo/Photo";
 import { GalleryPageContainer, GalleryContainer } from "./Gallery.styled";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Loader } from "../Loader/Loader";
@@ -22,30 +23,33 @@ export const Gallery = () => {
     const auth = getAuth();
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       setIsLoggedIn(!!user);
-
-      // Subskrypcja zdjęć użytkownika, jeśli jest zalogowany
+  
       if (user) {
         const userId = user.uid;
         const q = query(
           collection(db, `galleries/${userId}/photos`),
           orderBy("timestamp", "desc")
         );
-
-        // Subskrypcja `onSnapshot` — automatyczne ładowanie i odświeżanie
+  
+        // Subskrypcja z onSnapshot
         const unsubscribePhotos = onSnapshot(q, (snapshot) => {
-          setPhotos(snapshot.docs.map((doc) => doc.data()));
-          setLoading(false); // Ustawienie loading na false po pierwszym pobraniu danych
+          // Zmieniamy sposób, w jaki mapujemy dane, aby dodać id dokumentu
+          setPhotos(snapshot.docs.map((doc) => ({
+            id: doc.id, // Przypisujemy id dokumentu
+            ...doc.data() // Kopiujemy wszystkie dane zdjęcia
+          })));
+          setLoading(false);
         });
-
+  
         return () => unsubscribePhotos(); // Wyłącz subskrypcję po odmontowaniu
       } else {
-        setPhotos([]); // Czyszczenie galerii, gdy użytkownik się wyloguje
+        setPhotos([]); // Czyszczenie galerii po wylogowaniu
       }
     });
-
+  
     return () => unsubscribeAuth();
   }, []);
-
+  
   const toggleDeleteMode = () => {
     setIsDeleteMode(!isDeleteMode);
   };
@@ -74,7 +78,7 @@ export const Gallery = () => {
                     refreshGallery={() => {}}
                   />
                 ) : (
-                  <Photo key={index} url={photo.url} />
+                  <Photo key={photo.id} url={photo.url} docId={photo.id} />
                 )
               )}
             </GalleryContainer>

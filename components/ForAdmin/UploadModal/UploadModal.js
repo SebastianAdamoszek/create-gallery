@@ -97,7 +97,7 @@ import { auth } from "@/firebase/firebase";
 import Resizer from "react-image-file-resizer";
 import "@/app/globals.css";
 
-export const UploadModal = ({ onClose, userId }) => {
+export const UploadModalForAdmin = ({ onClose, userId }) => {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
@@ -164,11 +164,11 @@ export const UploadModal = ({ onClose, userId }) => {
 
   return (
     <Modal>
-      {!user && (
+      {/* {!user && (
         <Info isLoggedIn={false}>
           <h2>Aby dodać zdjęcie, musisz być zalogowany</h2>
         </Info>
-      )}
+      )} */}
       <h2>Dodaj nowe zdjęcie</h2>
       <input type="file" onChange={handleFileChange} />
       <textarea

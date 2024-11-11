@@ -92,6 +92,8 @@ export const Photo = ({ url, userId, docId, ...props }) => {
   const handleImageLoad = () => {
     setLoaded(true);
   };
+  console.log("userId:", userId, "docId:", docId, "newDescription:", newDescription);
+
 
   return (
     <PhotoContainer data-aos="fade-up">

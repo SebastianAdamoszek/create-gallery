@@ -12,13 +12,18 @@ export const UploadModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false); // Stan dla procesu ładowania
   const [user] = useAuthState(auth);
+  const [description, setDescription] = useState("");
+
 
   // Funkcja zmiany pliku
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  // Funkcja do optymalizacji obrazu przed wysłaniem
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
   const resizeFile = (file) =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
@@ -66,6 +71,7 @@ export const UploadModal = ({ onClose }) => {
       // Dodanie URL-a do Firestore
       await addDoc(collection(db, `galleries/${userId}/photos`), {
         url,
+        description,
         timestamp: serverTimestamp(),
       });
 
@@ -87,6 +93,11 @@ export const UploadModal = ({ onClose }) => {
       )}
       <h2>Dodaj nowe zdjęcie</h2>
       <input type="file" onChange={handleFileChange} />
+      <textarea
+        placeholder="Dodaj opis zdjęcia"
+        value={description}
+        onChange={handleDescriptionChange}
+      />
       <button onClick={handleUpload} disabled={!user || loading}>
         {loading ? "Wysyłanie..." : "Prześlij"}
       </button>
