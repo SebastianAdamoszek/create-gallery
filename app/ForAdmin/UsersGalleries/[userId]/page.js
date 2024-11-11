@@ -92,6 +92,29 @@ const UserGalleryAdminPage = ({ params }) => {
     }
   };
 
+  useEffect(() => {
+    const loadPhotos = () => {
+      const photosRef = collection(db, `galleries/${userId}/photos`);
+      const q = query(photosRef, orderBy("timestamp", "desc"));
+  
+      // Subskrypcja zdjęć użytkownika w czasie rzeczywistym
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const photos = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPhotos(photos); // Aktualizacja stanu po pobraniu danych
+      });
+  
+      // Zwolnienie subskrypcji przy odmontowywaniu komponentu
+      return () => unsubscribe();
+    };
+  
+    loadPhotos(); // Ładowanie zdjęć po załadowaniu komponentu
+  
+  }, [userId]); // Zależność od userId (gdy zmienia się userId, subskrypcja zostanie odświeżona)
+  
+
   return (
     <div className={styles.main__next}>
       <GalleryPageContainer>
