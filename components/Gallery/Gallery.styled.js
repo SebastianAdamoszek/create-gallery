@@ -29,10 +29,9 @@ export const GalleryPageContainer = styled.div`
 `;
 
 export const GalleryContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
   justify-content: center;

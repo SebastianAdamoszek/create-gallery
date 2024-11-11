@@ -50,22 +50,21 @@ export const LoaderText = styled.p`
   text-align: center;
   animation: shine 1.5s infinite;
   @keyframes shine {
-  0% {
-    background-position: -1000px 0;
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
   }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-`
+`;
 
 export const User = styled.p`
   overflow: hidden;
   width: 500%;
   font-size: 12px;
-  padding: 2px ;
+  padding: 2px;
 `;
-
 
 export const GalleryPageContainer = styled.div`
   width: 100%;
@@ -98,8 +97,8 @@ export const GalleryPageContainer = styled.div`
 `;
 
 export const GalleryContainer = styled.div`
+  width: 100%;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;

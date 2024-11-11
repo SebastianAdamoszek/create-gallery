@@ -6,8 +6,8 @@ import styled from "styled-components";
 export const PhotoContainer = styled.div`
   position: relative;
   width: 100%; 
-  max-width: 350px;
-  /* height: 350px; */
+  width: 350px;
+  height: 350px;
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.7);
   overflow: hidden;
