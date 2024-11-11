@@ -69,7 +69,7 @@ export const ButtonSaveDesc = styled.button`
 
 export const DescriptionTextWrapper = styled.div`
   width: 90%;
-  height: 100px;
+  height: 150px;
   overflow: auto;
 `;
 

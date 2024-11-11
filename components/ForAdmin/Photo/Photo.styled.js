@@ -67,11 +67,17 @@ export const ButtonSaveDesc = styled.button`
   }
 `;
 
+export const DescriptionTextWrapper = styled.div`
+  width: 90%;
+  height: 150px;
+  overflow: auto;
+`;
+
 export const DescriptionText = styled.h4`
   margin-top: 10px;
   font-size: 18px;
   color: green;
-  text-align: left;
+  text-align: center;
   text-shadow: none;
   position: relative;
   z-index: 1;

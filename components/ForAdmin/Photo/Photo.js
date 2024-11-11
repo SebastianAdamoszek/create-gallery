@@ -38,6 +38,7 @@ export const Photo = ({ url, userId, docId, ...props }) => {
   const [descriptions, setDescriptions] = useState([]);
   const [newDescription, setNewDescription] = useState("");
   const [saving, setSaving] = useState(false);
+  const descriptionsEndRef = useRef(null);
 
   useEffect(() => {
     AOS.init({
@@ -47,7 +48,6 @@ export const Photo = ({ url, userId, docId, ...props }) => {
   }, []);
 
   useEffect(() => {
-    // Nasłuchuj na zmiany w dokumencie
     const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
     const unsubscribe = onSnapshot(photoDocRef, (docSnap) => {
       if (docSnap.exists()) {
@@ -56,7 +56,6 @@ export const Photo = ({ url, userId, docId, ...props }) => {
       }
     });
 
-    // Clean up nasłuchiwacza przy odmontowywaniu komponentu
     return () => unsubscribe();
   }, [userId, docId]);
 
@@ -65,20 +64,14 @@ export const Photo = ({ url, userId, docId, ...props }) => {
   };
 
   const saveDescription = async () => {
-    if (!newDescription.trim()) return; // Zapobiegaj dodawaniu pustych opisów
+    if (!newDescription.trim()) return;
     setSaving(true);
     try {
-      if (!docId) {
-        throw new Error("Nie znaleziono ID dokumentu");
-      }
-
       const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
       await updateDoc(photoDocRef, {
-        descriptions: arrayUnion(newDescription), // Dodaj nowy opis do istniejącej listy
+        descriptions: arrayUnion(newDescription),
       });
-      console.log("Nowy opis zapisany!");
-
-      setNewDescription(""); // Wyczyść pole `textarea` po zapisaniu
+      setNewDescription("");
     } catch (error) {
       console.error("Błąd podczas zapisywania opisu:", error);
     }
@@ -89,27 +82,15 @@ export const Photo = ({ url, userId, docId, ...props }) => {
     setLoaded(true);
   };
 
-  const descriptionsEndRef = useRef(null);
-
   const scrollToBottom = () => {
     setTimeout(() => {
-      descriptionsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      descriptionsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 600);
   };
 
-  // Automatyczne przewinięcie po każdej aktualizacji wiadomości
   useEffect(() => {
     scrollToBottom();
   }, [descriptions]);
-
-  console.log(
-    "userId:",
-    userId,
-    "docId:",
-    docId,
-    "newDescription:",
-    newDescription
-  );
 
   return (
     <PhotoContainer data-aos="fade-up">
@@ -121,6 +102,7 @@ export const Photo = ({ url, userId, docId, ...props }) => {
           onLoad={handleImageLoad}
           layout="fill"
           objectFit="contain"
+          {...props}
         />
       </ImageWrapper>
       <DescriptionTextWrapper>
