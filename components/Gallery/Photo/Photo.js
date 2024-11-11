@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   PhotoContainer,
@@ -9,8 +9,9 @@ import {
   CheckIcon,
   ImageWrapper,
   Description,
+  DescriptionTextWrapper,
   DescriptionText,
-  ButtonSaveDesc
+  ButtonSaveDesc,
 } from "./Photo.styled";
 import { FaTrash, FaCheck } from "react-icons/fa";
 import { ref, deleteObject } from "firebase/storage";
@@ -23,7 +24,8 @@ import {
   getDocs,
   deleteDoc,
   updateDoc,
-  arrayUnion
+  onSnapshot,
+  arrayUnion,
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { storage, db, auth } from "@/firebase/firebase";
@@ -31,8 +33,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Loader } from "@/components/Loader/Loader";
 
-
-export const Photo = ({ url, docId, userId}) => {
+export const Photo = ({ url, docId, userId }) => {
   const [loaded, setLoaded] = useState(false);
   const [descriptions, setDescriptions] = useState([]);
   const [newDescription, setNewDescription] = useState("");
@@ -51,6 +52,20 @@ export const Photo = ({ url, docId, userId}) => {
     });
   }, []);
 
+  useEffect(() => {
+    // Nasłuchuj na zmiany w dokumencie
+    const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
+    const unsubscribe = onSnapshot(photoDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const fetchedDescriptions = docSnap.data().descriptions || [];
+        setDescriptions(fetchedDescriptions);
+      }
+    });
+
+    // Clean up nasłuchiwacza przy odmontowywaniu komponentu
+    return () => unsubscribe();
+  }, [userId, docId]);
+
   const handleNewDescriptionChange = (e) => {
     setNewDescription(e.target.value);
   };
@@ -64,7 +79,12 @@ export const Photo = ({ url, docId, userId}) => {
     // Pobierz opisy z Firestore dla aktualnie zalogowanego użytkownika
     const fetchDescriptions = async () => {
       try {
-        console.log("Fetching descriptions for userId:", user.uid, "docId:", docId);
+        console.log(
+          "Fetching descriptions for userId:",
+          user.uid,
+          "docId:",
+          docId
+        );
         const photoDocRef = doc(db, `galleries/${user.uid}/photos`, docId);
         const docSnap = await getDoc(photoDocRef);
 
@@ -116,7 +136,28 @@ export const Photo = ({ url, docId, userId}) => {
     }
     setSaving(false);
   };
-  console.log("userId:", userId, "docId:", docId, "newDescription:", newDescription);
+
+  const descriptionsEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      descriptionsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 600);
+  };
+
+  // Automatyczne przewinięcie po każdej aktualizacji wiadomości
+  useEffect(() => {
+    scrollToBottom();
+  }, [descriptions]);
+
+  console.log(
+    "userId:",
+    userId,
+    "docId:",
+    docId,
+    "newDescription:",
+    newDescription
+  );
 
   return (
     <PhotoContainer data-aos="fade-up">
@@ -130,11 +171,14 @@ export const Photo = ({ url, docId, userId}) => {
           objectFit="contain"
         />
       </ImageWrapper>
-      {descriptions.map((desc, index) => (
-        <DescriptionText as="h4" key={index}>
-          {desc}
-        </DescriptionText>
-      ))}
+      <DescriptionTextWrapper>
+        {descriptions.map((desc, index) => (
+          <DescriptionText as="h4" key={index}>
+            {desc}
+          </DescriptionText>
+        ))}
+        <div ref={descriptionsEndRef} />
+      </DescriptionTextWrapper>
       <Description
         value={newDescription}
         onChange={handleNewDescriptionChange}
@@ -146,8 +190,6 @@ export const Photo = ({ url, docId, userId}) => {
     </PhotoContainer>
   );
 };
-
-
 
 export const PhotoForDel = ({ url, refreshGallery }) => {
   const [isMarkedForDeletion, setIsMarkedForDeletion] = useState(false);
@@ -171,7 +213,7 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
 
       const userId = user.uid;
       // Uzyskanie nazwy pliku
-      const fileName = url.split('/').pop().split('?')[0];
+      const fileName = url.split("/").pop().split("?")[0];
       const decodedFileName = decodeURIComponent(fileName); // Dekodujemy nazwę pliku
       console.log("Nazwa pliku do usunięcia:", fileName);
       console.log("Dekodowana nazwa pliku do usunięcia:", decodedFileName);
@@ -230,7 +272,6 @@ export const PhotoForDel = ({ url, refreshGallery }) => {
     </PhotoDelWrapper>
   );
 };
-
 
 //import Imgix from "react-imgix";
 

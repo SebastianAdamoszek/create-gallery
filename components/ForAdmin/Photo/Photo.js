@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   PhotoContainer,
   Description,
+  DescriptionTextWrapper,
   DescriptionText,
   ButtonSaveDesc,
   PhotoDelWrapper,
@@ -23,7 +24,8 @@ import {
   getDocs,
   deleteDoc,
   updateDoc,
-  arrayUnion
+  onSnapshot,
+  arrayUnion,
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { storage, db, auth } from "@/firebase/firebase";
@@ -44,6 +46,20 @@ export const Photo = ({ url, userId, docId, ...props }) => {
     });
   }, []);
 
+  useEffect(() => {
+    // Nasłuchuj na zmiany w dokumencie
+    const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
+    const unsubscribe = onSnapshot(photoDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const fetchedDescriptions = docSnap.data().descriptions || [];
+        setDescriptions(fetchedDescriptions);
+      }
+    });
+
+    // Clean up nasłuchiwacza przy odmontowywaniu komponentu
+    return () => unsubscribe();
+  }, [userId, docId]);
+
   const handleNewDescriptionChange = (e) => {
     setNewDescription(e.target.value);
   };
@@ -62,8 +78,6 @@ export const Photo = ({ url, userId, docId, ...props }) => {
       });
       console.log("Nowy opis zapisany!");
 
-      // Aktualizuj stan lokalny po zapisie
-      setDescriptions((prev) => [...prev, newDescription]);
       setNewDescription(""); // Wyczyść pole `textarea` po zapisaniu
     } catch (error) {
       console.error("Błąd podczas zapisywania opisu:", error);
@@ -71,29 +85,31 @@ export const Photo = ({ url, userId, docId, ...props }) => {
     setSaving(false);
   };
 
-  useEffect(() => {
-    // Pobierz listę opisów z Firestore po załadowaniu komponentu
-    const fetchDescriptions = async () => {
-      try {
-        const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
-        const docSnap = await getDoc(photoDocRef);
-        if (docSnap.exists()) {
-          const fetchedDescriptions = docSnap.data().descriptions || [];
-          setDescriptions(fetchedDescriptions);
-        }
-      } catch (error) {
-        console.error("Błąd podczas pobierania opisów:", error);
-      }
-    };
-
-    fetchDescriptions();
-  }, [userId, docId]);
-
   const handleImageLoad = () => {
     setLoaded(true);
   };
-  console.log("userId:", userId, "docId:", docId, "newDescription:", newDescription);
 
+  const descriptionsEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      descriptionsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 600);
+  };
+
+  // Automatyczne przewinięcie po każdej aktualizacji wiadomości
+  useEffect(() => {
+    scrollToBottom();
+  }, [descriptions]);
+
+  console.log(
+    "userId:",
+    userId,
+    "docId:",
+    docId,
+    "newDescription:",
+    newDescription
+  );
 
   return (
     <PhotoContainer data-aos="fade-up">
@@ -105,14 +121,17 @@ export const Photo = ({ url, userId, docId, ...props }) => {
           onLoad={handleImageLoad}
           layout="fill"
           objectFit="contain"
-          {...props}
         />
       </ImageWrapper>
-      {descriptions.map((desc, index) => (
-        <DescriptionText as="h4" key={index}>
-          {desc}
-        </DescriptionText>
-      ))}
+      <DescriptionTextWrapper>
+        {descriptions.map((desc, index) => (
+          <DescriptionText as="h4" key={index}>
+            {desc}
+          </DescriptionText>
+        ))}
+        <div ref={descriptionsEndRef} />
+      </DescriptionTextWrapper>
+
       <Description
         value={newDescription}
         onChange={handleNewDescriptionChange}

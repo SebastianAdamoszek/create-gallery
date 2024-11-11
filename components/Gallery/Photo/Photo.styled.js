@@ -5,7 +5,7 @@ import styled from "styled-components";
 // Zmieniona struktura kontenera zdjęcia i opisu
 export const PhotoContainer = styled.div`
   position: relative;
-  width: 100%; 
+  width: 100%;
   width: 350px;
   height: 350px;
   border-radius: 8px;
@@ -67,11 +67,17 @@ export const ButtonSaveDesc = styled.button`
   }
 `;
 
+export const DescriptionTextWrapper = styled.div`
+  width: 90%;
+  height: 100px;
+  overflow: auto;
+`;
+
 export const DescriptionText = styled.h4`
   margin-top: 10px;
   font-size: 18px;
   color: green;
-  text-align: left;
+  text-align: center;
   text-shadow: none;
   position: relative;
   z-index: 1;
@@ -137,4 +143,3 @@ export const CheckIcon = styled.div`
   color: green;
   font-size: 18px;
 `;
-
