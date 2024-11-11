@@ -54,7 +54,7 @@ export const Photo = ({ url, docId, userId }) => {
 
   useEffect(() => {
     // Nasłuchuj na zmiany w dokumencie
-    const photoDocRef = doc(db, `galleries/${userId}/photos`, docId);
+    const photoDocRef = doc(db, `galleries/${user.uid}/photos`, docId);
     const unsubscribe = onSnapshot(photoDocRef, (docSnap) => {
       if (docSnap.exists()) {
         const fetchedDescriptions = docSnap.data().descriptions || [];
@@ -64,72 +64,20 @@ export const Photo = ({ url, docId, userId }) => {
 
     // Clean up nasłuchiwacza przy odmontowywaniu komponentu
     return () => unsubscribe();
-  }, [userId, docId]);
+  }, [user.uid, docId]);
 
   const handleNewDescriptionChange = (e) => {
     setNewDescription(e.target.value);
   };
 
-  useEffect(() => {
-    if (!user || !docId) {
-      console.warn("Brak userId lub docId - przerywam pobieranie danych!");
-      return;
-    }
-
-    // Pobierz opisy z Firestore dla aktualnie zalogowanego użytkownika
-    const fetchDescriptions = async () => {
-      try {
-        console.log(
-          "Fetching descriptions for userId:",
-          user.uid,
-          "docId:",
-          docId
-        );
-        const photoDocRef = doc(db, `galleries/${user.uid}/photos`, docId);
-        const docSnap = await getDoc(photoDocRef);
-
-        if (docSnap.exists()) {
-          const fetchedDescriptions = docSnap.data().descriptions || [];
-          console.log("Fetched descriptions:", fetchedDescriptions);
-          setDescriptions(fetchedDescriptions);
-        } else {
-          console.warn("Dokument nie istnieje!");
-        }
-      } catch (error) {
-        console.error("Błąd podczas pobierania opisów:", error);
-      }
-    };
-
-    fetchDescriptions();
-  }, [user, docId]); // Uruchamiamy efekt przy zmianie użytkownika lub docId
-
   const saveDescription = async () => {
-    if (!newDescription.trim()) {
-      console.log("Opis jest pusty, nie zapisuję");
-      return;
-    }
-
+    if (!newDescription.trim()) return;
     setSaving(true);
     try {
-      if (!docId || !user) {
-        throw new Error("Brak wymaganych ID dokumentu lub użytkownika");
-      }
-
       const photoDocRef = doc(db, `galleries/${user.uid}/photos`, docId);
-      const docSnap = await getDoc(photoDocRef);
-
-      if (!docSnap.exists()) {
-        console.error("Nie znaleziono dokumentu, nie mogę zapisać opisu");
-        return;
-      }
-
       await updateDoc(photoDocRef, {
         descriptions: arrayUnion(newDescription), // Dodaj nowy opis do istniejącej listy
       });
-      console.log("Nowy opis zapisany!");
-
-      // Aktualizuj stan lokalny po zapisie
-      setDescriptions((prev) => [...prev, newDescription]);
       setNewDescription(""); // Wyczyść pole `textarea` po zapisaniu
     } catch (error) {
       console.error("Błąd podczas zapisywania opisu:", error);
