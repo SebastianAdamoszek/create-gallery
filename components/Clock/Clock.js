@@ -34,15 +34,15 @@ export const Clock = () => {
 
   return (
     <>
-      <Image src="/dial1.png" width={400} height={400} alt="Clock dial" />;{" "}
+      <Image src="/dial1.png" width={400} height={400} alt="Clock dial" />
       <div style={{ transform: "scale(2)", marginTop: "200px" }}>
         <div
           style={{
             position: "relative",
-            top: "-260px",
+            top: "-250px",
             width: "200px",
             height: "200px",
-            border: "5px double black",
+            border: "5px double silver",
             borderRadius: "50%",
             // backgroundColor: "rgba(0,0,255,0.3)",
           }}
@@ -54,7 +54,7 @@ export const Clock = () => {
               left: "50%",
               width: "4px",
               height: "50px",
-              backgroundColor: "white",
+              backgroundColor: "silver",
               transformOrigin: "bottom",
               ...getRotationStyle(hourRotation),
             }}
@@ -67,7 +67,7 @@ export const Clock = () => {
               left: "50%",
               width: "2px",
               height: "80px",
-              backgroundColor: "white",
+              backgroundColor: "silver",
               transformOrigin: "bottom",
               ...getRotationStyle(minuteRotation),
             }}
@@ -83,6 +83,17 @@ export const Clock = () => {
               backgroundColor: "red",
               transformOrigin: "bottom",
               ...getRotationStyle(secondRotation),
+            }}
+          ></div>
+          <div
+            style={{
+              position: "absolute",
+              top: "95px",
+              left: "49%",
+              width: "8px",
+              height: "8px",
+              backgroundColor: "red",
+              borderRadius: "50%",             
             }}
           ></div>
         </div>
