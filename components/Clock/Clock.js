@@ -34,23 +34,41 @@ export const Clock = () => {
 
   return (
     <>
-      <Image src="/dial1.png" width={400} height={400} alt="Clock dial" />
-      <div style={{ transform: "scale(2)", marginTop: "200px" }}>
+         <div
+        style={{
+          margin: "100px auto",
+          // position: "absolute",
+          // top: 70,
+          // left: 0,
+        }}
+      >
+      <Image
+        src="/dial1.png"
+        width={400}
+        height={400}
+        alt="Clock dial"
+            />
+ 
         <div
           style={{
             position: "relative",
-            top: "-250px",
+            top: "-301px",
+            left: "100px",
+
             width: "200px",
             height: "200px",
+            transform: "scale(2)",
+
             border: "5px double silver",
             borderRadius: "50%",
-            // backgroundColor: "rgba(0,0,255,0.3)",
+            backgroundImage:
+              "linear-gradient(145deg, rgba(200, 200, 200, 0.3), rgba(255, 255, 255, 0.1))",
           }}
         >
           <div
             style={{
               position: "absolute",
-              top: "25%",
+              top: "23%",
               left: "50%",
               width: "4px",
               height: "50px",
@@ -63,7 +81,7 @@ export const Clock = () => {
           <div
             style={{
               position: "absolute",
-              top: "10%",
+              top: "8%",
               left: "50%",
               width: "2px",
               height: "80px",
@@ -76,7 +94,7 @@ export const Clock = () => {
           <div
             style={{
               position: "absolute",
-              top: "10%",
+              top: "8%",
               left: "50%",
               width: "1px",
               height: "80px",
@@ -88,12 +106,12 @@ export const Clock = () => {
           <div
             style={{
               position: "absolute",
-              top: "95px",
-              left: "49%",
+              top: "90px",
+              left: "48.3%",
               width: "8px",
               height: "8px",
               backgroundColor: "red",
-              borderRadius: "50%",             
+              borderRadius: "50%",
             }}
           ></div>
         </div>
