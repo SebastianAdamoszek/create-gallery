@@ -34,7 +34,7 @@ export const Clock = () => {
 
   return (
     <>
-      <Image src="/dial1.jpg" width={400} height={400} alt="Clock dial" />;{" "}
+      <Image src="/dial1.png" width={400} height={400} alt="Clock dial" />;{" "}
       <div style={{ transform: "scale(2)", marginTop: "200px" }}>
         <div
           style={{
