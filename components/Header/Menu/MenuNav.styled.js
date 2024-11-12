@@ -23,7 +23,7 @@ export const Nav = styled.ul`
   transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
   li  
    {
-    width: 20%;
+    width: 130px;
     color: auto;
   }
 
