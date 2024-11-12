@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 export const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -12,12 +13,15 @@ export const Clock = () => {
   }, []);
 
   const getRotationStyle = (rotation) => ({
-    transform: `rotate(${rotation}deg)`
+    transform: `rotate(${rotation}deg)`,
   });
 
-  const calculateHourRotation = (hours, minutes) => ((hours % 12) + minutes / 60) * 30;
-  const calculateMinuteRotation = (minutes, seconds) => (minutes + seconds / 60) * 6;
-  const calculateSecondRotation = (seconds, milliseconds) => (seconds + milliseconds / 1000) * 6;
+  const calculateHourRotation = (hours, minutes) =>
+    ((hours % 12) + minutes / 60) * 30;
+  const calculateMinuteRotation = (minutes, seconds) =>
+    (minutes + seconds / 60) * 6;
+  const calculateSecondRotation = (seconds, milliseconds) =>
+    (seconds + milliseconds / 1000) * 6;
 
   const hours = time.getHours();
   const minutes = time.getMinutes();
@@ -29,50 +33,60 @@ export const Clock = () => {
   const secondRotation = calculateSecondRotation(seconds, milliseconds);
 
   return (
-    <div style={{transform: 'scale(2)', marginTop: '200px'}}>
- <div style={{
-      position: 'relative',
-      width: '200px',
-      height: '200px',
-      border: '5px double black',
-      borderRadius: '50%',
-      backgroundColor: 'rgba(0,0,0,0.7)' ,
-    }}>
-      <div style={{
-        position: 'absolute',
-        top: '25%',
-        left: '50%',
-        width: '4px',
-        height: '50px',
-        backgroundColor: 'black',
-        transformOrigin: 'bottom',
-        ...getRotationStyle(hourRotation),
-      }}></div>
+    <>
+      <Image src="/dial1.jpg" width={400} height={400} alt="Clock dial" />;{" "}
+      <div style={{ transform: "scale(2)", marginTop: "200px" }}>
+        <div
+          style={{
+            position: "relative",
+            top: "-260px",
+            width: "200px",
+            height: "200px",
+            border: "5px double black",
+            borderRadius: "50%",
+            // backgroundColor: "rgba(0,0,255,0.3)",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: "25%",
+              left: "50%",
+              width: "4px",
+              height: "50px",
+              backgroundColor: "white",
+              transformOrigin: "bottom",
+              ...getRotationStyle(hourRotation),
+            }}
+          ></div>
 
-      <div style={{
-        position: 'absolute',
-        top: '10%',
-        left: '50%',
-        width: '2px',
-        height: '80px',
-        backgroundColor: 'black',
-        transformOrigin: 'bottom',
-        ...getRotationStyle(minuteRotation),
-      }}></div>
+          <div
+            style={{
+              position: "absolute",
+              top: "10%",
+              left: "50%",
+              width: "2px",
+              height: "80px",
+              backgroundColor: "white",
+              transformOrigin: "bottom",
+              ...getRotationStyle(minuteRotation),
+            }}
+          ></div>
 
-      <div style={{
-        position: 'absolute',
-        top: '10%',
-        left: '50%',
-        width: '1px',
-        height: '80px',
-        backgroundColor: 'red',
-        transformOrigin: 'bottom',
-        ...getRotationStyle(secondRotation),
-      }}></div>
-    </div>
-
-    </div>
-   
+          <div
+            style={{
+              position: "absolute",
+              top: "10%",
+              left: "50%",
+              width: "1px",
+              height: "80px",
+              backgroundColor: "red",
+              transformOrigin: "bottom",
+              ...getRotationStyle(secondRotation),
+            }}
+          ></div>
+        </div>
+      </div>
+    </>
   );
 };
