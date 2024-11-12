@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 
 export const Clock = () => {
@@ -7,7 +7,7 @@ export const Clock = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date());
-    }, 1000);
+    }, 100); // Aktualizacja co 100 ms
     return () => clearInterval(interval);
   }, []);
 
@@ -17,23 +17,26 @@ export const Clock = () => {
 
   const calculateHourRotation = (hours, minutes) => ((hours % 12) + minutes / 60) * 30;
   const calculateMinuteRotation = (minutes, seconds) => (minutes + seconds / 60) * 6;
-  const calculateSecondRotation = (seconds) => seconds * 6;
+  const calculateSecondRotation = (seconds, milliseconds) => (seconds + milliseconds / 1000) * 6;
 
   const hours = time.getHours();
   const minutes = time.getMinutes();
   const seconds = time.getSeconds();
+  const milliseconds = time.getMilliseconds();
 
   const hourRotation = calculateHourRotation(hours, minutes);
   const minuteRotation = calculateMinuteRotation(minutes, seconds);
-  const secondRotation = calculateSecondRotation(seconds);
+  const secondRotation = calculateSecondRotation(seconds, milliseconds);
 
   return (
-    <div style={{
+    <div style={{transform: 'scale(2)', marginTop: '200px'}}>
+ <div style={{
       position: 'relative',
       width: '200px',
       height: '200px',
-      border: '1px solid black',
+      border: '5px double black',
       borderRadius: '50%',
+      backgroundColor: 'rgba(0,0,0,0.7)' ,
     }}>
       <div style={{
         position: 'absolute',
@@ -68,5 +71,8 @@ export const Clock = () => {
         ...getRotationStyle(secondRotation),
       }}></div>
     </div>
+
+    </div>
+   
   );
 };
