@@ -1,3 +1,4 @@
+"use client";
 import styled from "styled-components";
 
 export const ClockConrainer = styled.div`
@@ -35,6 +36,7 @@ export const HourHand = ({ rotation }) => {
     backgroundColor: "silver",
     transformOrigin: "bottom", // poprawiono: bez cudzysłowów
     transform: `rotate(${rotation}deg)`,
+    zIndex: "1",
   };
 
   return <div style={style}></div>;
@@ -51,6 +53,7 @@ export const MinuteHand = ({ rotation }) => {
     backgroundColor: "silver",
     transformOrigin: "bottom",
     transform: `rotate(${rotation}deg)`,
+    zIndex: "1",
   };
 
   return <div style={style}></div>;
@@ -67,6 +70,7 @@ export const SecondHand = ({ rotation }) => {
     backgroundColor: "red",
     transformOrigin: "bottom",
     transform: `rotate(${rotation}deg)`,
+    zIndex: "1",
   };
 
   return <div style={style}></div>;
@@ -79,4 +83,22 @@ export const PointCentre = styled.div`
   height: 8px;
   background-color: red;
   border-radius: 50%;
+  z-index: 2;
+`;
+
+export const Calendar = styled.div`
+  font-size: 10px;
+  font-weight: bold;
+  color: ${(props) => (props.day === "Sun" ? "red" : "black")};
+  position: absolute;
+  top: 87.5px; /* Możesz dostosować pozycjonowanie */
+  left: 127px; /* Możesz dostosować pozycjonowanie */
+  background-color: white;
+  line-height: 1;
+  z-index: 0;
+  padding: 0 1px;
+  border: 1px solid silver;
+ `;
+export const Line = styled.span`
+  font-weight: 100;
 `;
