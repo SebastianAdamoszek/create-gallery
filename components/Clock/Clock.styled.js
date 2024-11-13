@@ -1,4 +1,5 @@
 "use client";
+// import { transform } from "next/dist/build/swc";
 import styled from "styled-components";
 
 export const ClockConrainer = styled.div`
@@ -31,12 +32,15 @@ export const HourHand = ({ rotation }) => {
     position: "absolute",
     top: "23%",
     left: "50%",
-    width: "4px",
+    width: "0px",
+    padding: "0.5px",
+    border: "2px solid silver",
     height: "50px",
-    backgroundColor: "silver",
-    transformOrigin: "bottom", // poprawiono: bez cudzysłowów
+    backgroundColor: "rgba(0, 255, 0, 0.8)",
+    transformOrigin: "bottom",
     transform: `rotate(${rotation}deg)`,
     zIndex: "1",
+    borderRadius: "1px",
   };
 
   return <div style={style}></div>;
@@ -48,12 +52,15 @@ export const MinuteHand = ({ rotation }) => {
     position: "absolute",
     top: "7.5%",
     left: "50%",
-    width: "2px",
+    width: "0px",
+    padding: "0.25px",
+    border: "1.25px solid silver",
     height: "80px",
-    backgroundColor: "silver",
+    backgroundColor: "rgba(0, 255, 0, 0.8)",
     transformOrigin: "bottom",
     transform: `rotate(${rotation}deg)`,
     zIndex: "1",
+    borderRadius: "1px",
   };
 
   return <div style={style}></div>;
@@ -69,12 +76,32 @@ export const SecondHand = ({ rotation }) => {
     height: "80px",
     backgroundColor: "red",
     transformOrigin: "bottom",
-    transform: `rotate(${rotation}deg)`,
+    transform: `rotate(${rotation}deg) translateY(0px)`,
     zIndex: "1",
+    borderRadius: "1px",
   };
 
   return <div style={style}></div>;
 };
+
+export const SecondHandTwo = ({ rotation }) => {
+  const style = {
+    position: "absolute",
+    top: "44.2%",
+    left: "50%",
+    width: "2px",
+    height: "10px",
+    backgroundColor: "red",
+    transformOrigin: "bottom",
+    transform: `rotate(${rotation}deg) translateY(12px)`,
+    zIndex: "1",
+    borderRadius: "1px",
+  };
+
+  return <div style={style}></div>;
+};
+
+
 export const PointCentre = styled.div`
   position: absolute;
   top: 90px;
@@ -87,18 +114,25 @@ export const PointCentre = styled.div`
 `;
 
 export const Calendar = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 40px;
+  text-align: center;
   font-size: 10px;
-  font-weight: bold;
+  font-weight: 500;
   color: ${(props) => (props.day === "Sun" ? "red" : "black")};
   position: absolute;
-  top: 87.5px; /* Możesz dostosować pozycjonowanie */
-  left: 127px; /* Możesz dostosować pozycjonowanie */
+  top: 87.5px;
+  left: 124px;
   background-color: white;
-  line-height: 1;
+  line-height: 0;
   z-index: 0;
-  padding: 0 1px;
+  padding: 5px 1px;
   border: 1px solid silver;
- `;
+`;
 export const Line = styled.span`
   font-weight: 100;
+  font-size: 10px;
+  color: silver;
 `;

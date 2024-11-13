@@ -6,6 +6,7 @@ import {
   HourHand,
   MinuteHand,
   SecondHand,
+  SecondHandTwo,
   Glass,
   PointCentre,
   Calendar,
@@ -60,6 +61,7 @@ export const Clock = () => {
             <HourHand rotation={hourRotation} />
             <MinuteHand rotation={minuteRotation} />
             <SecondHand rotation={secondRotation} />
+            <SecondHandTwo rotation={secondRotation} />
             <PointCentre />
             <Calendar day={currentDate.day}>
               <span>{currentDate.day}</span>
