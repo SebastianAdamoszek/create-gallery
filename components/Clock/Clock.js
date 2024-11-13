@@ -1,121 +1,57 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import {
+  ClockConrainer,
+  HourHand,
+  MinuteHand,
+  SecondHand,
+  Glass,
+  PointCentre,
+} from "./Clock.styled";
+import { Loader } from "../Loader/Loader";
 
+// Główny komponent zegara
 export const Clock = () => {
   const [time, setTime] = useState(new Date());
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Symulacja ładowania, na przykład na początku
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Możesz dostosować czas ładowania
+
     const interval = setInterval(() => {
       setTime(new Date());
-    }, 100); // Aktualizacja co 100 ms
+    }, 100);
     return () => clearInterval(interval);
   }, []);
-
-  const getRotationStyle = (rotation) => ({
-    transform: `rotate(${rotation}deg)`,
-  });
-
-  const calculateHourRotation = (hours, minutes) =>
-    ((hours % 12) + minutes / 60) * 30;
-  const calculateMinuteRotation = (minutes, seconds) =>
-    (minutes + seconds / 60) * 6;
-  const calculateSecondRotation = (seconds, milliseconds) =>
-    (seconds + milliseconds / 1000) * 6;
 
   const hours = time.getHours();
   const minutes = time.getMinutes();
   const seconds = time.getSeconds();
   const milliseconds = time.getMilliseconds();
 
-  const hourRotation = calculateHourRotation(hours, minutes);
-  const minuteRotation = calculateMinuteRotation(minutes, seconds);
-  const secondRotation = calculateSecondRotation(seconds, milliseconds);
+  const hourRotation = ((hours % 12) + minutes / 60) * 30;
+  const minuteRotation = (minutes + seconds / 60) * 6;
+  const secondRotation = (seconds + milliseconds / 1000) * 6;
 
   return (
     <>
-         <div
-        style={{
-          margin: "100px auto",
-          // position: "absolute",
-          // top: 70,
-          // left: 0,
-        }}
-      >
-      <Image
-        src="/dial1.png"
-        width={400}
-        height={400}
-        alt="Clock dial"
-            />
- 
-        <div
-          style={{
-            position: "relative",
-            top: "-301px",
-            left: "100px",
-
-            width: "200px",
-            height: "200px",
-            transform: "scale(2)",
-
-            border: "5px double silver",
-            borderRadius: "50%",
-            backgroundImage:
-              "linear-gradient(145deg, rgba(200, 200, 200, 0.1), rgba(255, 255, 255, 0.1))",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "23%",
-              left: "50%",
-              width: "4px",
-              height: "50px",
-              backgroundColor: "silver",
-              transformOrigin: "bottom",
-              ...getRotationStyle(hourRotation),
-            }}
-          ></div>
-
-          <div
-            style={{
-              position: "absolute",
-              top: "7.5%",
-              left: "50%",
-              width: "2px",
-              height: "80px",
-              backgroundColor: "silver",
-              transformOrigin: "bottom",
-              ...getRotationStyle(minuteRotation),
-            }}
-          ></div>
-
-          <div
-            style={{
-              position: "absolute",
-              top: "7.5%",
-              left: "50%",
-              width: "1px",
-              height: "80px",
-              backgroundColor: "red",
-              transformOrigin: "bottom",
-              ...getRotationStyle(secondRotation),
-            }}
-          ></div>
-          <div
-            style={{
-              position: "absolute",
-              top: "90px",
-              left: "48.3%",
-              width: "8px",
-              height: "8px",
-              backgroundColor: "red",
-              borderRadius: "50%",
-            }}
-          ></div>
-        </div>
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <ClockConrainer>
+          <Image src="/dial1.png" width={400} height={400} alt="Clock dial" />
+          <Glass>
+            <HourHand rotation={hourRotation} />
+            <MinuteHand rotation={minuteRotation} />
+            <SecondHand rotation={secondRotation} />
+            <PointCentre />
+          </Glass>
+        </ClockConrainer>
+      )}
     </>
   );
 };

@@ -56,7 +56,8 @@ export const MenuComponent = () => {
         </li>
         <li>
           <Link href="/contact" onClick={() => setIsOpen(false)}>
-            <p>Contact</p>
+            {/* <p>Contact</p> */}
+            <p>Clock</p>
           </Link>
         </li>
         <li>
