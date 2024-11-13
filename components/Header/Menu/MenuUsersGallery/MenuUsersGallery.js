@@ -11,7 +11,7 @@ import {
 } from "./MenuUsersGallery.styled";
 import Link from "next/link";
 
-export const UserGalleryDropdown = () => {
+export const UsersGalleries = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);

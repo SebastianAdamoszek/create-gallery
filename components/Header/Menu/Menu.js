@@ -4,7 +4,7 @@ import { Burger, BurgerLine } from "./ButtonMenuMobile.styled.js";
 import { Menu, Nav } from "./MenuNav.styled.js";
 import Link from "next/link";
 import { getAuth } from "firebase/auth";
-import { UserGalleryDropdown } from "./MenuUsersGallery/MenuUsersGallery.js";
+import { UsersGalleries } from "./MenuUsersGallery/MenuUsersGallery.js";
 import {ForAdminUsersGalleries} from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.js"
 
 export const MenuComponent = () => {
@@ -66,7 +66,7 @@ export const MenuComponent = () => {
           </Link>
         </li>
         <li>
-          {/* users galleries */} <UserGalleryDropdown />
+          <UsersGalleries />
         </li>
         <li>
           <ForAdminUsersGalleries/>

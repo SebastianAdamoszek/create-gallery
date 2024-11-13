@@ -76,7 +76,7 @@ export const SecondHand = ({ rotation }) => {
     height: "80px",
     backgroundColor: "red",
     transformOrigin: "bottom",
-    transform: `rotate(${rotation}deg) translateY(0px)`,
+    transform: `rotate(${rotation}deg) translateY(5px)`,
     zIndex: "3",
     borderRadius: "1px",
   };
