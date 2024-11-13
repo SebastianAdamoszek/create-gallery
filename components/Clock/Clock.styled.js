@@ -30,15 +30,15 @@ export const Glass = styled.div`
 export const HourHand = ({ rotation }) => {
   const style = {
     position: "absolute",
-    top: "23%",
+    top: "23.5%",
     left: "50%",
     width: "0px",
-    padding: "0.5px",
-    border: "2px solid silver",
+    padding: "0.7px",
+    border: "1.5px solid silver",
     height: "50px",
     backgroundColor: "rgba(0, 255, 0, 0.8)",
     transformOrigin: "bottom",
-    transform: `rotate(${rotation}deg)`,
+    transform: `rotate(${rotation}deg) translateY(4px)`,
     zIndex: "1",
     borderRadius: "1px",
   };
@@ -58,8 +58,8 @@ export const MinuteHand = ({ rotation }) => {
     height: "80px",
     backgroundColor: "rgba(0, 255, 0, 0.8)",
     transformOrigin: "bottom",
-    transform: `rotate(${rotation}deg)`,
-    zIndex: "1",
+    transform: `rotate(${rotation}deg) translateY(6px)`,
+    zIndex: "2",
     borderRadius: "1px",
   };
 
@@ -77,7 +77,7 @@ export const SecondHand = ({ rotation }) => {
     backgroundColor: "red",
     transformOrigin: "bottom",
     transform: `rotate(${rotation}deg) translateY(0px)`,
-    zIndex: "1",
+    zIndex: "3",
     borderRadius: "1px",
   };
 
@@ -94,7 +94,7 @@ export const SecondHandTwo = ({ rotation }) => {
     backgroundColor: "red",
     transformOrigin: "bottom",
     transform: `rotate(${rotation}deg) translateY(12px)`,
-    zIndex: "1",
+    zIndex: "3",
     borderRadius: "1px",
   };
 
@@ -110,7 +110,7 @@ export const PointCentre = styled.div`
   height: 8px;
   background-color: red;
   border-radius: 50%;
-  z-index: 2;
+  z-index: 4;
 `;
 
 export const Calendar = styled.div`
