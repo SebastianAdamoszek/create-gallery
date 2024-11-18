@@ -87,7 +87,7 @@ a {
 }
 button {
   /* cursor: url("../public/cursor-pointer.svg"), pointer; */
-  cursor: pointer;
+  cursor: url("/cursor-pointer.svg"), pointer;
   color: var(--foreground-rgb);
   background-color: rgb(46, 46, 46);
 }

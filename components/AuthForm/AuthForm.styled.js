@@ -84,7 +84,7 @@ export const LogInGoogle = styled.div`
   }
 
   button {
-    cursor: url("/cursor-pionter.svg") pointer;
+    cursor: url("/cursor-pointer.svg"), pointer;
     width: 135px;
     border-radius: 5px;
     padding: 3px 7px;
@@ -141,7 +141,7 @@ export const Form = styled.form`
   }
 
   button {
-    cursor: url("/cursor-pionter.svg") pointer;
+    cursor: url("/cursor-pointer.svg"), pointer;
     padding: 3px 25px;
     border: 3px solid darkgray;
     border-radius: 10px;
@@ -181,7 +181,7 @@ export const MinimizedFormButton = styled.button`
   border: none;
   z-index: 1000;
   font-size: 35px;
-  cursor: url("/cursor-pionter.svg") pointer;
+  cursor: url("/cursor-pointer.svg"), pointer;
   transition: 0.2s ease-in-out;
 
   animation: slideForm 0.5s ease-in-out;

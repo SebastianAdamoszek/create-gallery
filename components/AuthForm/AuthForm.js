@@ -84,4 +84,3 @@ export const AuthForm = ({ zoomOut, toggleZoomOut }) => {
     </>
   );
 };
-

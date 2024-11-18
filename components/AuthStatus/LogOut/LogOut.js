@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Icon } from "./LogOut.styled";
+import { IconContainer, Icon } from "./LogOut.styled";
 import { AuthForm } from "@/components/AuthForm/AuthForm";
 
 export const LogOut = () => {
@@ -20,11 +20,11 @@ export const LogOut = () => {
 
   return (
     <>
-      <div>
+      <IconContainer>
         {isAuthFormVisible && (
           <AuthForm zoomOut={zoomOut} toggleZoomOut={toggleZoomOut} />
         )}
-      </div>
+      </IconContainer>
       <Icon onClick={showAuthForm} title="Nie jesteś zalogowany">
         😴
       </Icon>
