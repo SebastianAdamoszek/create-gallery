@@ -26,6 +26,7 @@ export const TextUser = styled.span`
   overflow: hidden;
   width: 70px;
   text-align: center;
+  z-index: 1;
 
   &:hover {
     width: auto;
@@ -51,4 +52,13 @@ export const LogOutButton = styled.button`
 export const Icon = styled.span`
   font-size: 17px;
   padding: 0 0 0 10px;
+`;
+
+export const Avatar = styled.img`
+position: absolute;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
 `;
