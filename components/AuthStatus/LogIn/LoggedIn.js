@@ -1,17 +1,18 @@
 import { signOut } from "firebase/auth";
-import { auth } from "@/firebase/firebase";
+import { auth } from "../../../firebase/firebase";
 import {
   Container,
   TextTitle,
-  Avatar,
   TextUser,
+  Avatar,
   LogOutButton,
 } from "./LoggedIn.styled";
 
 export const LoggedIn = ({ email }) => {
-
   const user = auth.currentUser;
-  const photoURL = user?.photoURL
+  
+  // do poprawy nie dziala ten sposob
+  const photoURL = "/dial2.jpg" || user?.photoURL ;
 
   const handleLogout = async () => {
     try {
@@ -29,7 +30,7 @@ export const LoggedIn = ({ email }) => {
       <TextTitle>
         Hi !{" "}
         <Avatar
-          src={photoURL || "/dial2.jpg"}
+          src={photoURL}
           alt="Avatar użytkownika"
         />
       </TextTitle>
@@ -38,14 +39,3 @@ export const LoggedIn = ({ email }) => {
     </Container>
   );
 };
-
-// return (
-//   <Container>
-//     <TextTitle>
-//       Hi !<Icon>🙂</Icon>
-//     </TextTitle>
-//     <TextUser>{email}</TextUser>
-//     <LogOutButton onClick={handleLogout}>Log out</LogOutButton>
-//   </Container>
-// );
-// };

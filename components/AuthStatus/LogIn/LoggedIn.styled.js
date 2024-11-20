@@ -33,7 +33,24 @@ export const TextUser = styled.span`
     background-color: rgba(50, 0, 0, 0.5);
   }
 `;
+export const AvatarsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 1rem 0;
+`;
 
+export const AvatarOption = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
 export const LogOutButton = styled.button`
   font-size: 8px;
   cursor: url("/cursor-pointer.svg") pointer;
@@ -55,7 +72,7 @@ export const Icon = styled.span`
 `;
 
 export const Avatar = styled.img`
-position: absolute;
+  position: absolute;
   width: 17px;
   height: 17px;
   border-radius: 50%;
