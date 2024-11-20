@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/firebase";
+import { auth } from "@/firebase/firebase";
+import { signOut } from "firebase/auth";
 import { Chat } from "./Chat";
 import {
   ChatPageContainer,
@@ -103,6 +104,18 @@ const [position, setPosition] = useState({ top: "0px", left: "0px" });
     setIsMinimized(!isMinimized);
   };
 
+  const handleLogout = async () => {
+    
+    try {
+      await signOut(auth);
+      console.log(`Użytkownik ${user.email} wylogowany`);
+      alert("Pomyślnie wylogowano!");
+    } catch (error) {
+      console.error("Błąd podczas wylogowania", error);
+      alert("Wystąpił błąd podczas wylogowania.");
+    }
+  };
+
   return (
     <>
       {!isMinimized && (
@@ -127,7 +140,7 @@ const [position, setPosition] = useState({ top: "0px", left: "0px" });
               <Title>
                 <h3>Witaj na czacie </h3>
                 <h3>{user.email}</h3>
-                <button onClick={() => auth.signOut()}>Wyloguj</button>
+                <button onClick={handleLogout}>Wyloguj</button>
               </Title>
               <Chat />
             </>
