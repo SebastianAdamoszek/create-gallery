@@ -1,11 +1,11 @@
 // components/Authorization/Authorization.js
-import { auth, googleProvider, db  } from "./firebase";
+import { auth, googleProvider, db } from "./firebase";
 import { collection, getDoc, getDocs, doc, setDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut
+  signOut,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
@@ -29,7 +29,11 @@ export const loginUser = async (email, password) => {
 
 export const registerUser = async (email, password) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user; // Użytkownik, który został zarejestrowany
 
     // Dodaj e-mail użytkownika do Firestore
@@ -78,24 +82,19 @@ export const loginWithGoogle = async () => {
       const userData = userDocSnap.data();
       if (!userData.role) {
         // Jeśli rola nie została ustawiona, ustaw ją na "user"
-        await setDoc(userDocRef, {
-          role: "user",
-        }, { merge: true });
+        await setDoc(
+          userDocRef,
+          {
+            role: "user",
+          },
+          { merge: true }
+        );
       }
     }
-
+    console.log(`Użytkownik ${user.email} zalogowany`);
     return { success: true, user }; // Zwraca zalogowanego użytkownika
   } catch (error) {
     console.error("Błąd podczas logowania:", error.message);
     return { success: false, message: error.message };
-  }
-};
-
-export const handleLogout = async () => {
-  try {
-    await signOut(auth);
-    console.log("Użytkownik wylogowany");
-  } catch (error) {
-    console.error("Błąd podczas wylogowania:", error);
   }
 };
