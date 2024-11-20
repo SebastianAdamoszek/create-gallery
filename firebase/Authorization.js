@@ -98,3 +98,22 @@ export const loginWithGoogle = async () => {
     return { success: false, message: error.message };
   }
 };
+
+/**
+ * Wylogowanie użytkownika
+ */
+export const handleLogout = async () => {
+  try {
+    const user = auth.currentUser; // Pobieramy obecnie zalogowanego użytkownika
+    if (user) {
+      await signOut(auth);
+      console.log(`Użytkownik ${user.email} wylogowany`);
+      alert("Pomyślnie wylogowano!");
+
+    } else {
+      console.log("Nie można wylogować, brak zalogowanego użytkownika");
+    }
+  } catch (error) {
+    console.error("Błąd", error);
+  }
+};

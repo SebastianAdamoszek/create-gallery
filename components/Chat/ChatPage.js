@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
-import { signOut } from "firebase/auth";
+import { handleLogout } from "@/firebase/Authorization";
 import { Chat } from "./Chat";
 import {
   ChatPageContainer,
@@ -102,18 +102,6 @@ const [position, setPosition] = useState({ top: "0px", left: "0px" });
   // Funkcja minimalizowania okna
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
-  };
-
-  const handleLogout = async () => {
-    
-    try {
-      await signOut(auth);
-      console.log(`Użytkownik ${user.email} wylogowany`);
-      alert("Pomyślnie wylogowano!");
-    } catch (error) {
-      console.error("Błąd podczas wylogowania", error);
-      alert("Wystąpił błąd podczas wylogowania.");
-    }
   };
 
   return (
