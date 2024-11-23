@@ -39,6 +39,7 @@ export const Photo = ({ url, userId, docId, ...props }) => {
   const [newDescription, setNewDescription] = useState("");
   const [saving, setSaving] = useState(false);
   const descriptionsEndRef = useRef(null);
+  const pageTopRef = useRef(null); // Ref na górę strony (opcjonalne, ale pomocne w wielu przypadkach)
 
   useEffect(() => {
     AOS.init({
@@ -84,16 +85,32 @@ export const Photo = ({ url, userId, docId, ...props }) => {
 
   const scrollToBottom = () => {
     setTimeout(() => {
-      descriptionsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      descriptionsEndRef.current?.scrollTo({
+        top: descriptionsEndRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }, 600);
   };
 
+  const stayAtTop = () => {
+    // Utrzymanie strony u góry
+    window.scrollTo({
+      top: 0,
+      behavior: "instant", // Brak animacji, natychmiastowe przewinięcie
+    });
+  };
+
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom(); // Przewiń tekst do dołu
   }, [descriptions]);
 
+  useEffect(() => {
+    stayAtTop(); // Utrzymaj stronę u góry
+  }, []); // Wywołanie tylko raz po załadowaniu strony
+
   return (
-    <PhotoContainer data-aos="fade-up">
+    <PhotoContainer ref={pageTopRef} data-aos="fade-up">
+      {" "}
       {!loaded && <Loader>Pobieranie</Loader>}
       <ImageWrapper>
         <Image
@@ -105,15 +122,13 @@ export const Photo = ({ url, userId, docId, ...props }) => {
           {...props}
         />
       </ImageWrapper>
-      <DescriptionTextWrapper>
+      <DescriptionTextWrapper ref={descriptionsEndRef}>
         {descriptions.map((desc, index) => (
-          <DescriptionText as="h4" key={index}>
+          <DescriptionText as="h4" key={index} >
             {desc}
-            <div ref={descriptionsEndRef} />
           </DescriptionText>
         ))}
       </DescriptionTextWrapper>
-
       <Description
         value={newDescription}
         onChange={handleNewDescriptionChange}
