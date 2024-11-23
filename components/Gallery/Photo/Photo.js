@@ -38,8 +38,9 @@ export const Photo = ({ url, docId, userId }) => {
   const [descriptions, setDescriptions] = useState([]);
   const [newDescription, setNewDescription] = useState("");
   const [saving, setSaving] = useState(false);
-
   const [user] = useAuthState(auth); // Używamy hooka, aby uzyskać dane zalogowanego użytkownika
+  const descriptionsEndRef = useRef(null);
+  const pageTopRef = useRef(null);
 
   const handleImageLoad = () => {
     setLoaded(true);
@@ -85,30 +86,34 @@ export const Photo = ({ url, docId, userId }) => {
     setSaving(false);
   };
 
-  const descriptionsEndRef = useRef(null);
-
   const scrollToBottom = () => {
     setTimeout(() => {
-      descriptionsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      descriptionsEndRef.current?.scrollTo({
+        top: descriptionsEndRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }, 600);
   };
 
-  // Automatyczne przewinięcie po każdej aktualizacji wiadomości
+  const stayAtTop = () => {
+    // Utrzymanie strony u góry
+    window.scrollTo({
+      top: 0,
+      behavior: "instant", // Brak animacji, natychmiastowe przewinięcie
+    });
+  };
+
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom(); // Przewiń tekst do dołu
   }, [descriptions]);
 
-  console.log(
-    "userId:",
-    userId,
-    "docId:",
-    docId,
-    "newDescription:",
-    newDescription
-  );
+  useEffect(() => {
+    stayAtTop(); // Utrzymaj stronę u góry
+  }, []); // Wywołanie tylko raz po załadowaniu strony
 
   return (
-    <PhotoContainer data-aos="fade-up">
+    <PhotoContainer ref={pageTopRef} data-aos="fade-up">
+      {" "}
       {!loaded && <Loader>Pobieranie</Loader>}
       <ImageWrapper>
         <Image
@@ -119,11 +124,10 @@ export const Photo = ({ url, docId, userId }) => {
           objectFit="contain"
         />
       </ImageWrapper>
-      <DescriptionTextWrapper>
+      <DescriptionTextWrapper ref={descriptionsEndRef}>
         {descriptions.map((desc, index) => (
-          <DescriptionText as="h4" key={index}>
+          <DescriptionText as="h4" key={index} >
             {desc}
-            <div ref={descriptionsEndRef} />
           </DescriptionText>
         ))}
       </DescriptionTextWrapper>
