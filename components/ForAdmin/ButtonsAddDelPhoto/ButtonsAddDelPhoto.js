@@ -14,7 +14,7 @@ export const ButtonAddPhoto = ({ userId }) => {
 
 export const ButtonDelPhoto = ({ toggleDeleteMode, isDeleteMode, userId }) => {
   return (
-    <ButtonDel onClick={toggleDeleteMode} userId={userId}>
+    <ButtonDel onClick={toggleDeleteMode} $userId={userId}>
       {" "}
       {isDeleteMode ? "Anuluj usuwanie" : "Usuń zdjęcie"}
     </ButtonDel>

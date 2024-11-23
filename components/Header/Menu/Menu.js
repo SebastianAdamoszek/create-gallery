@@ -5,28 +5,29 @@ import { Menu, Nav } from "./MenuNav.styled.js";
 import Link from "next/link";
 import { getAuth } from "firebase/auth";
 import { UsersGalleries } from "./MenuUsersGallery/MenuUsersGallery.js";
-import {ForAdminUsersGalleries} from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.js"
+import { ForAdminUsersGalleries } from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.js";
 
 export const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const burgerRef = useRef(null); // Dodajemy referencję do burgera
+  const burgerRef = useRef(null);
   const auth = getAuth();
 
   const toggleMenu = () => {
-    setIsOpen(prevState => !prevState); // Przełączanie stanu menu
+    setIsOpen((prevState) => !prevState);
   };
 
-  // Funkcja zamykająca menu przy kliknięciu poza nim
   const handleClickOutside = (event) => {
     if (
-      dropdownRef.current && !dropdownRef.current.contains(event.target) && // Sprawdzamy, czy kliknięcie nie było w menu
-      burgerRef.current && !burgerRef.current.contains(event.target) // Sprawdzamy, czy kliknięcie nie było w burgerze
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      burgerRef.current &&
+      !burgerRef.current.contains(event.target)
     ) {
       setIsOpen(false);
     }
   };
-  
+
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -38,12 +39,12 @@ export const MenuComponent = () => {
 
   return (
     <Menu>
-      <Burger onClick={toggleMenu} isOpen={isOpen} ref={burgerRef}> {/* Użycie referencji dla burgera */}
-        <BurgerLine className="first" />
-        <BurgerLine className="second" />
-        <BurgerLine className="third" />
+      <Burger onClick={toggleMenu} data-isopen={isOpen} ref={burgerRef}>
+        <BurgerLine className="first" $isOpen={isOpen} />
+        <BurgerLine className="second" $isOpen={isOpen} />
+        <BurgerLine className="third" $isOpen={isOpen} />
       </Burger>
-      <Nav isOpen={isOpen} ref={dropdownRef}>
+      <Nav $isOpen={isOpen} ref={dropdownRef}>
         <li>
           <Link href="/home" onClick={() => setIsOpen(false)}>
             <p>Home</p>
@@ -56,8 +57,7 @@ export const MenuComponent = () => {
         </li>
         <li>
           <Link href="/contact" onClick={() => setIsOpen(false)}>
-            {/* <p>Contact</p> */}
-            <p>Clock</p>
+            <p>Contact</p>
           </Link>
         </li>
         <li>
@@ -69,7 +69,7 @@ export const MenuComponent = () => {
           <UsersGalleries />
         </li>
         <li>
-          <ForAdminUsersGalleries/>
+          <ForAdminUsersGalleries />
         </li>
       </Nav>
     </Menu>

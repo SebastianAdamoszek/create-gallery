@@ -176,7 +176,7 @@ export const PhotoForDel = ({ url, refreshGallery = () => {}, userId }) => {
   };
 
   return (
-    <PhotoDelWrapper isMarked={isMarkedForDeletion}>
+    <PhotoDelWrapper $isMarked={isMarkedForDeletion}>
       <Image
         width={100}
         height={100}
@@ -188,7 +188,7 @@ export const PhotoForDel = ({ url, refreshGallery = () => {}, userId }) => {
           objectFit: "cover",
         }}
       />
-      <RemoveIcon isMarked={isMarkedForDeletion} onClick={confirmDeletion}>
+      <RemoveIcon $isMarked={isMarkedForDeletion} onClick={confirmDeletion}>
         <FaTrash />
       </RemoveIcon>
       <CheckBox
@@ -196,7 +196,7 @@ export const PhotoForDel = ({ url, refreshGallery = () => {}, userId }) => {
         checked={isMarkedForDeletion}
         onChange={handleDeleteClick}
       />
-      <CheckIcon isChecked={isMarkedForDeletion}>
+      <CheckIcon $isChecked={isMarkedForDeletion}>
         <FaCheck />
       </CheckIcon>
     </PhotoDelWrapper>

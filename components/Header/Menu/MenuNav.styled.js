@@ -27,8 +27,8 @@ export const Nav = styled.ul`
     color: auto;
   }
 
-  ${({ isOpen }) =>
-    isOpen &&
+  ${({ $isOpen }) =>
+    $isOpen &&
     `
     transform: translateY(0);
     `}

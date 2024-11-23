@@ -94,10 +94,10 @@ export const ForAdminUsersGalleries = () => {
   // }
 
   return (
-    <DropdownContainer ref={dropdownRef} isAdmin={isAdmin}>
+    <DropdownContainer ref={dropdownRef} $isAdmin={isAdmin}>
       <DropdownButton
         onClick={toggleMenu}
-        isOpen={isOpen}
+        $isOpen={isOpen}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
@@ -105,7 +105,7 @@ export const ForAdminUsersGalleries = () => {
           For Admin <span>^</span>
         </p>
       </DropdownButton>
-      <DropdownMenu isOpen={isOpen}>
+      <DropdownMenu $isOpen={isOpen}>
         {loading ? (
           <li>
             <LoaderText>Pobieram...</LoaderText>

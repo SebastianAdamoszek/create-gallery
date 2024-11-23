@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const DropdownContainer = styled.div`
   position: relative;
-  display: ${({ isAdmin }) => (isAdmin ? "inline" : "none")};
+  display: ${({ $isAdmin }) => ($isAdmin ? "inline" : "none")};
 `;
 
 export const DropdownButton = styled.button`
@@ -21,13 +21,13 @@ export const DropdownButton = styled.button`
     span {
       display: inline-block;
       transition: transform 0.3s ease;
-      transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "none")};
+      transform: ${({ $isOpen }) => ($isOpen ? "rotate(180deg)" : "none")};
     }
   }
 `;
 
 export const DropdownMenu = styled.ul`
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
   padding: 5px;
   position: absolute;
   background-color: rgba(12, 38, 124, 0.8);
@@ -35,7 +35,7 @@ export const DropdownMenu = styled.ul`
   z-index: 1;
   display: inline-block;
   transition: transform 0.2s ease;
-  transform: ${({ isOpen }) => (isOpen ? "scaleY(1)" : "scaleY(0)")};
+  transform: ${({ $isOpen }) => ($isOpen ? "scaleY(1)" : "scaleY(0)")};
   transform-origin: 0% 0%;
   li {
     line-height: 1.3;

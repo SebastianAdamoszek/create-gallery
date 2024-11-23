@@ -67,7 +67,7 @@ export const UsersGalleries = () => {
     <DropdownContainer ref={dropdownRef}>
       <DropdownButton
         onClick={toggleMenu}
-        isOpen={isOpen}
+        $isOpen={isOpen}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
@@ -75,7 +75,7 @@ export const UsersGalleries = () => {
           Users Galleries <span>^</span>
         </p>
       </DropdownButton>
-      <DropdownMenu isOpen={isOpen}>
+      <DropdownMenu $isOpen={isOpen}>
         {loading ? (
           <li>
             <LoaderText>Pobieram...</LoaderText>

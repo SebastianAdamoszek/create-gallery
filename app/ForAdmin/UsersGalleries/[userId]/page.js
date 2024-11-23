@@ -1,9 +1,8 @@
-//ForAdmin/UsersGalleries/[userId]/page.js
 "use client";
 import styles from "@/app/page.module.css";
 import { useEffect, useState } from "react";
 import { db } from "@/firebase/firebase"; // Dostęp do Firestore
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   doc,
@@ -12,7 +11,6 @@ import {
   query,
   orderBy,
   onSnapshot,
-  serverTimestamp,
   deleteDoc,
 } from "firebase/firestore";
 import { Photo, PhotoForDel } from "@/components/ForAdmin/Photo/Photo";
@@ -20,32 +18,28 @@ import {
   GalleryPageContainer,
   GalleryContainer,
 } from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.styled";
-import "@/app/globals.css";
 import { ButtonsContainer } from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto.styled";
 import {
   ButtonAddPhoto,
   ButtonDelPhoto,
 } from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto";
 import { useRouter } from "next/navigation"; // Używamy useRouter do przekierowania
-import { Loader } from "@/components/Loader/Loader";
 
 const UserGalleryAdminPage = ({ params }) => {
-  const { userId } = params; // Get userId from URL params
+  const { userId } = params; // Wyciąganie userId z params
   const [photos, setPhotos] = useState([]);
-  const [userEmail, setUserEmail] = useState(""); // Stan do przechowywania e-maila użytkownika
+  const [userEmail, setUserEmail] = useState("");
   const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Stan do kontrolowania pokazywania modalu
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Stan do kontrolowania, czy admin jest zalogowany
-  const router = useRouter(); // Do używania przekierowań
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
-  // Funkcja do pobierania zdjęć z Firestore
   const fetchPhotos = async (userId) => {
     const querySnapshot = await getDocs(
       collection(db, `galleries/${userId}/photos`)
     );
     const photos = [];
     querySnapshot.forEach((doc) => {
-      photos.push({ id: doc.id, ...doc.data() }); // Przechowuj doc.id jako ID dokumentu
+      photos.push({ id: doc.id, ...doc.data() });
     });
     return photos;
   };
@@ -53,17 +47,16 @@ const UserGalleryAdminPage = ({ params }) => {
   useEffect(() => {
     const auth = getAuth();
 
-    // Subskrypcja zmiany stanu logowania
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsLoggedIn(true); // Użytkownik jest zalogowany
+        setIsLoggedIn(true);
       } else {
-        setIsLoggedIn(false); // Użytkownik nie jest zalogowany
-        router.push("/home"); // Przekierowanie na stronę logowania po wylogowaniu
+        setIsLoggedIn(false);
+        router.push("/home");
       }
     });
 
-    return () => unsubscribeAuth(); // Anulowanie subskrypcji po odmontowaniu komponentu
+    return () => unsubscribeAuth();
   });
 
   useEffect(() => {
@@ -84,30 +77,27 @@ const UserGalleryAdminPage = ({ params }) => {
   };
 
   const handleAddPhoto = () => {
-    setShowModal(true); // Pokazujemy modal
+    setShowModal(true);
   };
 
   useEffect(() => {
-    // Funkcja do pobrania e-maila użytkownika na podstawie userId
     const fetchUserEmail = async () => {
-      const docRef = doc(db, "users", userId); // Odwołanie do dokumentu użytkownika w Firestore
-      const docSnap = await getDoc(docRef); // Pobierz dokument
+      const docRef = doc(db, "users", userId);
+      const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        setUserEmail(docSnap.data().email); // Ustaw e-mail w stanie
+        setUserEmail(docSnap.data().email);
       } else {
         console.log("Brak dokumentu użytkownika");
       }
     };
 
-    fetchUserEmail(); // Wywołanie funkcji
+    fetchUserEmail();
   }, [userId]);
 
   const handleDeletePhoto = async (photoId) => {
     try {
       await deleteDoc(doc(db, `galleries/${userId}/photos`, photoId));
-      console.log("Zdjęcie zostało usunięte.");
-      // Aktualizuj stan po usunięciu zdjęcia
       setPhotos(photos.filter((photo) => photo.id !== photoId));
     } catch (error) {
       console.error("Błąd podczas usuwania zdjęcia:", error);
@@ -119,21 +109,19 @@ const UserGalleryAdminPage = ({ params }) => {
       const photosRef = collection(db, `galleries/${userId}/photos`);
       const q = query(photosRef, orderBy("timestamp", "desc"));
 
-      // Subskrypcja zdjęć użytkownika w czasie rzeczywistym
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const photos = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setPhotos(photos); // Aktualizacja stanu po pobraniu danych
+        setPhotos(photos);
       });
 
-      // Zwolnienie subskrypcji przy odmontowywaniu komponentu
       return () => unsubscribe();
     };
 
-    loadPhotos(); // Ładowanie zdjęć po załadowaniu komponentu
-  }, [userId]); // Zależność od userId (gdy zmienia się userId, subskrypcja zostanie odświeżona)
+    loadPhotos();
+  }, [userId]);
 
   return (
     <div className={styles.main__next}>
