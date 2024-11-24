@@ -18,11 +18,11 @@ import {
   GalleryPageContainer,
   GalleryContainer,
 } from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.styled";
-import { ButtonsContainer } from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto.styled";
-import {
-  ButtonAddPhoto,
-  ButtonDelPhoto,
-} from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto";
+// import { ButtonsContainer } from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto.styled";
+// import {
+//   ButtonAddPhoto,
+//   ButtonDelPhoto,
+// } from "@/components/ForAdmin/ButtonsAddDelPhoto/ButtonsAddDelPhoto";
 import { useRouter } from "next/navigation"; // Używamy useRouter do przekierowania
 
 const UserGalleryAdminPage = ({ params }) => {
@@ -127,14 +127,14 @@ const UserGalleryAdminPage = ({ params }) => {
     <div className={styles.main__next}>
       <GalleryPageContainer>
         <h2>Galeria użytkownika: {userEmail}</h2>
-        <ButtonsContainer>
+        {/* <ButtonsContainer>
           <ButtonDelPhoto
             toggleDeleteMode={toggleDeleteMode}
             isDeleteMode={isDeleteMode}
             userId={userId}
           />
           <ButtonAddPhoto onAddPhoto={handleAddPhoto} userId={userId} />
-        </ButtonsContainer>
+        </ButtonsContainer> */}
 
         <GalleryContainer>
           {photos.map((photo) =>
