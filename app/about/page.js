@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore"; // Importujemy funkcje z Firestore
 import { db } from "../../firebase/firebase"; // Import konfiguracji Firestore
+import { Loader } from "@/components/Loader/Loader";
 import "@/app/globals.css";
 import styles from "../page.module.css";
 
@@ -92,7 +93,7 @@ export default function UserIdPage() {
         {userEmail && <p>@ {userEmail}</p>}
         <h3>Lista użytkowników:</h3>
         {loading ? (
-          <p className="loading-text">Loading...</p>
+          <Loader/>
         ) : (
           <ul>
             {users.length > 0 ? (

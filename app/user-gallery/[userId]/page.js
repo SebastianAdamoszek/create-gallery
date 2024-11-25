@@ -18,7 +18,7 @@ import styles from "../../page.module.css";
 import "@/app/globals.css";
 
 const UserGalleryPage = ({ params }) => {
-  const { userId } = use(params); // Get userId from URL params
+  const { userId } = params; // Get userId from URL params
   const [photos, setPhotos] = useState([]);
   const [userEmail, setUserEmail] = useState(""); // Stan do przechowywania e-maila użytkownika
 
