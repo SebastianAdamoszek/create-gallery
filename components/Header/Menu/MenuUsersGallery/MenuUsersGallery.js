@@ -10,6 +10,7 @@ import {
   LoaderText
 } from "./MenuUsersGallery.styled";
 import Link from "next/link";
+import { LoaderBar } from "@/components/Loader/Loader";
 
 export const UsersGalleries = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,7 +79,8 @@ export const UsersGalleries = () => {
       <DropdownMenu $isOpen={isOpen}>
         {loading ? (
           <li>
-            <LoaderText>Pobieram...</LoaderText>
+            {/* <LoaderText>Pobieram...</LoaderText> */}
+            <LoaderBar/>
           </li>
         ) : (
           users.map((user) => (

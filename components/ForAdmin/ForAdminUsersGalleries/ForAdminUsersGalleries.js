@@ -11,6 +11,7 @@ import {
   LoaderText,
 } from "./ForAdminUsersGalleries.styled";
 import Link from "next/link";
+import { LoaderBar } from "@/components/Loader/Loader";
 
 export const ForAdminUsersGalleries = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -108,7 +109,8 @@ export const ForAdminUsersGalleries = () => {
       <DropdownMenu $isOpen={isOpen}>
         {loading ? (
           <li>
-            <LoaderText>Pobieram...</LoaderText>
+            {/* <LoaderText>Pobieram...</LoaderText> */}
+            <LoaderBar/>
           </li>
         ) : (
           users.map((user) => (

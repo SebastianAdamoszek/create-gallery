@@ -30,7 +30,7 @@ export const TextUser = styled.span`
 
   &:hover {
     width: auto;
-    background-color: rgba(50, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
   }
 `;
 export const AvatarsContainer = styled.div`
@@ -54,15 +54,17 @@ export const AvatarOption = styled.img`
 export const LogOutButton = styled.button`
   font-size: 8px;
   cursor: url("/cursor-pointer.svg") pointer;
-  background-color: rgba(100, 10, 10, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 2px 10px;
   border-radius: 5px;
   border: none;
   transition: 0.2s ease-in-out;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-    color: rgba(100, 10, 10, 1);
+    background-color: rgba(200, 200, 200, 0.8);
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    border-radius: 2px;
   }
 `;
 

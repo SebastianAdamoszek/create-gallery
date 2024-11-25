@@ -1,6 +1,24 @@
-@import "../components/Header/Menu/Themes/dark.css";
-@import "../components/Header/Menu/Themes/light.css";
+/* @import "../components/Header/Menu/Themes/white.css";
+@import "../components/Header/Menu/Themes/light-teal.css";
 @import "../components/Header/Menu/Themes/orange.css";
+@import "../components/Header/Menu/Themes/honey.css"; */
+
+
+:root[data-theme="white"] {
+  --foreground-rgb: 240, 240, 240;
+}
+
+:root[data-theme="light-teal"] {
+  --foreground-rgb: 100, 200, 200;
+}
+
+:root[data-theme="orange"] {
+  --foreground-rgb: 200, 200, 20;
+}
+
+:root[data-theme="honey"] {
+  --foreground-rgb: 190, 150, 86;
+}
 
 :root {
   --max-width: 1100px;
@@ -159,10 +177,15 @@ html,
 }
 .loader {
   margin: 20px;
+  transform: rotate(-90deg);
+  /* background: linear-gradient(135deg, #cd8c95, #f3d1c8, #ffd7c9);
+  border-radius: 50%; */
+
+
 }
-.loading-text {
+.loader-text {
   font-size: 24px;
-  background: linear-gradient(90deg, #3498db, #9b59b6);
+  background: linear-gradient(135deg, #cd8c95, #f3d1c8, #ffd7c9);
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
