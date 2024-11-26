@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { storage, db } from "@/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Modal, Info } from "./UploadModal.styled";
+import { Modal, Info, Input } from "./UploadModal.styled";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
 import Resizer from "react-image-file-resizer";
@@ -13,7 +13,6 @@ export const UploadModal = ({ onClose }) => {
   const [loading, setLoading] = useState(false); // Stan dla procesu ładowania
   const [user] = useAuthState(auth);
   const [description, setDescription] = useState("");
-
 
   // Funkcja zmiany pliku
   const handleFileChange = (e) => {
@@ -92,12 +91,15 @@ export const UploadModal = ({ onClose }) => {
         </Info>
       )}
       <h2>Dodaj nowe zdjęcie</h2>
-      <input type="file" onChange={handleFileChange} />
-      <textarea style={{display:"none"}}
-        placeholder="Dodaj opis zdjęcia"
-        value={description}
-        onChange={handleDescriptionChange}
-      />
+      <Input type="file" onChange={handleFileChange} />
+      <div>
+        <textarea
+          style={{ display: "none" }}
+          placeholder="Dodaj opis zdjęcia"
+          value={description}
+          onChange={handleDescriptionChange}
+        />
+      </div>
       <button onClick={handleUpload} disabled={!user || loading}>
         {loading ? "Wysyłanie..." : "Prześlij"}
       </button>

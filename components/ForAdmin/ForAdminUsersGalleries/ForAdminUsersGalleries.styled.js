@@ -30,7 +30,7 @@ export const DropdownMenu = styled.ul`
   display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
   padding: 5px;
   position: absolute;
-  background-color: rgba(12, 38, 124, 0.8);
+  background-color: rgba(82, 52, 28, 0.7);
   border-radius: 5px;
   z-index: 1;
   display: inline-block;

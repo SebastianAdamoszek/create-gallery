@@ -17,16 +17,23 @@ export const Modal = styled.div`
   button {
     padding: 10px 25px;
     width: 110px;
-    text-align: center;
     border-radius: 10px;
-    border: none;
+    border: 2px solid rgb(236, 225, 214);
     font-weight: bold;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: linear-gradient(
+      135deg,
+      rgba(48, 27, 10, 0.9),
+      rgba(135, 77, 30, 0.9)
+    );
     cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease;
 
     &:hover {
-      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      background: linear-gradient(
+        135deg,
+        rgba(135, 77, 30, 0.9),
+        rgba(48, 27, 10, 0.9)
+      );
       transform: scale(1.05);
     }
 
@@ -35,6 +42,21 @@ export const Modal = styled.div`
     }
   }
 `;
+
+export const Input = styled.input`
+   
+    border: 3px solid;
+    border-radius: 10px;
+    padding: 5px;
+    width: 230px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
 export const Info = styled.div`
   position: relative;
   display: ${({ isLoggedIn }) => (isLoggedIn ? "none" : "block")};

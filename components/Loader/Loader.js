@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { RingLoader, CircleLoader, ClockLoader, BarLoader } from "react-spinners";
+import {
+  RingLoader,
+  CircleLoader,
+  ClockLoader,
+  BarLoader,
+} from "react-spinners";
 // https://www.davidhu.io/react-spinners/
 import "@/app/globals.css";
 
@@ -18,7 +23,9 @@ export const Loader = () => {
       <div style={clockStyle} className="loader">
         <ClockLoader size={150} color={colorTheme} loading={true} />
       </div>
-      <p color={colorTheme}>Loading...</p>
+      <div style={textStyle}>
+        <p color={colorTheme}>Loading...</p>
+      </div>
     </div>
   );
 };
@@ -32,9 +39,16 @@ const loaderStyle = {
 };
 const clockStyle = {
   transform: "rotate(-90deg)",
+  backgroundColor: "rgba(0,0,0,0.7)",
+  borderRadius: "25px",
+  padding: "10px",
 };
-
-
+const textStyle = {
+  backgroundColor: "rgba(0,0,0,0.7)",
+  width: "300px",
+  padding: "10px",
+  textAlign: "center",
+};
 
 export const LoaderBar = () => {
   const [colorTheme, setColorTheme] = useState("");
@@ -46,7 +60,7 @@ export const LoaderBar = () => {
     setColorTheme(`rgb(${foregroundRgb})`);
   }, []);
 
-  return <BarLoader color={colorTheme || "#000"} width={100}/>;
+  return <BarLoader color={colorTheme || "#000"} width={100} />;
 };
 
 export const StartLoader = () => {
@@ -64,7 +78,9 @@ export const StartLoader = () => {
       <div style={clockStyle} className="loader">
         <ClockLoader size={150} color="#be9656" loading={true} />
       </div>
-      <p className="loader-text">Loading...</p>
+      <div style={textStyle}>
+        <p className="loader-text">Loading...</p>
+      </div>
     </div>
   );
 };

@@ -9,6 +9,10 @@ export const ClockConrainer = styled.div`
     transform: scale(1);
     margin: 70px 0 0 0;
   }
+
+  img {
+    border-radius: 10%;
+  }
 `;
 export const Glass = styled.div`
   position: relative;
@@ -100,7 +104,6 @@ export const SecondHandTwo = ({ rotation }) => {
 
   return <div style={style}></div>;
 };
-
 
 export const PointCentre = styled.div`
   position: absolute;
