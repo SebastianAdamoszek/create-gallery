@@ -10,7 +10,7 @@ export const Nav = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: rgba(12, 38, 124, 0.5);
+  background-color: rgba(82, 52, 28, 0.7);
   position: absolute;
   width: 100%;
   top: 70px;

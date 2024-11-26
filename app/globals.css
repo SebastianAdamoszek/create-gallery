@@ -86,9 +86,9 @@ body {
     rgb(var(--background-start-rgb));
 }
 body {
-  background-image: url("../public/desktop-electric-background.png");
+  background-image: url("../public/tools-desktop.png");
   background-size: cover; 
-  background-position: bottom left;
+  background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   height: 100%;

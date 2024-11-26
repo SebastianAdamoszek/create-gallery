@@ -56,7 +56,7 @@ export const Clock = () => {
         <Loader />
       ) : (
         <ClockConrainer>
-          <Image src="/dial1.png" width={400} height={400} alt="Clock dial" />
+          <Image src="/cyferblat.png" width={400} height={400} alt="Clock dial" />
           <Glass>
             <HourHand rotation={hourRotation} />
             <MinuteHand rotation={minuteRotation} />
