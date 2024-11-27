@@ -9,9 +9,7 @@
 }
 
 :root[data-theme="light-teal"] {
-  /* --foreground-rgb: 100, 200, 200; */
-  /* --foreground-rgb: 224, 17, 95; */
-  --foreground-rgb: 25, 42, 86; /* Granatowy rozmhartowany metal */
+  --foreground-rgb: 100, 200, 200;
 }
 
 :root[data-theme="orange"] {

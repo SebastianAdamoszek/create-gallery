@@ -66,6 +66,11 @@ export const MenuComponent = () => {
           </Link>
         </li>
         <li>
+          <Link href="/clock" onClick={() => setIsOpen(false)}>
+            <p>Clock</p>
+          </Link>
+        </li>
+        <li>
           <UsersGalleries />
         </li>
         <li>

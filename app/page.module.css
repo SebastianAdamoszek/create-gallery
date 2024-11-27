@@ -3,8 +3,13 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem 10px;
   min-height: 100vh;
+  padding: 1rem 10px;
+
+  @media (min-width: 768px) {
+    padding: 6rem 10px;
+
+  }
 }
 .main__next h2 {
   padding: 15px 0;

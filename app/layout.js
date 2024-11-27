@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { HeaderComponent } from "@/components/Header/Header.js";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ChatPage } from "@/components/Chat/ChatPage.js";
-import { Loader, StartLoader } from "@/components/Loader/Loader";
+import { StartLoader } from "@/components/Loader/Loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,7 +37,6 @@ export default function RootLayout({ children }) {
                   </li>
                 </ul>
               </footer>
-              <ChatPage />
             </div>
           )}
         </body>

@@ -15,6 +15,12 @@ export const ChatPageContainer = styled.div`
       transform: scale(0.2);
     }
   }
+
+  h3 {
+    margin: 0;
+    padding: 1px;
+    text-align: left;
+  }
 `;
 
 export const Title = styled.div`

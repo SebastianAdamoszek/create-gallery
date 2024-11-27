@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import {
+  ClockWrapper,
   ClockConrainer,
   HourHand,
   MinuteHand,
@@ -55,21 +56,28 @@ export const Clock = () => {
       {loading ? (
         <Loader />
       ) : (
-        <ClockConrainer>
-          <Image src="/cyferblat.png" width={400} height={400} alt="Clock dial" />
-          <Glass>
-            <HourHand rotation={hourRotation} />
-            <MinuteHand rotation={minuteRotation} />
-            <SecondHand rotation={secondRotation} />
-            <SecondHandTwo rotation={secondRotation} />
-            <PointCentre />
-            <Calendar day={currentDate.day}>
-              <span>{currentDate.day}</span>
-              <Line>|</Line>
-              <span>{currentDate.date}</span>
-            </Calendar>
-          </Glass>
-        </ClockConrainer>
+        <ClockWrapper>
+          <ClockConrainer>
+            <Image
+              src="/cyferblat.png"
+              width={400}
+              height={400}
+              alt="Clock dial"
+            />
+            <Glass>
+              <HourHand rotation={hourRotation} />
+              <MinuteHand rotation={minuteRotation} />
+              <SecondHand rotation={secondRotation} />
+              <SecondHandTwo rotation={secondRotation} />
+              <PointCentre />
+              <Calendar day={currentDate.day}>
+                <span>{currentDate.day}</span>
+                <Line>|</Line>
+                <span>{currentDate.date}</span>
+              </Calendar>
+            </Glass>
+          </ClockConrainer>
+        </ClockWrapper>
       )}
     </>
   );
