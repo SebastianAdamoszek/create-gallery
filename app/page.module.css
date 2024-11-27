@@ -30,7 +30,7 @@
 }
 .main__content {
   background-color: rgba(0,0,0,0.8);
-  padding: 15px;
+  padding: 15px 2%;
   border: 6px double;
   border-radius: 5px;
 }

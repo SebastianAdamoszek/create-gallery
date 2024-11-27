@@ -9,15 +9,9 @@ export const ClockWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -80px;
-
-  @media (min-width: 768px) {
-    margin-top: 0;
-  }
 `;
 
 export const ClockConrainer = styled.div`
-  margin: 0;
   transform: scale(0.8);
   padding-top: 200px;
 

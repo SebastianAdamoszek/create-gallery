@@ -68,7 +68,6 @@ export const User = styled.p`
 
 export const GalleryPageContainer = styled.div`
   width: 100%;
-  margin-top: -80px;
   display: flex;
   flex-direction: column;
   border: 5px double;
