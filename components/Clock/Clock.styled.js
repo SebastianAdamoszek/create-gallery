@@ -3,12 +3,16 @@
 import styled from "styled-components";
 
 export const ClockWrapper = styled.div`
-  width: 80%;
+  width: 500px;
   height: 500px;
   background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 768px) {
+    width: 700px;
+    height: 700px;  }
 `;
 
 export const ClockConrainer = styled.div`

@@ -100,8 +100,8 @@ body {
   } */
 }
 a {
-  /* cursor: url("../public/cursor-pointer.svg"), pointer; */
-  cursor: pointer;
+  cursor: url("../public/cursor-pointer.svg"), pointer;
+  /* cursor: pointer; */
 }
 button {
   /* cursor: url("../public/cursor-pointer.svg"), pointer; */

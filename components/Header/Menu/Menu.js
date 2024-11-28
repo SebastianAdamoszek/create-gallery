@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Burger, BurgerLine } from "./ButtonMenuMobile.styled.js";
 import { Menu, Nav } from "./MenuNav.styled.js";
 import Link from "next/link";
-import { getAuth } from "firebase/auth";
 import { UsersGalleries } from "./MenuUsersGallery/MenuUsersGallery.js";
 import { ForAdminUsersGalleries } from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.js";
 
@@ -11,7 +10,6 @@ export const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const burgerRef = useRef(null);
-  const auth = getAuth();
 
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
@@ -51,13 +49,18 @@ export const MenuComponent = () => {
           </Link>
         </li>
         <li>
+          <Link href="/contact" onClick={() => setIsOpen(false)}>
+            <p>Contact</p>
+          </Link>
+        </li>
+        <li>
           <Link href="/about" onClick={() => setIsOpen(false)}>
             <p>About</p>
           </Link>
         </li>
         <li>
-          <Link href="/contact" onClick={() => setIsOpen(false)}>
-            <p>Contact</p>
+          <Link href="/users">
+            <p>Users</p>
           </Link>
         </li>
         <li>

@@ -21,8 +21,7 @@ export const Nav = styled.ul`
   transform: translateY(-100%) scaleY(0);
   opacity: 1;
   transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
-  li  
-   {
+  li {
     width: 130px;
     color: auto;
   }
@@ -59,10 +58,5 @@ export const Nav = styled.ul`
     li {
       width: auto;
     }
-  }
-  @media (min-width: 960px) {
-    justify-content: flex-end;
-    gap: 5%;
-    padding-right: 1%;
   }
 `;
