@@ -79,13 +79,12 @@ export const UsersGalleries = () => {
       <DropdownMenu $isOpen={isOpen}>
         {loading ? (
           <li>
-            {/* <LoaderText>Pobieram...</LoaderText> */}
             <LoaderBar/>
           </li>
         ) : (
           users.map((user) => (
             <li key={user.id}>
-              <Link
+              <Link 
                 href={`/user-gallery/[userId]`}
                 as={`/user-gallery/${user.id}`}
                 onClick={() => setIsOpen(false)}

@@ -59,7 +59,7 @@ export const MenuComponent = () => {
           </Link>
         </li>
         <li>
-          <Link href="/users">
+          <Link href="/users" onClick={() => setIsOpen(false)}>
             <p>Users</p>
           </Link>
         </li>
