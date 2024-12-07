@@ -5,7 +5,7 @@ export const ChatPageContainer = styled.div`
   background-color: gray;
   border: 3px solid darkgray;
   border-radius: 8px;
-  z-index: 1000;
+  z-index: 0;
   /* cursor: url("/cursor-grab.png"), grab; */
   cursor: grab;
 

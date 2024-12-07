@@ -21,12 +21,12 @@ export const Modal = styled.div`
     border-radius: 10px;
     border: none;
     font-weight: bold;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: linear-gradient(135deg, #1c1f26, #2d3142, #4e5d73, #182747);
     cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease;
 
     &:hover {
-      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      background: linear-gradient(-135deg, #1c1f26, #2d3142, #4e5d73, #182747);
       transform: scale(1.05);
     }
 
