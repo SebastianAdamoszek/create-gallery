@@ -57,3 +57,4 @@ export const ButtonDel = styled.button`
     transform: scale(0.95);
   }
 `;
+// background: linear-gradient(135deg, rgba(3, 24, 44, 0.9), rgba(0, 26, 53, 0.95), rgba(0, 28, 65, 1), rgba(4, 61, 138, 0.9), rgba(82, 134, 165, 1));
