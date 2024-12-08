@@ -7,12 +7,14 @@ import {
   BtnHoney,
   ThemeContainer,
 } from "./Theme.styled";
+
 export const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState("honey");
+  // Zmieniamy domyślny motyw na 'light-teal'
+  const [theme, setTheme] = useState("light-teal");
 
   // Funkcja do zapamiętania wybranego motywu w localStorage
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "honey";
+    const savedTheme = localStorage.getItem("theme") || "light-teal";  // Ustawienie domyślnego motywu na 'light-teal'
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
   }, []);
@@ -33,3 +35,4 @@ export const ThemeSwitcher = () => {
     </ThemeContainer>
   );
 };
+

@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
             property="og:description"
             content="Profesjonalne usługi zegarmistrzowskie: wymiana pasków, bransolet, baterii, szkła, dorabianie szkieł, naprawa antyków. Obsługujemy Katowice i Chorzów."
           />
-          <meta property="og:image" content="/favicon.ico" />
+          <meta property="og:image" content="/dial2.jpg" />
           <link rel="icon" href="/favicon.ico" type="image/jpg" />
 
           <Script id="structured-data" type="application/ld+json">
@@ -49,7 +49,7 @@ export default function RootLayout({ children }) {
               name: "Serwis zegarmistrzowski",
               description:
                 "Kompleksowe usługi zegarmistrzowskie: wymiana pasków, bransolet, baterii, szkła, dorabianie szkieł, naprawa antyków. Katowice i Chorzów.",
-              image: "/favicon.ico",
+              image: "/dial2.jpg",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Katowice",

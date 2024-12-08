@@ -5,11 +5,11 @@ export const metadata = {
   openGraph: {
     title: "Serwis zegarmistrzowski",
     description: "Najlepsze usługi zegarmistrzowskie w Twojej okolicy!",
-    images: ["/favicon.ico"],
+    images: ["/dial2.jpg"],
   },
   viewport: "width=device-width, initial-scale=1",
   icons: {
-    icon: "/favicon.ico", 
-    apple: "/favicon.ico", 
+    icon: "/dial2.jpg", 
+    apple: "/dial2.jpg", 
   },
 };
