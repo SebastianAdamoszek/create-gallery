@@ -4,8 +4,8 @@ export const ThemeContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  width: 41px;
-  height: 41px;
+  width: 49px;
+  height: 49px;
   gap: 1px;
   margin-left: 20px;
 
@@ -20,8 +20,8 @@ export const ThemeContainer = styled.div`
 
 export const BtnWhite = styled.button`
   background-color: rgb(240, 240, 240);
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: none;
   border-radius: 3px;
   @media (min-width: 768px) {
@@ -36,8 +36,8 @@ export const BtnWhite = styled.button`
 
 export const BtnLightTeal = styled.button`
   background-color: rgb(100, 200, 200);
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: none;
   border-radius: 3px;
 
@@ -50,8 +50,8 @@ export const BtnLightTeal = styled.button`
 
 export const BtnOrange = styled.button`
   background-color: rgb(200, 200, 20);
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: none;
   border-radius: 3px;
 
@@ -64,8 +64,8 @@ export const BtnOrange = styled.button`
 
 export const BtnHoney = styled.button`
   background-color: rgb(190, 150, 86);
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border: none;
   border-radius: 3px;
 
