@@ -3,7 +3,6 @@
 @import "../components/Header/Menu/Themes/orange.css";
 @import "../components/Header/Menu/Themes/honey.css"; */
 
-
 :root[data-theme="white"] {
   --foreground-rgb: 240, 240, 240;
 }
@@ -86,21 +85,16 @@ body {
     rgb(var(--background-start-rgb));
 }
 body {
-  background-image: url("../public/tools-desktop.png");
-  background-size: cover; 
+  background-image: url("/tools-desktop.webp");
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   height: 100%;
-  cursor: url("../public/icons8-cursor.svg"), auto;
-  /* @media (min-width: 768px) {
-    background-image: url("../public/desktop-electric-background.png");
-    background-position: bottom left;
-
-  } */
+  cursor: url("/icons8-cursor.svg"), auto;
 }
 a {
-  cursor: url("../public/cursor-pointer.svg"), pointer;
+  cursor: url("/cursor-pointer.svg"), pointer;
   /* cursor: pointer; */
 }
 button {
@@ -180,8 +174,6 @@ html,
   transform: rotate(-90deg);
   /* background: linear-gradient(135deg, #cd8c95, #f3d1c8, #ffd7c9);
   border-radius: 50%; */
-
-
 }
 .loader-text {
   font-size: 24px;
@@ -207,12 +199,10 @@ html,
   }
 } */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus
-input:-webkit-autofill, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus input:-webkit-autofill,
 textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
-textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
@@ -231,4 +221,4 @@ select:-webkit-autofill:focus {
   background-color: rgba(12, 38, 124, 0.2);
   padding: 15px;
   z-index: 100;
- }
+}
