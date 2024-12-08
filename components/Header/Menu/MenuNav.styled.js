@@ -59,4 +59,9 @@ export const Nav = styled.ul`
       width: auto;
     }
   }
+
+  @media (min-width: 1368px) {
+    justify-content: center ;
+    gap:  40px;
+  }
 `;
