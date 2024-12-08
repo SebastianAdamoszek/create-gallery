@@ -26,10 +26,10 @@ export const ThemeSwitcher = () => {
 
   return (
     <ThemeContainer>
-      <BtnWhite onClick={() => changeTheme("white")}></BtnWhite>
-      <BtnLightTeal onClick={() => changeTheme("light-teal")}></BtnLightTeal>
-      <BtnOrange onClick={() => changeTheme("orange")}></BtnOrange>
-      <BtnHoney onClick={() => changeTheme("honey")}></BtnHoney>
+      <BtnWhite onClick={() => changeTheme("white")} aria-label="zmień kolor tekstu"></BtnWhite>
+      <BtnLightTeal onClick={() => changeTheme("light-teal")} aria-label="zmień kolor tekstu"></BtnLightTeal>
+      <BtnOrange onClick={() => changeTheme("orange")} aria-label="zmień kolor tekstu"></BtnOrange>
+      <BtnHoney onClick={() => changeTheme("honey")} aria-label="zmień kolor tekstu"></BtnHoney>
     </ThemeContainer>
   );
 };
