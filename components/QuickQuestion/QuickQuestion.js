@@ -1,85 +1,107 @@
-"use client";
-import styles from "@/app/page.module.css";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
-import Link from "next/link";
-import {
-  QuickQuestionContainer,
-  QuickQuestionContent,
-  ButtonsListContainer,
-  ListContainer,
-  ListMore,
-  ListLess,
-} from "./QuickQuestion.styled";
+import React, { useState } from "react";
+import { storage, db } from "@/firebase/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { Modal, Info, Input } from "./QuickQuestion.styled";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/firebase";
+import Resizer from "react-image-file-resizer";
+import "@/app/globals.css";
 
-export const QuickQuestion = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      delay: 200,
+export const UploadModal = ({ onClose }) => {
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false); // Stan dla procesu ładowania
+  const [user] = useAuthState(auth);
+  const [description, setDescription] = useState("");
+
+  // Funkcja zmiany pliku
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        800, // szerokość docelowa w pikselach
+        800, // wysokość docelowa w pikselach
+        "JPEG", // format pliku
+        70, // jakość obrazu w procentach (0-100)
+        0, // rotacja w stopniach
+        (uri) => {
+          resolve(uri);
+        },
+        "blob" // typ wyjścia - blob jest wymagany przez Firebase Storage
+      );
     });
-  }, []);
+
+  // Funkcja do wysyłania obrazu
+  const handleUpload = async () => {
+    if (!file) return;
+
+    setLoading(true); // Ustawiamy loading na true, aby pokazać status
+
+    try {
+      // Jeśli użytkownik nie jest zalogowany, nie pozwalamy na wysyłanie
+      if (!user) {
+        console.error("Użytkownik nie jest zalogowany");
+        setLoading(false);
+        return;
+      }
+
+      const userId = user.uid;
+
+      // Przeskalowanie obrazu przed wysłaniem
+      const resizedImage = await resizeFile(file);
+
+      // Tworzenie referencji do pliku w Storage
+      const storageRef = ref(storage, `photos/${userId}/${file.name}`);
+
+      // Przesyłanie obrazu do Firebase Storage
+      await uploadBytes(storageRef, resizedImage);
+
+      // Pobieranie URL-a pliku
+      const url = await getDownloadURL(storageRef);
+
+      // Dodanie URL-a do Firestore
+      await addDoc(collection(db, `galleries/${userId}/photos`), {
+        url,
+        description,
+        timestamp: serverTimestamp(),
+      });
+
+      // Zamknięcie modala po wysłaniu
+      onClose();
+    } catch (error) {
+      console.error("Błąd podczas przesyłania pliku:", error);
+    } finally {
+      setLoading(false); // Po zakończeniu procesu ustawiamy loading na false
+    }
+  };
 
   return (
-    <QuickQuestionContainer>
-      <QuickQuestionContent data-aos="fade-up">
-        <h1 data-aos="fade-up">
-          Serwis zegarmistrzowski {'"czasowa-klinika"!'}
-        </h1>
-        <h2 data-aos="fade-up">Witamy w naszej aplikacji!</h2>
-        <ButtonsListContainer>
-          <Link href="/login-register">
-            <button>Logowanie i Rejestracja</button>
-          </Link>
-          <Link href="/quick-question">
-            <button>Kontynuuj jako gość</button>
-          </Link>
-        </ButtonsListContainer>
-
-        <ListContainer>
-          <ListMore>
-            <p> więcej korzyści</p>
-            <li>
-              + <span>dodatkowe funkcje</span>
-            </li>
-            <li>
-              + <span>dostep do przesłanych zdjeć</span>
-            </li>
-            <li>
-              + <span>odczyt powiadomień</span>
-            </li>
-            <li>
-              + <span>dostęp do publicznego czatu</span>
-            </li>
-            <li>
-              + <span>dostęp do zdjęc użytkowników bez opisów</span>
-            </li>
-            <li>
-              + <span>lepsza komunikacja</span>
-            </li>
-          </ListMore>
-
-          <ListLess>
-            <p>mniej mozliwości</p>
-            <li>
-              - <span>kontakt z serwisem tylko telefoniczny</span>
-            </li>
-            <li>
-              - <span>brak dostępu do przesłanych zdjęć</span>
-            </li>
-            <li>
-              - <span>brak powiadomień</span>
-            </li>
-            <li>
-              - <span>brak dostępu do zdjęć użytkowników</span>
-            </li>
-            <li>
-              - <span>brak dostępu do czatu</span>
-            </li>
-          </ListLess>
-        </ListContainer>
-      </QuickQuestionContent>
-    </QuickQuestionContainer>
+    <Modal>
+    {/* {!user && (
+      <Info isLoggedIn={false}>
+        <h2>Aby dodać zdjęcie, musisz być zalogowany</h2>
+      </Info>
+    )} */}
+    <h2>Dodaj nowe zdjęcie</h2>
+    <input type="file" onChange={handleFileChange} />
+    <textarea
+      placeholder="Dodaj opis zdjęcia"
+      value={description}
+      onChange={handleDescriptionChange}
+    />
+    <button onClick={handleUpload} disabled={!user || loading}>
+      {loading ? "Wysyłanie..." : "Prześlij"}
+    </button>
+    <button onClick={onClose}>Anuluj</button>
+    {loading && <p className="loading-text">Trwa wysyłanie obrazu...</p>}
+  </Modal>
   );
 };
