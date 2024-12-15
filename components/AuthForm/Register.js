@@ -2,18 +2,16 @@
 import { useAuthForm } from "./useAuthForm";
 import Image from "next/image";
 import {
-  AuthFormContainer,
-  HideFormButton,
   LogInGoogle,
   Form,
-  MinimizedFormButton,
   ValidateError,
   LogRegContainer,
   LogButton,
   RegButton,
 } from "./AuthForm.styled";
+import { RegisterContainer, RegisterFormContainer } from "./Register.styled";
 
-export const AuthForm = ({ zoomOut, toggleZoomOut }) => {
+export const Register = () => {
   const {
     user,
     email,
@@ -29,11 +27,13 @@ export const AuthForm = ({ zoomOut, toggleZoomOut }) => {
     showRegisterMode,
   } = useAuthForm();
 
+
   return (
     <>
-      {!zoomOut && (
-        <AuthFormContainer style={{ display: user ? "none" : "flex" }}>
-          <HideFormButton onClick={toggleZoomOut}>⬇️</HideFormButton>
+      <RegisterContainer
+        style={{ display: user ? "none" : "flex" }}
+      >
+        <RegisterFormContainer style={{ display: user ? "none" : "flex" }}>
           <LogRegContainer>
             <LogButton onClick={showLoginMode} disabled={isLogin}>
               Logowanie
@@ -69,18 +69,12 @@ export const AuthForm = ({ zoomOut, toggleZoomOut }) => {
               required
             />
             {error && <ValidateError>{error}</ValidateError>}
-            <button type="submit">{isLogin ? "Zaloguj się" : "Zarejestruj się"}</button>
+            <button type="submit">
+              {isLogin ? "Zaloguj się" : "Zarejestruj się"}
+            </button>
           </Form>
-        </AuthFormContainer>
-      )}
-      {zoomOut && (
-        <MinimizedFormButton
-          onClick={toggleZoomOut}
-          title="Formularz rejestracji i logowania"
-        >
-          📝
-        </MinimizedFormButton>
-      )}
+        </RegisterFormContainer>
+      </RegisterContainer>
     </>
   );
 };

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { loginUser, registerUser, loginWithGoogle } from "../../firebase/Authorization"; // Import funkcji autoryzacyjnych
 import { useAuthState } from "react-firebase-hooks/auth"; // Importowanie hooka z firebase
 import { auth } from "../../firebase/firebase";
+import { useRouter } from "next/navigation";
 
 
 export const useAuthForm = () => {
@@ -15,7 +16,7 @@ export const useAuthForm = () => {
   const [user] = useAuthState(auth); // Hook do monitorowania stanu zalogowania użytkownika
   const [isLoginMode] = useState(true);
   const [isRegisterMode] = useState(false);
-  
+  const router = useRouter();
 
   // Walidacja e-maila
   const validateEmail = (email) => {
@@ -64,6 +65,8 @@ export const useAuthForm = () => {
 
     if (!response.success) {
       setError(response.message);
+    } else {
+      router.push("/my-gallery"); 
     }
   };
 
