@@ -25,7 +25,7 @@ export const Welcome = () => {
     <QuickQuestionContainer>
       <QuickQuestionContent data-aos="fade-up">
         <h1 data-aos="fade-up">
-          Serwis zegarmistrzowski {'"czasowa-klinika"!'}
+          Serwis zegarmistrzowski {'"Czasowa-Klinika" !'}
         </h1>
         <h2 data-aos="fade-up">Witamy w naszej aplikacji!</h2>
         <ButtonsListContainer>
@@ -43,6 +43,12 @@ export const Welcome = () => {
             <li>
               + <span>dodatkowe funkcje</span>
             </li>
+             <li>
+              + <span>własna galeria przesłanych zdjęć</span>
+            </li>
+             <li>
+              + <span>możliwość dodawania i usuwaia zdjęć</span>
+            </li>
             <li>
               + <span>dostep do przesłanych zdjeć</span>
             </li>
@@ -58,10 +64,16 @@ export const Welcome = () => {
             <li>
               + <span>lepsza komunikacja</span>
             </li>
+             <li>
+              + <span>kontakt poprzez platforme </span>
+            </li>
           </ListMore>
 
           <ListLess>
             <p>mniej mozliwości</p>
+             <li>
+              - <span>jednorazowe przesłanie zdjęcia </span>
+            </li>
             <li>
               - <span>kontakt z serwisem tylko telefoniczny</span>
             </li>

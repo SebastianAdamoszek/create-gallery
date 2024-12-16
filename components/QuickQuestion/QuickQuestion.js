@@ -1,20 +1,23 @@
+"use client";
 import React, { useState } from "react";
 import { storage, db } from "@/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Modal, Info, Input } from "./QuickQuestion.styled";
+import { Modal, Info } from "./QuickQuestion.styled";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
 import Resizer from "react-image-file-resizer";
 import "@/app/globals.css";
+import { useRouter } from "next/navigation";
 
 export const UploadModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false); // Stan dla procesu ładowania
+  const [loading, setLoading] = useState(false);
   const [user] = useAuthState(auth);
   const [description, setDescription] = useState("");
+  const [phone, setPhone] = useState(""); // Stan dla numeru telefonu
+  const router = useRouter();
 
-  // Funkcja zmiany pliku
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -23,85 +26,113 @@ export const UploadModal = ({ onClose }) => {
     setDescription(e.target.value);
   };
 
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value);
+  };
+
   const resizeFile = (file) =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        800, // szerokość docelowa w pikselach
-        800, // wysokość docelowa w pikselach
-        "JPEG", // format pliku
-        70, // jakość obrazu w procentach (0-100)
-        0, // rotacja w stopniach
+        800,
+        800,
+        "JPEG",
+        70,
+        0,
         (uri) => {
           resolve(uri);
         },
-        "blob" // typ wyjścia - blob jest wymagany przez Firebase Storage
+        "blob"
       );
     });
 
-  // Funkcja do wysyłania obrazu
   const handleUpload = async () => {
-    if (!file) return;
+    // Walidacja numeru telefonu
+    const phoneRegex = /^[0-9]{9}$/; // Sprawdza, czy numer ma dokładnie 9 cyfr
+    if (!phoneRegex.test(phone.trim())) {
+      alert("Proszę podać prawidłowy numer telefonu (9 cyfr bez spacji).");
+      return;
+    }
 
-    setLoading(true); // Ustawiamy loading na true, aby pokazać status
+    if (!file) {
+      alert("Proszę wybrać plik do przesłania.");
+      return;
+    }
+
+    setLoading(true);
 
     try {
-      // Jeśli użytkownik nie jest zalogowany, nie pozwalamy na wysyłanie
-      if (!user) {
-        console.error("Użytkownik nie jest zalogowany");
-        setLoading(false);
-        return;
-      }
-
-      const userId = user.uid;
-
-      // Przeskalowanie obrazu przed wysłaniem
+      const userId = user ? user.uid : "guest";
       const resizedImage = await resizeFile(file);
 
-      // Tworzenie referencji do pliku w Storage
-      const storageRef = ref(storage, `photos/${userId}/${file.name}`);
+      const storageRef = ref(
+        storage,
+        user ? `photos/${userId}/${file.name}` : `guest_photos/${file.name}`
+      );
 
-      // Przesyłanie obrazu do Firebase Storage
       await uploadBytes(storageRef, resizedImage);
 
-      // Pobieranie URL-a pliku
       const url = await getDownloadURL(storageRef);
 
-      // Dodanie URL-a do Firestore
-      await addDoc(collection(db, `galleries/${userId}/photos`), {
-        url,
-        description,
-        timestamp: serverTimestamp(),
-      });
+      if (user) {
+        await addDoc(collection(db, `galleries/photos/${userId}`), {
+          url,
+          description,
+          phone, // Zapis numeru telefonu
+          timestamp: serverTimestamp(),
+        });
+      } else {
+        await addDoc(collection(db, "guestUploads"), {
+          url,
+          description,
+          phone, // Zapis numeru telefonu
+          timestamp: serverTimestamp(),
+        });
+      }
 
-      // Zamknięcie modala po wysłaniu
-      onClose();
+      alert(
+        "Zdjęcie zostało wysłane! Dziękujemy za przesłanie. Zachęcamy do założenia konta, aby mieć stały dostęp do swoich zdjęć. Oczekuj na kontakt serwisanta."
+      );
+      router.push("/welcome");
     } catch (error) {
       console.error("Błąd podczas przesyłania pliku:", error);
     } finally {
-      setLoading(false); // Po zakończeniu procesu ustawiamy loading na false
+      setLoading(false);
     }
   };
 
   return (
     <Modal>
-    {/* {!user && (
-      <Info isLoggedIn={false}>
-        <h2>Aby dodać zdjęcie, musisz być zalogowany</h2>
-      </Info>
-    )} */}
-    <h2>Dodaj nowe zdjęcie</h2>
-    <input type="file" onChange={handleFileChange} />
-    <textarea
-      placeholder="Dodaj opis zdjęcia"
-      value={description}
-      onChange={handleDescriptionChange}
-    />
-    <button onClick={handleUpload} disabled={!user || loading}>
-      {loading ? "Wysyłanie..." : "Prześlij"}
-    </button>
-    <button onClick={onClose}>Anuluj</button>
-    {loading && <p className="loading-text">Trwa wysyłanie obrazu...</p>}
-  </Modal>
+      <h2>Dodaj zdjęcie</h2>
+      <input type="file" onChange={handleFileChange} />
+      <textarea
+        placeholder="Dodaj opis, napisz zapytanie"
+        value={description}
+        onChange={handleDescriptionChange}
+      />
+      <input
+        type="tel"
+        placeholder="123456789 - tel do kontaktu"
+        value={phone}
+        onChange={handlePhoneChange}
+      />
+      <button onClick={handleUpload} disabled={loading}>
+        {loading ? "Wysyłanie..." : "Prześlij"}
+      </button>
+      <button
+        onClick={() => {
+          router.push("/welcome");
+        }}
+      >
+        Anuluj
+      </button>
+      {loading && <p className="loading-text">Trwa wysyłanie obrazu...</p>}
+      {!user && (
+        <Info>
+          Jesteś gościem. Twoje zdjęcie zostanie przesłane bez powiązania z
+          kontem użytkownika.
+        </Info>
+      )}
+    </Modal>
   );
 };

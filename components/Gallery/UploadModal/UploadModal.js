@@ -75,6 +75,9 @@ export const UploadModal = ({ onClose }) => {
       });
 
       // Zamknięcie modala po wysłaniu
+      alert(
+        "Zdjęcie zostało wysłane! Dodaj opis lub zapytanie! Dziękujemy! Oczekuj na kontakt serwisanta."
+      );
       onClose();
     } catch (error) {
       console.error("Błąd podczas przesyłania pliku:", error);

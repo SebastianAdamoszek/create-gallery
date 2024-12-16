@@ -6,7 +6,9 @@ import styles from "../page.module.css";
 export default function ContactPage() {
   return (
   <div className={styles.main__next}>
-    <ChatPage />
+      <ChatPage />
+      <h2>nr kontaktowy </h2>
+      <p>+48 793 083 013</p>
   </div>
   );
 }
