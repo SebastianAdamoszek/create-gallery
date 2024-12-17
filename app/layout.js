@@ -74,7 +74,8 @@ export default function RootLayout({ children }) {
               <footer>
                 <ul className="footer">
                   <li>
-                    <p>Footer Content</p>
+                    <p>Serwis zegarmistrzowski {'"Czasowa-Klinika" !'}</p>
+                    <span>aplikacja w ciągłej rozbudowie</span>
                   </li>
                 </ul>
               </footer>

@@ -5,10 +5,19 @@ import styles from "../page.module.css";
 
 export default function ContactPage() {
   return (
-  <div className={styles.main__next}>
+    <div className={styles.main__next}>
       <ChatPage />
-      <h2>nr kontaktowy </h2>
-      <p>+48 793 083 013</p>
-  </div>
+      <div
+        style={{
+          border: "3px solid",
+          borderRadius: "15px",
+          padding: "15px",
+          backgroundColor: "gray",
+        }}
+      >
+        <h2>nr kontaktowy </h2>
+        <h2>+48 793 083 013</h2>
+      </div>
+    </div>
   );
 }
