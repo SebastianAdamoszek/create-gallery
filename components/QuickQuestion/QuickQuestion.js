@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { storage, db } from "@/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Modal, Info } from "./QuickQuestion.styled";
+import { Modal, Info, InputContainer } from "./QuickQuestion.styled";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
 import Resizer from "react-image-file-resizer";
@@ -104,18 +104,23 @@ export const UploadModal = ({ onClose }) => {
   return (
     <Modal>
       <h2>Dodaj zdjęcie</h2>
-      <input type="file" onChange={handleFileChange} />
-      <textarea
-        placeholder="Dodaj opis, napisz zapytanie"
-        value={description}
-        onChange={handleDescriptionChange}
-      />
-      <input
-        type="tel"
-        placeholder="123456789 - tel do kontaktu"
-        value={phone}
-        onChange={handlePhoneChange}
-      />
+      <InputContainer>
+        <input type="file" onChange={handleFileChange} />
+        <textarea
+          style={{ padding: "5px", borderRadius: "5px" }}
+          placeholder="Dodaj opis, napisz zapytanie"
+          value={description}
+          onChange={handleDescriptionChange}
+        />
+        <input
+          style={{ padding: "5px", borderRadius: "5px" }}
+          type="tel"
+          placeholder="123456789 - nr kontaktowy"
+          value={phone}
+          onChange={handlePhoneChange}
+        />
+      </InputContainer>
+
       <button onClick={handleUpload} disabled={loading}>
         {loading ? "Wysyłanie..." : "Prześlij"}
       </button>

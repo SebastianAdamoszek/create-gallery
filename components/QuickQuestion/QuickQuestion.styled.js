@@ -43,6 +43,14 @@ export const Modal = styled.div`
   }
 `;
 
+export const InputContainer = styled.div`
+display: flex;
+flex-direction: column;
+gap: 15px;
+border: 3px solid;
+padding: 15px;
+border-radius: 10px;
+`
 export const Input = styled.input`
    
     border: 3px solid;
@@ -58,19 +66,10 @@ export const Input = styled.input`
 `;
 
 export const Info = styled.div`
-  position: relative;
-  display: ${({ isLoggedIn }) => (isLoggedIn ? "none" : "block")};
   width: 300px;
   background-color: gray;
   border: 3px solid darkgray;
   border-radius: 8px;
-  padding: 0 0 20px 0;
-  z-index: 1000;
-
-  animation: incrase 0.5s ease-in-out;
-  @keyframes incrase {
-    0% {
-      transform: scale(0.2);
-    }
-  }
+  padding: 10px 0 10px 0;
+  text-align: center;
 `;
