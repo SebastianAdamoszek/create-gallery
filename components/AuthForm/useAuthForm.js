@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loginUser, registerUser, loginWithGoogle } from "../../firebase/Authorization"; // Import funkcji autoryzacyjnych
 import { useAuthState } from "react-firebase-hooks/auth"; // Importowanie hooka z firebase
 import { auth } from "../../firebase/firebase";
@@ -70,6 +70,12 @@ export const useAuthForm = () => {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      router.push("/my-gallery");
+    }
+  }, [user, router]);
+
   // Logowanie przez Google
   const handleGoogleLogin = async () => {
     const response = await loginWithGoogle();
@@ -105,7 +111,6 @@ export const useAuthForm = () => {
     handlePasswordChange,
     handleSubmit,
     handleGoogleLogin,
-    // toggleAuthMode,
     toggleMinimize,
     showLoginMode,
     showRegisterMode,

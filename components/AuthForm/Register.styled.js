@@ -11,6 +11,10 @@ export const RegisterContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  h2 {
+    padding: 5px;
+  }
 `;
 
 export const RegisterFormContainer = styled.div`

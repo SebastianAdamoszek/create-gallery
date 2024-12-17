@@ -2,12 +2,12 @@ import styled from "styled-components";
 
 export const Modal = styled.div`
   position: fixed;
-  top: 12%;
+  top: 0;
   left: 0;
-  width: calc(100% - 30px);
-  margin: 0 15px;
+  width: 100%;
+  height: 100%;
   padding: 10% 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
