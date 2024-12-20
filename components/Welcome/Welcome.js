@@ -24,10 +24,10 @@ export const Welcome = () => {
 
   return (
     <QuickQuestionContainer>
-      <Link href="/home">
-        <ButtonToHome>Przejdź do strony głôwnej</ButtonToHome>
-      </Link>
       <QuickQuestionContent data-aos="fade-up">
+        <Link data-aos="fade-up" href="/home">
+          <ButtonToHome>Przejdź do strony głôwnej</ButtonToHome>
+        </Link>
         <h1 data-aos="fade-up">
           Serwis zegarmistrzowski {'"Czasowa-Klinika" !'}
         </h1>

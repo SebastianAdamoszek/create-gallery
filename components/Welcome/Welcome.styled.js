@@ -14,6 +14,10 @@ export const QuickQuestionContainer = styled.div`
 `;
 
 export const QuickQuestionContent = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
   position: fixed;
   h2 {
     margin: 20px auto;
@@ -23,7 +27,7 @@ export const ButtonsListContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  gap: 20px;
+  width: 100%;
   button {
     width: 110px;
     padding: 5px 10px;
@@ -32,9 +36,9 @@ export const ButtonsListContainer = styled.div`
 `;
 export const ListContainer = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
+  width: 100%;
 
   p {
     width: 160px;
@@ -62,7 +66,7 @@ export const ListMore = styled.ul`
 export const ListLess = styled.ul`
   display: flex;
   flex-direction: column;
-  margin: 110px 0;
+  margin: 10px 0;
   color: red;
   text-align: left;
 
@@ -79,9 +83,9 @@ export const ListLess = styled.ul`
 
 export const ButtonToHome = styled.button`
 z-index: 100;
-position: relative;
-bottom: 340px;
-right: 100px;
+// position: relative;
+// bottom: 340px;
+// right: 100px;
 padding: 10px;
 border-radius: 10px;
 `
