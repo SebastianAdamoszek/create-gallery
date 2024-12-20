@@ -5,6 +5,7 @@ import "aos/dist/aos.css";
 import { useEffect } from "react";
 import Link from "next/link";
 import {
+  ButtonToHome,
   QuickQuestionContainer,
   QuickQuestionContent,
   ButtonsListContainer,
@@ -23,6 +24,9 @@ export const Welcome = () => {
 
   return (
     <QuickQuestionContainer>
+      <Link href="/home">
+        <ButtonToHome>Przejdź do strony głôwnej</ButtonToHome>
+      </Link>
       <QuickQuestionContent data-aos="fade-up">
         <h1 data-aos="fade-up">
           Serwis zegarmistrzowski {'"Czasowa-Klinika" !'}
@@ -43,10 +47,10 @@ export const Welcome = () => {
             <li>
               + <span>dodatkowe funkcje</span>
             </li>
-             <li>
+            <li>
               + <span>własna galeria przesłanych zdjęć</span>
             </li>
-             <li>
+            <li>
               + <span>możliwość dodawania i usuwaia zdjęć</span>
             </li>
             <li>
@@ -64,14 +68,14 @@ export const Welcome = () => {
             <li>
               + <span>lepsza komunikacja</span>
             </li>
-             <li>
+            <li>
               + <span>kontakt poprzez platforme </span>
             </li>
           </ListMore>
 
           <ListLess>
             <p>mniej mozliwości</p>
-             <li>
+            <li>
               - <span>jednorazowe przesłanie zdjęcia </span>
             </li>
             <li>

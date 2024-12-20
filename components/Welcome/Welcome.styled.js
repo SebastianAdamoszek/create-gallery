@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const QuickQuestionContainer = styled.div`
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.9);
   width: 100%;
   height: 100%;
   z-index: 110;
@@ -62,7 +62,7 @@ export const ListMore = styled.ul`
 export const ListLess = styled.ul`
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
+  margin: 110px 0;
   color: red;
   text-align: left;
 
@@ -76,3 +76,12 @@ export const ListLess = styled.ul`
     }
   }
 `;
+
+export const ButtonToHome = styled.button`
+z-index: 100;
+position: relative;
+bottom: 340px;
+right: 100px;
+padding: 10px;
+border-radius: 10px;
+`
