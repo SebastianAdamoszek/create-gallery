@@ -5,11 +5,14 @@ import { Menu, Nav } from "./MenuNav.styled.js";
 import Link from "next/link";
 import { UsersGalleries } from "./MenuUsersGallery/MenuUsersGallery.js";
 import { ForAdminUsersGalleries } from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.js";
+import { auth } from "@/firebase/firebase";
+import { useAuthState } from "react-firebase-hooks/auth"; // Importowanie hooka z firebase
 
 export const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const burgerRef = useRef(null);
+  const [user] = useAuthState(auth);
 
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
@@ -48,11 +51,12 @@ export const MenuComponent = () => {
             <p>Home</p>
           </Link>
         </li>
-        <li>
+        {!user && (   <li>
           <Link href="/quick-question" onClick={() => setIsOpen(false)}>
             <p>Question</p>
           </Link>
-        </li>
+        </li>)}
+      
         <li>
                 <Link href="/contact" onClick={() => setIsOpen(false)}>
             <p>Contact</p>
