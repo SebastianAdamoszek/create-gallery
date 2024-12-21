@@ -49,7 +49,12 @@ export const MenuComponent = () => {
           </Link>
         </li>
         <li>
-          <Link href="/contact" onClick={() => setIsOpen(false)}>
+          <Link href="/quick-question" onClick={() => setIsOpen(false)}>
+            <p>Question</p>
+          </Link>
+        </li>
+        <li>
+                <Link href="/contact" onClick={() => setIsOpen(false)}>
             <p>Contact</p>
           </Link>
         </li>
@@ -58,11 +63,11 @@ export const MenuComponent = () => {
             <p>About</p>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link href="/users" onClick={() => setIsOpen(false)}>
             <p>Users</p>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link href="/my-gallery" onClick={() => setIsOpen(false)}>
             <p>My Gallery</p>
