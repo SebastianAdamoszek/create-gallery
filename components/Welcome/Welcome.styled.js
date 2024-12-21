@@ -9,7 +9,7 @@ export const QuickQuestionContainer = styled.div`
   z-index: 110;
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 `;
 
@@ -18,11 +18,20 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-  position: fixed;
+position: fixed;
+margin: 20px 0;
   h2 {
     margin: 20px auto;
   }
 `;
+
+export const ButtonToHome = styled.button`
+z-index: 100;
+margin: 10px 0 20px 0;
+padding: 10px;
+border-radius: 10px;
+`
+
 export const ButtonsListContainer = styled.div`
   display: flex;
   align-items: center;
@@ -80,12 +89,3 @@ export const ListLess = styled.ul`
     }
   }
 `;
-
-export const ButtonToHome = styled.button`
-z-index: 100;
-// position: relative;
-// bottom: 340px;
-// right: 100px;
-padding: 10px;
-border-radius: 10px;
-`
