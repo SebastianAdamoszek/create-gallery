@@ -9,7 +9,8 @@ import {
   LogButton,
   RegButton,
 } from "./AuthForm.styled";
-import { RegisterContainer, RegisterFormContainer } from "./Register.styled";
+import { RegisterContainer,ButtonBack, RegisterFormContainer, Info } from "./Register.styled";
+import Link from "next/link";
 
 export const Register = () => {
   const {
@@ -33,6 +34,9 @@ export const Register = () => {
       <RegisterContainer
         style={{ display: user ? "none" : "flex" }}
       >
+         <Link data-aos="fade-up" href="/welcome">
+          <ButtonBack>Wróć do strony powitalnej</ButtonBack>
+        </Link>
         <RegisterFormContainer style={{ display: user ? "none" : "flex" }}>
           <LogRegContainer>
             <LogButton onClick={showLoginMode} disabled={isLogin}>
@@ -74,6 +78,7 @@ export const Register = () => {
             </button>
           </Form>
         </RegisterFormContainer>
+        <Info data-aos="fade-up">Jesli jeszcze nie posiadasz konta kliknij {'"Rejestracja"'}</Info>
       </RegisterContainer>
     </>
   );

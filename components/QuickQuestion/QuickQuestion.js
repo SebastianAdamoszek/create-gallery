@@ -103,8 +103,8 @@ export const UploadModal = ({ onClose }) => {
 
   return (
     <Modal>
-      <h2>Dodaj zdjęcie</h2>
-      <InputContainer>
+      <h2 data-aos="fade-up" >Dodaj zdjęcie</h2>
+      <InputContainer data-aos="fade-up" >
         <input type="file" onChange={handleFileChange} />
         <textarea
           style={{ padding: "5px", borderRadius: "5px" }}
@@ -121,10 +121,10 @@ export const UploadModal = ({ onClose }) => {
         />
       </InputContainer>
 
-      <button onClick={handleUpload} disabled={loading}>
+      <button data-aos="fade-up"  onClick={handleUpload} disabled={loading}>
         {loading ? "Wysyłanie..." : "Prześlij"}
       </button>
-      <button
+      <button data-aos="fade-up" 
         onClick={() => {
           router.push("/welcome");
         }}
@@ -133,7 +133,7 @@ export const UploadModal = ({ onClose }) => {
       </button>
       {loading && <p className="loading-text">Trwa wysyłanie obrazu...</p>}
       {!user && (
-        <Info>
+        <Info data-aos="fade-up" >
           Jesteś gościem. Twoje zdjęcie zostanie przesłane bez powiązania z
           kontem użytkownika.
         </Info>

@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { storage, db } from "@/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Modal, Info, Input } from "./UploadModal.styled";
+import { Modal, ButtonToLogin, Info, Input, ButtonModal } from "./UploadModal.styled";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
 import Resizer from "react-image-file-resizer";
+import Link from "next/link";
 import "@/app/globals.css";
 
 export const UploadModal = ({ onClose }) => {
@@ -90,7 +91,11 @@ export const UploadModal = ({ onClose }) => {
     <Modal>
       {!user && (
         <Info isLoggedIn={false}>
-          <h2>Aby dodać zdjęcie musisz być zalogowany</h2>
+          <h2>Jesteś w {'"My Gallery"'}</h2>
+          <h2>Aby dodać tu zdjęcie musisz być zalogowany</h2>
+          <Link href="/login-register">
+            <ButtonToLogin>Przejdź do logowania</ButtonToLogin>
+          </Link>
         </Info>
       )}
       <h2>Dodaj nowe zdjęcie</h2>
@@ -103,10 +108,10 @@ export const UploadModal = ({ onClose }) => {
           onChange={handleDescriptionChange}
         />
       </div>
-      <button onClick={handleUpload} disabled={!user || loading}>
+      <ButtonModal onClick={handleUpload} disabled={!user || loading}>
         {loading ? "Wysyłanie..." : "Prześlij"}
-      </button>
-      <button onClick={onClose}>Anuluj</button>
+      </ButtonModal>
+      <ButtonModal onClick={onClose}>Anuluj</ButtonModal>
       {loading && <p className="loading-text">Trwa wysyłanie obrazu...</p>}
     </Modal>
   );

@@ -10,12 +10,21 @@ export const RegisterContainer = styled.div`
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 20px;
 
   h2 {
     padding: 5px;
   }
 `;
+
+export const ButtonBack = styled.button`
+z-index: 100;
+margin: 40px 0 20px 0;
+padding: 10px;
+border-radius: 10px;
+`
 
 export const RegisterFormContainer = styled.div`
   background-color: gray;
@@ -38,3 +47,12 @@ export const RegisterFormContainer = styled.div`
     left: 41%;
   }
 `;
+
+export const Info = styled.div`
+  width: 300px;
+  background-color: gray;
+  border: 3px solid darkgray;
+  border-radius: 8px;
+  padding: 10px 0 10px 0;
+  text-align: center;
+`

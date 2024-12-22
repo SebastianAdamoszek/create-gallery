@@ -102,6 +102,11 @@ button {
   cursor: url("/cursor-pointer.svg"), pointer;
   color: var(--foreground-rgb);
   background-color: rgb(46, 46, 46);
+  transition: 150ms ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.02);
 }
 
 *,

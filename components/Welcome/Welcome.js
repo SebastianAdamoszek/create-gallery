@@ -25,6 +25,7 @@ export const Welcome = () => {
   return (
     <QuickQuestionContainer>
       <QuickQuestionContent data-aos="fade-up">
+        <h3 data-aos="fade-up">{'"Strona Powitalna"'}</h3>
         <Link data-aos="fade-up" href="/home">
           <ButtonToHome>Przejdź do strony głôwnej</ButtonToHome>
         </Link>
