@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { storage, db } from "@/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -9,6 +9,8 @@ import { auth } from "@/firebase/firebase";
 import Resizer from "react-image-file-resizer";
 import "@/app/globals.css";
 import { useRouter } from "next/navigation";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export const UploadModal = ({ onClose }) => {
   const [file, setFile] = useState(null);
@@ -100,6 +102,13 @@ export const UploadModal = ({ onClose }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      delay: 200,
+    });
+  }, []);
 
   return (
     <Modal>

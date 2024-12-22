@@ -11,6 +11,9 @@ import {
 } from "./AuthForm.styled";
 import { RegisterContainer,ButtonBack, RegisterFormContainer, Info } from "./Register.styled";
 import Link from "next/link";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 export const Register = () => {
   const {
@@ -28,6 +31,12 @@ export const Register = () => {
     showRegisterMode,
   } = useAuthForm();
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      delay: 200,
+    });
+  }, []);
 
   return (
     <>
