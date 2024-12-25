@@ -26,7 +26,7 @@ export const Nav = styled.ul`
   opacity: 1;
   transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
   li {
-    width: 30%;
+    width: 40%;
     color: auto;
   }
   p {
