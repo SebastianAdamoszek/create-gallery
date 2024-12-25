@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { Burger, BurgerLine } from "./ButtonMenuMobile.styled.js";
-import { Menu, Nav } from "./MenuNav.styled.js";
+import { Menu, Nav, NavItem, NavItemText } from "./MenuNav.styled.js";
 import Link from "next/link";
 import { UsersGalleries } from "./MenuUsersGallery/MenuUsersGallery.js";
 import { ForAdminUsersGalleries } from "@/components/ForAdmin/ForAdminUsersGalleries/ForAdminUsersGalleries.js";
@@ -13,6 +14,8 @@ export const MenuComponent = () => {
   const dropdownRef = useRef(null);
   const burgerRef = useRef(null);
   const [user] = useAuthState(auth);
+  const pathname = usePathname();
+  const isActive = (path) => pathname === path;
 
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
@@ -46,48 +49,66 @@ export const MenuComponent = () => {
         <BurgerLine className="third" $isOpen={isOpen} />
       </Burger>
       <Nav $isOpen={isOpen} ref={dropdownRef}>
-        <li>
+        <NavItem>
           <Link href="/home" onClick={() => setIsOpen(false)}>
-            <p>Home</p>
+            <NavItemText className={isActive("/home") ? "active" : ""}>
+              Home
+            </NavItemText>
           </Link>
-        </li>
-        {!user && (   <li>
-          <Link href="/quick-question" onClick={() => setIsOpen(false)}>
-            <p>Question</p>
+        </NavItem>
+        {!user && (
+          <NavItem>
+            <Link href="/quick-question" onClick={() => setIsOpen(false)}>
+              <NavItemText
+                className={isActive("/quick-question") ? "active" : ""}
+              >
+                Question
+              </NavItemText>
+            </Link>
+          </NavItem>
+        )}
+
+        <NavItem>
+          <Link href="/contact" onClick={() => setIsOpen(false)}>
+            <NavItemText className={isActive("/contact") ? "active" : ""}>
+              Contact
+            </NavItemText>
           </Link>
-        </li>)}
-      
-        <li>
-                <Link href="/contact" onClick={() => setIsOpen(false)}>
-            <p>Contact</p>
-          </Link>
-        </li>
-        <li>
+        </NavItem>
+        <NavItem>
           <Link href="/about" onClick={() => setIsOpen(false)}>
-            <p>About</p>
+            <NavItemText className={isActive("/about") ? "active" : ""}>
+              About
+            </NavItemText>
           </Link>
-        </li>
+        </NavItem>
         {/* <li>
           <Link href="/users" onClick={() => setIsOpen(false)}>
             <p>Users</p>
           </Link>
         </li> */}
-        <li>
+        <NavItem>
           <Link href="/my-gallery" onClick={() => setIsOpen(false)}>
-            <p>My Gallery</p>
+            <NavItemText className={isActive("/my-gallery") ? "active" : ""}>
+              My Gallery
+            </NavItemText>
           </Link>
-        </li>
-        <li>
+        </NavItem>
+        <NavItem>
           <Link href="/clock" onClick={() => setIsOpen(false)}>
-            <p>Clock</p>
+            <NavItemText className={isActive("/clock") ? "active" : ""}>
+              Clock
+            </NavItemText>
           </Link>
-        </li>
-        <li>
+        </NavItem>
+        <NavItem className={isActive("/user-gallery") ? "active" : ""}>
           <UsersGalleries />
-        </li>
-        <li>
+        </NavItem>
+        <NavItem
+          className={isActive("/ForAdmin/UsersGalleries") ? "active" : ""}
+        >
           <ForAdminUsersGalleries />
-        </li>
+        </NavItem>
       </Nav>
     </Menu>
   );

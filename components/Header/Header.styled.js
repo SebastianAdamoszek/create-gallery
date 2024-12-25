@@ -20,6 +20,9 @@ export const Header = styled.div`
   @media (min-width: 960px) {
     gap: 6%;
   }
+  @media (min-width: 1920px) {
+    justify-content: center;
+  }
 `;
 export const HeaderIcons = styled.div`
   display: flex;
@@ -29,7 +32,8 @@ export const HeaderIcons = styled.div`
   margin: 0 10px 0 0;
 
   @media (min-width: 768px) {
+    width: max-content;
     gap: 5px;
-    margin: 0 20px 0 0;
+    margin: 0;
   }
 `;

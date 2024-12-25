@@ -15,6 +15,7 @@ export const ThemeContainer = styled.div`
     justify-content: center;
     padding: 0px 5px 8px 8px;
     height: auto;
+    margin-left: 0px;
   }
 `;
 

@@ -5,7 +5,11 @@ export const Menu = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  @media (min-width: 1920px) {
+    width: 50%;
+  }
 `;
+
 export const Nav = styled.ul`
   display: flex;
   flex-direction: column;
@@ -22,8 +26,11 @@ export const Nav = styled.ul`
   opacity: 1;
   transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
   li {
-    width: 130px;
+    width: 30%;
     color: auto;
+  }
+  p {
+    padding: 2px 5px;
   }
 
   ${({ $isOpen }) =>
@@ -37,9 +44,9 @@ export const Nav = styled.ul`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
-    gap: 10px;
-    padding: 15px 0;
+    justify-content: space-between;
+    gap: 0px;
+    padding: 0px 0;
     background-color: inherit;
     z-index: 0;
     font-size: 16px;
@@ -56,12 +63,24 @@ export const Nav = styled.ul`
       }
     }
     li {
-      width: auto;
+      width: max-content;
     }
   }
 
   @media (min-width: 1368px) {
-    justify-content: center ;
-    gap:  40px;
+    justify-content: center;
+    gap: 40px;
+  }
+`;
+
+export const NavItem = styled.li``;
+
+export const NavItemText = styled.p`
+  &.active {
+    width: max-content;
+    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.8),
+      0px 0px 5px rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
   }
 `;

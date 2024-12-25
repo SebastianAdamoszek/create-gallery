@@ -14,7 +14,7 @@ import {
   GalleryPageContainer,
   GalleryContainer,
 } from "@/components/Gallery/Gallery.styled";
-import styles from "../../page.module.css";
+import styles from "@/app/page.module.css";
 import "@/app/globals.css";
 
 const UserGalleryPage = ({ params }) => {
@@ -60,7 +60,9 @@ const UserGalleryPage = ({ params }) => {
         </h3>
         <GalleryContainer>
           {photos.length > 0 ? (
-            photos.map((photo, index) => <PhotoPublic key={index} url={photo.url} />)
+            photos.map((photo, index) => (
+              <PhotoPublic key={index} url={photo.url} />
+            ))
           ) : (
             <p>Brak zdjęć do wyświetlenia.</p>
           )}

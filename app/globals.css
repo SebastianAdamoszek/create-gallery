@@ -239,8 +239,9 @@ select:-webkit-autofill:focus {
   align-items: center;
   justify-content: center;
   gap: 10px;
-
-  @media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+  .footer li {
     flex-direction: row;
   }
 }
