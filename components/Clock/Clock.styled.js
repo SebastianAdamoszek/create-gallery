@@ -2,17 +2,24 @@
 // import { transform } from "next/dist/build/swc";
 import styled from "styled-components";
 
-export const ClockWrapper = styled.div`
+export const ClockWrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "visible",
+})`
+  opacity: ${({ visible }) => (visible ? 1 : 0)};
+  transition: opacity 0.5s ease-in-out;
+
   width: 500px;
   height: 500px;
-  background-color: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: rgba(0,0,0,0.9);
 
-  @media (min-width: 768px) {
-    width: 700px;
-    height: 700px;  }
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  @media (min-width:768px){
+    width:700px;
+    height:700px;
+  }
 `;
 
 export const ClockConrainer = styled.div`

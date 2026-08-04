@@ -19,13 +19,14 @@ import { Loader } from "../Loader/Loader";
 export const Clock = () => {
   const [time, setTime] = useState(new Date());
   const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [currentDate, setCurrentDate] = useState({ day: "", date: 0 });
 
   useEffect(() => {
-    // Symulacja ładowania, na przykład na początku
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Możesz dostosować czas ładowania
+    // // Symulacja ładowania, na przykład na początku
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 1000); // Możesz dostosować czas ładowania
 
     const interval = setInterval(() => {
       setTime(new Date());
@@ -53,16 +54,21 @@ export const Clock = () => {
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <ClockWrapper>
+      {loading && 
+        <Loader />}
+      
+        <ClockWrapper visible={visible}>
           <ClockConrainer>
             <Image
               src="/cyferblat.png"
               width={400}
               height={400}
               alt="Clock dial"
+              priority
+              onLoad={() => {
+                setVisible(true);
+                setLoading(false);
+              }}
             />
             <Glass>
               <HourHand rotation={hourRotation} />
@@ -78,7 +84,6 @@ export const Clock = () => {
             </Glass>
           </ClockConrainer>
         </ClockWrapper>
-      )}
     </>
   );
 };
