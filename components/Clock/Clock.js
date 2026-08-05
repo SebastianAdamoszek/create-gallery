@@ -60,7 +60,7 @@ export const Clock = () => {
         <ClockWrapper visible={visible}>
           <ClockConrainer>
             <Image
-              src="/cyferblat.png"
+              src="/rolex.png"
               width={400}
               height={400}
               alt="Clock dial"
