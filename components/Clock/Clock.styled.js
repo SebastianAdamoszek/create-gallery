@@ -10,15 +10,15 @@ export const ClockWrapper = styled.div.withConfig({
 
   width: 500px;
   height: 500px;
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(0, 0, 0, 0.9);
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  @media (min-width:768px){
-    width:700px;
-    height:700px;
+  @media (min-width: 768px) {
+    width: 700px;
+    height: 700px;
   }
 `;
 
@@ -34,6 +34,29 @@ export const ClockConrainer = styled.div`
     border-radius: 25px;
   }
 `;
+
+export const ChangeDialButton = styled.button`
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid silver;
+  background: linear-gradient(145deg, #f4f4f4, #bdbdbd);
+
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.8),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+  cursor: hand;
+  z-index: 5;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+`;
+
 export const Glass = styled.div`
   position: relative;
   top: -301px;
@@ -54,8 +77,8 @@ export const Glass = styled.div`
 export const HourHand = ({ rotation }) => {
   const style = {
     position: "absolute",
-    top: "23.5%",
-    left: "50%",
+    top: "24%",
+    left: "49%",
     width: "0px",
     padding: "0.7px",
     border: "2.5px solid silver",

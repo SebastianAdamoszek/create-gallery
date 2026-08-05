@@ -12,6 +12,7 @@ import {
   PointCentre,
   Calendar,
   Line,
+  ChangeDialButton,
 } from "./Clock.styled";
 import { Loader } from "../Loader/Loader";
 
@@ -52,38 +53,47 @@ export const Clock = () => {
   const minuteRotation = (minutes + seconds / 60) * 6;
   const secondRotation = (seconds + milliseconds / 1000) * 6;
 
+  const [dial, setDial] = useState("/rolex.png");
+
   return (
     <>
-      {loading && 
-        <Loader />}
-      
-        <ClockWrapper visible={visible}>
-          <ClockConrainer>
-            <Image
-              src="/rolex.png"
-              width={400}
-              height={400}
-              alt="Clock dial"
-              priority
-              onLoad={() => {
-                setVisible(true);
-                setLoading(false);
-              }}
-            />
-            <Glass>
-              <HourHand rotation={hourRotation} />
-              <MinuteHand rotation={minuteRotation} />
-              <SecondHand rotation={secondRotation} />
-              <SecondHandTwo rotation={secondRotation} />
-              <PointCentre />
-              <Calendar day={currentDate.day}>
-                <span>{currentDate.day}</span>
-                <Line>|</Line>
-                <span>{currentDate.date}</span>
-              </Calendar>
-            </Glass>
-          </ClockConrainer>
-        </ClockWrapper>
+      {loading && <Loader />}
+
+      <ClockWrapper visible={visible}>
+        <ClockConrainer>
+          <Image
+            src={dial}
+            width={400}
+            height={400}
+            alt="Clock dial"
+            priority
+            onLoad={() => {
+              setVisible(true);
+              setLoading(false);
+            }}
+          />
+          <Glass>
+            <ChangeDialButton
+              onClick={() =>
+                setDial(dial === "/rolex.png" ? "/cyferblat.png" : "/rolex.png")
+              }
+            >
+              dial
+            </ChangeDialButton>
+
+            <HourHand rotation={hourRotation} />
+            <MinuteHand rotation={minuteRotation} />
+            <SecondHand rotation={secondRotation} />
+            <SecondHandTwo rotation={secondRotation} />
+            <PointCentre />
+            <Calendar day={currentDate.day}>
+              <span>{currentDate.day}</span>
+              <Line>|</Line>
+              <span>{currentDate.date}</span>
+            </Calendar>
+          </Glass>
+        </ClockConrainer>
+      </ClockWrapper>
     </>
   );
 };
