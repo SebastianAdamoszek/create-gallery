@@ -38,12 +38,11 @@ export const ClockConrainer = styled.div`
 export const ChangeDialButton = styled.button`
   position: absolute;
   top: -20px;
-  right: -30px;
-  width: 25px;
-  height: 25px;
+  right: -40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 2px solid silver;
-  background: linear-gradient(145deg, #f4f4f4, #bdbdbd);
+  border: 2px solid black;
 
   box-shadow:
     inset 1px 1px 2px rgba(255, 255, 255, 0.8),
@@ -53,8 +52,12 @@ export const ChangeDialButton = styled.button`
   z-index: 5;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    // background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid silver;
   }
+ display: flex;
+  align-items: center;
+  justify-content: center;   
 `;
 
 export const Glass = styled.div`

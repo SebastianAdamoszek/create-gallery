@@ -16,6 +16,8 @@ import {
 } from "./Clock.styled";
 import { Loader } from "../Loader/Loader";
 
+import dialsData from "./dials.json"; // Import danych z pliku JSON
+
 // Główny komponent zegara
 export const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -53,7 +55,20 @@ export const Clock = () => {
   const minuteRotation = (minutes + seconds / 60) * 6;
   const secondRotation = (seconds + milliseconds / 1000) * 6;
 
-  const [dial, setDial] = useState("/rolex.png");
+  const [dial, setDial] = useState(dialsData[0]); // Ustawienie początkowego dialu na pierwszy z danych
+  const changeDial = () => {
+    const currentIndex = dialsData.indexOf(dial);
+    const nextIndex = (currentIndex + 1) % dialsData.length;
+    setDial(dialsData[nextIndex]);
+  };
+
+  // Znajdujemy aktualny indeks
+const currentIndex = dialsData.indexOf(dial);
+// Obliczamy następny indeks (z zawijaniem do zera na końcu)
+const nextIndex = (currentIndex + 1) % dialsData.length;
+// Pobieramy ścieżkę do następnego obrazka
+const nextDialImage = dialsData[nextIndex];
+
 
   return (
     <>
@@ -73,12 +88,14 @@ export const Clock = () => {
             }}
           />
           <Glass>
-            <ChangeDialButton
-              onClick={() =>
-                setDial(dial === "/rolex.png" ? "/cyferblat.png" : "/rolex.png")
-              }
-            >
-              dial
+            <ChangeDialButton onClick={changeDial}>
+              <Image
+                src={nextDialImage}
+                width={28} 
+                height={28}
+                alt="Next dial preview"
+                style={{ objectFit: "cover", borderRadius: "50%" }} // Przykładowe zaokrąglenie miniatury
+              />
             </ChangeDialButton>
 
             <HourHand rotation={hourRotation} />
