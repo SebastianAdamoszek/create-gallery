@@ -37,8 +37,8 @@ export const ClockConrainer = styled.div`
 
 export const ChangeDialButton = styled.button`
   position: absolute;
-  top: -25px;
-  right: -35px;
+  top: -33px;
+  right: -23px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
