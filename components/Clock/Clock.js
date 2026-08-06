@@ -26,11 +26,6 @@ export const Clock = () => {
   const [currentDate, setCurrentDate] = useState({ day: "", date: 0 });
 
   useEffect(() => {
-    // // Symulacja ładowania, na przykład na początku
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 1000); // Możesz dostosować czas ładowania
-
     const interval = setInterval(() => {
       setTime(new Date());
     }, 100);
@@ -56,19 +51,30 @@ export const Clock = () => {
   const secondRotation = (seconds + milliseconds / 1000) * 6;
 
   const [dial, setDial] = useState(dialsData[0]); // Ustawienie początkowego dialu na pierwszy z danych
+
+  const getNextIndex = () => {
+    const currentIndex = dialsData.indexOf(dial);
+    return (currentIndex + 1) % dialsData.length;
+  };
+
   const changeDial = () => {
     const currentIndex = dialsData.indexOf(dial);
     const nextIndex = (currentIndex + 1) % dialsData.length;
-    setDial(dialsData[nextIndex]);
+    const newDial = dialsData[nextIndex];
+
+    setDial(newDial);
+    localStorage.setItem("selectedDial", newDial);
   };
 
-  // Znajdujemy aktualny indeks
-const currentIndex = dialsData.indexOf(dial);
-// Obliczamy następny indeks (z zawijaniem do zera na końcu)
-const nextIndex = (currentIndex + 1) % dialsData.length;
-// Pobieramy ścieżkę do następnego obrazka
-const nextDialImage = dialsData[nextIndex];
+  const nextDialImage = dialsData[getNextIndex()];
 
+  useEffect(() => {
+    const savedDial = localStorage.getItem("selectedDial");
+
+    if (savedDial) {
+      setDial(savedDial);
+    }
+  }, []);
 
   return (
     <>
@@ -91,7 +97,7 @@ const nextDialImage = dialsData[nextIndex];
             <ChangeDialButton onClick={changeDial}>
               <Image
                 src={nextDialImage}
-                width={28} 
+                width={28}
                 height={28}
                 alt="Next dial preview"
                 style={{ objectFit: "cover", borderRadius: "50%" }} // Przykładowe zaokrąglenie miniatury
