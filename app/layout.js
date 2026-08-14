@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
 
   return (
     <>
-      <html lang="pl">
+      <html lang="pl" suppressHydrationWarning>
         <head>
           <title>Serwis zegarmistrzowski</title>
           <meta
